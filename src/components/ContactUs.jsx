@@ -70,7 +70,7 @@ export default function ContactUs() {
   }, {})
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 mb-5">
       <div className="card">
         <div className="card-body">
           <h1 className="card-title"><span className="material-icons">contact_phone</span> Contact Us</h1>

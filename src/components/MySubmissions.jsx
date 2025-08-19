@@ -25,7 +25,7 @@ export default function MySubmissions() {
   if (editing) return <ActivityForm editDoc={editing} onBack={() => setEditing(null)} />
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 mb-5">
       <div className="card">
         <div className="card-body">
           <h2 className="card-title">My Entries</h2>

@@ -60,7 +60,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 mb-5">
       <div className="row justify-content-center">
         <div className="col-md-8">
           <div className="card">

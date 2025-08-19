@@ -76,7 +76,7 @@ export default function EventDetails() {
         ))}
       </div>
 
-      <div className="row">
+      <div className="row mb-5">
         <div className="col-md-12">
           <div className="card">
             <div className="card-body">
@@ -107,6 +107,7 @@ export default function EventDetails() {
           </div>
         </div>
       </div>
+        <br></br>
     </div>
   )
 }

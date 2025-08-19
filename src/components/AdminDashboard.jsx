@@ -59,7 +59,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 mb-5">
       <div className="card">
         <div className="card-body">
           <div className="d-flex justify-content-between align-items-center">
