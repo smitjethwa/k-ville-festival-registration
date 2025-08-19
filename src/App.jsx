@@ -12,6 +12,7 @@ import AboutUs from './components/AboutUs.jsx'
 import ContactUs from './components/ContactUs.jsx'
 import AdminManagement from './components/AdminManagement.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
+import BusinessHub from './components/BusinessHub.jsx'
 
 function Home() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
         <Route path="/events" element={<EventDetails />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
+        <Route path="/business" element={<BusinessHub />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/profile" element={<RequireAuth><ProfilePage /></RequireAuth>} />
         <Route path="/submit" element={<RequireAuth><ActivityForm /></RequireAuth>} />

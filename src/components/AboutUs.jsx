@@ -12,7 +12,7 @@ export default function AboutUs() {
 
       <div className="card mt-4">
         <div className="card-body">
-          <h5 className="card-title">K-Ville Festivals Registration System</h5>
+          {/* <h5 className="card-title">K-Ville Festivals Committee (Phase III and IV)</h5> */}
           <p style={{textAlign: 'justify'}}>
             Welcome to the Festival Committee of K-Ville Phase III and IV!
             We are a group of enthusiastic residents who come together to plan, organize, and celebrate festivals and cultural events in our society.

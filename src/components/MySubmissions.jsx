@@ -49,11 +49,14 @@ export default function MySubmissions() {
                     <td><span className="badge bg-primary">{it.activity}</span></td>
                     <td>{it.title || '-'}</td>
                     <td>
-                      {it.team_name ? (
+                      {it.team_name || it.members?.length > 0 ? (
                         <div>
-                          <strong>{it.team_name}</strong>
-                          <br />
-                          <small className="text-muted">{it.members?.length || 0} members</small>
+                          {it.team_name && <><strong>{it.team_name}</strong><br /></>}
+                          {it.members?.length > 0 && (
+                            <small className="text-muted">
+                              {it.members.map(m => `${m.first_name || m.name || ''} ${m.last_name || ''}`.trim()).join(', ')}
+                            </small>
+                          )}
                         </div>
                       ) : '-'}
                     </td>

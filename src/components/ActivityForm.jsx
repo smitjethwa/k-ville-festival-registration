@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { db } from '../firebase'
 import { useAuth } from '../AuthContext'
+import FlatNumberInput from './FlatNumberInput'
 import {
   addDoc,
   collection,
@@ -14,8 +15,8 @@ import {
   updateDoc
 } from 'firebase/firestore'
 
-const ACTIVITIES = ['Dance', 'Singing', 'Rangoli', 'Skit', 'Drawing', 'Fancy Dress']
-const TEAM_ACTIVITIES = ['Dance', 'Singing', 'Skit', 'Fancy Dress']
+const ACTIVITIES = ['Dance', 'Singing', 'Rangoli', 'Skit', 'Drawing', 'Fancy Dress', 'Business Hub']
+const TEAM_ACTIVITIES = ['Dance', 'Singing', 'Skit', 'Fancy Dress', 'Business Hub']
 
 export default function ActivityForm({ editDoc, onBack }) {
   const { user } = useAuth()
@@ -30,6 +31,9 @@ export default function ActivityForm({ editDoc, onBack }) {
     activity: 'Dance',
     title: '',
     team_name: '',
+    stall_type: '',
+    other_requirements: '',
+    is_food_stall: '',
     members: [{ first_name: '', last_name: '', age: '', flat_number: '' }]
   })
   const [msg, setMsg] = useState('')
@@ -106,6 +110,19 @@ export default function ActivityForm({ editDoc, onBack }) {
     setMsg('')
     try {
       if (!user) throw new Error('Not signed in')
+      
+      // Validate flat number
+      const wingPart = form.flat_number.split('-')[0]
+      const flatPart = form.flat_number.split('-')[1]
+      const validFlats = {
+        A: ['101', '201', '301', '401', '501', '601', '701', '801', '901', '1001', '1101', '1201', '1301', '1401', '102', '202', '302', '402', '502', '602', '702', '802', '902', '1002', '1102', '1202', '1302', '1402', '103', '203', '303', '403', '503', '603', '703', '803', '903', '1003', '1103', '1203', '1303', '1403', '104', '204', '304', '404', '504', '604', '704', '804', '904', '1004', '1104', '1204', '1304', '1404', '105', '205', '305', '405', '505', '605', '705', '805', '905', '1005', '1105', '1205', '1305', '1405', '106', '206', '306', '406', '506', '606', '706', '806', '906', '1006', '1106', '1206', '1306', '1406', '107', '207', '307', '407', '507', '607', '707', '807', '907', '1007', '1107', '1207', '1307', '1407', '108', '208', '308', '408', '508', '608', '708', '808', '908', '1008', '1108', '1208', '1308', '1408'],
+        B: ['101', '201', '301', '401', '501', '601', '701', '801', '901', '1001', '1101', '1201', '1301', '1401', '102', '202', '302', '402', '502', '602', '702', '802', '902', '1002', '1102', '1202', '1302', '1402', '103', '203', '303', '403', '503', '603', '703', '803', '903', '1003', '1103', '1203', '1303', '1403', '104', '204', '304', '404', '504', '604', '704', '804', '904', '1004', '1104', '1204', '1304', '1404', '105', '205', '305', '405', '505', '605', '705', '805', '905', '1005', '1105', '1205', '1305', '1405', '106', '206', '306', '406', '506', '606', '706', '806', '906', '1006', '1106', '1206', '1306', '1406', '107', '207', '307', '407', '507', '607', '707', '807', '907', '1007', '1107', '1207', '1307', '1407', '108', '208', '308', '408', '508', '608', '708', '808', '908', '1008', '1108', '1208', '1308', '1408', '109', '209', '309', '409', '509', '609', '709', '809', '909', '1009', '1109', '1209', '1309', '1409', '110', '210', '310', '410', '510', '610', '710', '810', '910', '1010', '1110', '1210', '1310', '1410'],
+        C: ['101', '201', '301', '401', '501', '601', '701', '801', '901', '1001', '1101', '1201', '1301', '1401', '102', '202', '302', '402', '502', '602', '702', '802', '902', '1002', '1102', '1202', '1302', '1402', '103', '203', '303', '403', '503', '603', '703', '803', '903', '1003', '1103', '1203', '1303', '1403', '104', '204', '304', '404', '504', '604', '704', '804', '904', '1004', '1104', '1204', '1304', '1404', '105', '205', '305', '405', '505', '605', '705', '805', '905', '1005', '1105', '1205', '1305', '1405', '106', '206', '306', '406', '506', '606', '706', '806', '906', '1006', '1106', '1206', '1306', '1406', '107', '207', '307', '407', '507', '607', '707', '807', '907', '1007', '1107', '1207', '1307', '1407', '108', '208', '308', '408', '508', '608', '708', '808', '908', '1008', '1108', '1208', '1308', '1408']
+      }
+      
+      if (!validFlats[wingPart]?.includes(flatPart)) {
+        throw new Error('Invalid flat number. Please select a valid flat number from the suggestions.')
+      }
 
 
 
@@ -123,6 +140,9 @@ export default function ActivityForm({ editDoc, onBack }) {
         flat_number: cleanForm.flat_number,
         mobile_number: cleanForm.mobile_number,
         team_name: isTeamActivity ? cleanForm.team_name : null,
+        stall_type: cleanForm.activity === 'Business Hub' ? cleanForm.stall_type : null,
+        other_requirements: cleanForm.activity === 'Business Hub' ? cleanForm.other_requirements : null,
+        is_food_stall: cleanForm.activity === 'Business Hub' ? cleanForm.is_food_stall : null,
         members: isTeamActivity ? [
           { first_name: cleanForm.first_name, last_name: cleanForm.last_name, age: cleanForm.age, flat_number: cleanForm.flat_number },
           ...cleanForm.members.slice(1)
@@ -239,32 +259,93 @@ export default function ActivityForm({ editDoc, onBack }) {
               </select>
             </div>
 
-            {showTitle && (
-              <div className="mb-3">
-                <label className="form-label">Song Name</label>
-                <input
-                  className="form-control"
-                  name="title"
-                  value={form.title}
-                  onChange={onChange}
-                  maxLength={100}
-                  required
-                />
-              </div>
-            )}
-
-            {isTeamActivity && (
-              <>
-                <div className="mb-3">
+            <div className="row">
+              {showTitle && (
+                <div className="col-md-6 mb-3">
+                  <label className="form-label">Song Name</label>
+                  <input
+                    className="form-control"
+                    name="title"
+                    value={form.title}
+                    onChange={onChange}
+                    maxLength={100}
+                    required
+                  />
+                </div>
+              )}
+              {isTeamActivity && form.activity !== 'Business Hub' && (
+                <div className="col-md-6 mb-3">
                   <label className="form-label">Team Name (Optional)</label>
                   <input
                     className="form-control"
                     name="team_name"
                     value={form.team_name}
                     onChange={onChange}
+                    placeholder="Enter team name"
                     maxLength={25}
                   />
                 </div>
+              )}
+              {form.activity === 'Business Hub' && (
+                <>
+                  <div className="col-md-6 mb-3">
+                    <label className="form-label">Business Name (Optional)</label>
+                    <input
+                      className="form-control"
+                      name="team_name"
+                      value={form.team_name}
+                      onChange={onChange}
+                      placeholder="Enter business name"
+                      maxLength={25}
+                    />
+                  </div>
+                  <div className="col-md-6 mb-3">
+                    <label className="form-label">Food Stall?</label>
+                    <select
+                      className="form-select"
+                      name="is_food_stall"
+                      value={form.is_food_stall}
+                      onChange={onChange}
+                      required
+                    >
+                      <option value="">Select</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {form.activity === 'Business Hub' && (
+              <div className="row">
+                <div className="col-md-6 mb-3">
+                  <label className="form-label">Type of Stall</label>
+                  <input
+                    className="form-control"
+                    name="stall_type"
+                    value={form.stall_type}
+                    onChange={onChange}
+                    placeholder="Enter stall type"
+                    required
+                  />
+                </div>
+                <div className="col-md-6 mb-3">
+                  <label className="form-label">Any Other Requirements</label>
+                  <textarea
+                    className="form-control"
+                    name="other_requirements"
+                    value={form.other_requirements}
+                    onChange={onChange}
+                    placeholder="Enter any special requirements"
+                    rows="2"
+                  />
+                </div>
+              </div>
+            )}
+
+            {isTeamActivity && (
+              <>
 
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <h5>Team Members ({form.members.length}/10)</h5>
@@ -377,20 +458,25 @@ export default function ActivityForm({ editDoc, onBack }) {
             <h6 className="mb-3">Contact Details (From Profile)</h6>
             <div className="row">
               <div className="col-md-4 mb-3">
-                <label className="form-label">Wing</label>
-                <input className="form-control" value={form.flat_number.split('-')[0] || ''} disabled />
-              </div>
-              <div className="col-md-4 mb-3">
-                <label className="form-label">Flat Number</label>
-                <input className="form-control" value={form.flat_number.split('-')[1] || ''} disabled />
+                <FlatNumberInput
+                  wing={form.flat_number.split('-')[0] || ''}
+                  flatNum={form.flat_number.split('-')[1] || ''}
+                  onWingChange={(value) => onFlatChange('wing', value)}
+                  onFlatChange={(value) => onFlatChange('flat_num', value)}
+                  disabled
+                />
               </div>
               <div className="col-md-4 mb-3">
                 <label className="form-label">Mobile Number</label>
                 <input 
                   className="form-control" 
                   name="mobile_number"
+                  type="tel"
+                  pattern="[0-9]{10}"
+                  maxLength="10"
                   value={form.mobile_number} 
                   onChange={onChange}
+                  placeholder="Enter 10-digit mobile number"
                   required
                 />
               </div>
@@ -401,8 +487,12 @@ export default function ActivityForm({ editDoc, onBack }) {
                 <input 
                   className="form-control" 
                   name="alternate_mobile"
+                  type="tel"
+                  pattern="[0-9]{10}"
+                  maxLength="10"
                   value={form.alternate_mobile} 
                   onChange={onChange}
+                  placeholder="Enter 10-digit mobile number"
                 />
               </div>
             </div>

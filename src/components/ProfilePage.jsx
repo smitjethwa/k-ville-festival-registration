@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useAuth } from '../AuthContext'
 import { db } from '../firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
+import FlatNumberInput from './FlatNumberInput'
 
 export default function ProfilePage() {
   const { user } = useAuth()
@@ -37,6 +38,21 @@ export default function ProfilePage() {
   const save = async (e) => { 
     e.preventDefault()
     const { wing, flat_num, ...cleanForm } = form
+    
+    // Validate flat number
+    const wingPart = cleanForm.flat_number.split('-')[0]
+    const flatPart = cleanForm.flat_number.split('-')[1]
+    const validFlats = {
+      A: ['101', '201', '301', '401', '501', '601', '701', '801', '901', '1001', '1101', '1201', '1301', '1401', '102', '202', '302', '402', '502', '602', '702', '802', '902', '1002', '1102', '1202', '1302', '1402', '103', '203', '303', '403', '503', '603', '703', '803', '903', '1003', '1103', '1203', '1303', '1403', '104', '204', '304', '404', '504', '604', '704', '804', '904', '1004', '1104', '1204', '1304', '1404', '105', '205', '305', '405', '505', '605', '705', '805', '905', '1005', '1105', '1205', '1305', '1405', '106', '206', '306', '406', '506', '606', '706', '806', '906', '1006', '1106', '1206', '1306', '1406', '107', '207', '307', '407', '507', '607', '707', '807', '907', '1007', '1107', '1207', '1307', '1407', '108', '208', '308', '408', '508', '608', '708', '808', '908', '1008', '1108', '1208', '1308', '1408'],
+      B: ['101', '201', '301', '401', '501', '601', '701', '801', '901', '1001', '1101', '1201', '1301', '1401', '102', '202', '302', '402', '502', '602', '702', '802', '902', '1002', '1102', '1202', '1302', '1402', '103', '203', '303', '403', '503', '603', '703', '803', '903', '1003', '1103', '1203', '1303', '1403', '104', '204', '304', '404', '504', '604', '704', '804', '904', '1004', '1104', '1204', '1304', '1404', '105', '205', '305', '405', '505', '605', '705', '805', '905', '1005', '1105', '1205', '1305', '1405', '106', '206', '306', '406', '506', '606', '706', '806', '906', '1006', '1106', '1206', '1306', '1406', '107', '207', '307', '407', '507', '607', '707', '807', '907', '1007', '1107', '1207', '1307', '1407', '108', '208', '308', '408', '508', '608', '708', '808', '908', '1008', '1108', '1208', '1308', '1408', '109', '209', '309', '409', '509', '609', '709', '809', '909', '1009', '1109', '1209', '1309', '1409', '110', '210', '310', '410', '510', '610', '710', '810', '910', '1010', '1110', '1210', '1310', '1410'],
+      C: ['101', '201', '301', '401', '501', '601', '701', '801', '901', '1001', '1101', '1201', '1301', '1401', '102', '202', '302', '402', '502', '602', '702', '802', '902', '1002', '1102', '1202', '1302', '1402', '103', '203', '303', '403', '503', '603', '703', '803', '903', '1003', '1103', '1203', '1303', '1403', '104', '204', '304', '404', '504', '604', '704', '804', '904', '1004', '1104', '1204', '1304', '1404', '105', '205', '305', '405', '505', '605', '705', '805', '905', '1005', '1105', '1205', '1305', '1405', '106', '206', '306', '406', '506', '606', '706', '806', '906', '1006', '1106', '1206', '1306', '1406', '107', '207', '307', '407', '507', '607', '707', '807', '907', '1007', '1107', '1207', '1307', '1407', '108', '208', '308', '408', '508', '608', '708', '808', '908', '1008', '1108', '1208', '1308', '1408']
+    }
+    
+    if (!validFlats[wingPart]?.includes(flatPart)) {
+      alert('Invalid flat number. Please select a valid flat number from the suggestions.')
+      return
+    }
+    
     await setDoc(doc(db, 'users', user.uid), { ...cleanForm, updated_at: new Date() }, { merge: true })
     setMsg('Profile saved ✅')
     setIsEditing(false)
@@ -74,23 +90,29 @@ export default function ProfilePage() {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-md-3 mb-3">
-                    <label className="form-label">Wing</label>
-                    <select className="form-select" value={form.flat_number.split('-')[0] || ''} onChange={(e) => onFlatChange('wing', e.target.value)} required>
-                      <option value="">Select</option>
-                      <option value="A">A</option>
-                      <option value="B">B</option>
-                      <option value="C">C</option>
-                    </select>
-                  </div>
-                  <div className="col-md-3 mb-3">
-                    <label className="form-label">Flat Number</label>
-                    <input className="form-control" value={form.flat_number.split('-')[1] || ''} onChange={(e) => onFlatChange('flat_num', e.target.value)} required/>
+                  <div className="col-md-6 mb-3">
+                    <FlatNumberInput
+                      wing={form.flat_number.split('-')[0] || ''}
+                      flatNum={form.flat_number.split('-')[1] || ''}
+                      onWingChange={(value) => onFlatChange('wing', value)}
+                      onFlatChange={(value) => onFlatChange('flat_num', value)}
+                      required
+                    />
                   </div>
                 </div>
                 <div className="mb-3">
                   <label className="form-label">Mobile Number</label>
-                  <input className="form-control" name="mobile_number" value={form.mobile_number} onChange={onChange} required/>
+                  <input 
+                    className="form-control" 
+                    name="mobile_number" 
+                    type="tel"
+                    pattern="[0-9]{10}"
+                    maxLength="10"
+                    value={form.mobile_number} 
+                    onChange={onChange} 
+                    placeholder="Enter 10-digit mobile number"
+                    required
+                  />
                 </div>
                 <div className="d-flex gap-2">
                   <button className="btn btn-primary" type="submit">Save</button>
