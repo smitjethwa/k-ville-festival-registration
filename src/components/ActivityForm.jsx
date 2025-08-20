@@ -28,7 +28,7 @@ export default function ActivityForm({ editDoc, onBack }) {
     flat_number: '',
     mobile_number: '',
     alternate_mobile: '',
-    activity: 'Dance',
+    activity: '',
     title: '',
     team_name: '',
     stall_type: '',
@@ -241,7 +241,9 @@ export default function ActivityForm({ editDoc, onBack }) {
                 name="activity"
                 value={form.activity}
                 onChange={onChange}
+                required
               >
+                <option value="">Select Activity</option>
                 {ACTIVITIES.map(a => (
                   <option key={a} value={a}>{a}</option>
                 ))}
