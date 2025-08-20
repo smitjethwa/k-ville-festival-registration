@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import { AuthProvider, useAuth } from './AuthContext.jsx'
 import NavBar from './components/NavBar.jsx'
 import AuthPage from './components/AuthPage.jsx'
@@ -12,6 +12,7 @@ import AboutUs from './components/AboutUs.jsx'
 import ContactUs from './components/ContactUs.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
 import BusinessHub from './components/BusinessHub.jsx'
+import PrivacyPolicy from './components/PrivacyPolicy.jsx'
 
 function Home() {
   useEffect(() => {
@@ -69,16 +70,16 @@ Let us all participate actively with full enthusiasm, involve our families, and 
                     <div className="mb-2">
                       <div className="d-flex justify-content-between align-items-center mb-1">
                         <span className="fw-bold">03:00 PM</span>
-                        <span className="badge bg-success fs-6">🐘 Ganpatiji Arrival</span>
+                        <span className="badge bg-success fs-6">🕉️ Ganpatiji Arrival</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                     <div className="mb-2">
                       <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">07:40 PM</span>
+                        <span className="fw-bold">07:45 PM</span>
                         <span className="badge bg-info fs-6">🎮 Children's Game</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                   </div>
             </div>
@@ -94,21 +95,21 @@ Let us all participate actively with full enthusiasm, involve our families, and 
                         <span className="fw-bold">09:00 AM</span>
                         <span className="badge bg-success fs-6">🪔 Aarti</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                     <div className="mb-2">
                       <div className="d-flex justify-content-between align-items-center mb-1">
                         <span className="fw-bold">07:30 PM</span>
                         <span className="badge bg-success fs-6">🪔 Aarti</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                     <div className="mb-2">
                       <div className="d-flex justify-content-between align-items-center mb-1">
                         <span className="fw-bold">07:45 PM</span>
                         <span className="badge bg-info fs-6">🎲 Housie Game</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                   </div>
             </div>
@@ -127,35 +128,35 @@ Let us all participate actively with full enthusiasm, involve our families, and 
                         <span className="fw-bold">09:00 AM</span>
                         <span className="badge bg-success fs-6">🪔 Aarti</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                     <div className="mb-2">
                       <div className="d-flex justify-content-between align-items-center mb-1">
                         <span className="fw-bold">07:00 PM</span>
                         <span className="badge bg-info fs-6">🎡 Fun Fair</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                     <div className="mb-2">
                       <div className="d-flex justify-content-between align-items-center mb-1">
                         <span className="fw-bold">07:30 PM</span>
                         <span className="badge bg-success fs-6">🪔 Aarti</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                     <div className="mb-2">
                       <div className="d-flex justify-content-between align-items-center mb-1">
                         <span className="fw-bold">07:45 PM</span>
                         <span className="badge bg-warning fs-6">🪑 Musical Chairs</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                     <div className="mb-2">
                       <div className="d-flex justify-content-between align-items-center mb-1">
                         <span className="fw-bold">07:45 PM</span>
                         <span className="badge bg-warning fs-6">🎵 Antakshari</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                   </div>
             </div>
@@ -171,49 +172,49 @@ Let us all participate actively with full enthusiasm, involve our families, and 
                         <span className="fw-bold">09:00 AM</span>
                         <span className="badge bg-success fs-6">🪔 Aarti</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                     <div className="mb-2">
                       <div className="d-flex justify-content-between align-items-center mb-1">
                         <span className="fw-bold">11:00 AM</span>
                         <span className="badge bg-primary fs-6">🙏 Satyanarayan Pooja</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                     <div className="mb-2">
                       <div className="d-flex justify-content-between align-items-center mb-1">
                         <span className="fw-bold">11:00 AM</span>
                         <span className="badge bg-danger fs-6">🌺 Rangoli Competition</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                     <div className="mb-2">
                       <div className="d-flex justify-content-between align-items-center mb-1">
                         <span className="fw-bold">11:00 AM</span>
                         <span className="badge bg-danger fs-6">🎨 Drawing Competition</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                     <div className="mb-2">
                       <div className="d-flex justify-content-between align-items-center mb-1">
                         <span className="fw-bold">05:30 PM</span>
                         <span className="badge bg-danger fs-6">🎪 Cultural Program</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                     <div className="mb-2">
                       <div className="d-flex justify-content-between align-items-center mb-1">
                         <span className="fw-bold">05:30 PM</span>
                         <span className="badge bg-danger fs-6">🎭 Drama Performance</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                     <div className="mb-2">
                       <div className="d-flex justify-content-between align-items-center mb-1">
                         <span className="fw-bold">07:30 PM</span>
                         <span className="badge bg-success fs-6">🪔 Aarti</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                   </div>
             </div>
@@ -232,7 +233,7 @@ Let us all participate actively with full enthusiasm, involve our families, and 
                         <span className="fw-bold">09:00 AM</span>
                         <span className="badge bg-success fs-6">🪔 Aarti</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                     <div className="d-flex justify-content-between align-items-center mb-2">
                       <span className="fw-bold">04:30 PM</span>
@@ -243,7 +244,7 @@ Let us all participate actively with full enthusiasm, involve our families, and 
                         <span className="fw-bold">08:00 PM</span>
                         <span className="badge bg-success fs-6">🍽️ Mahaprasad</span>
                       </div>
-                      <small className="text-muted">📍 Venue: [Add venue]</small>
+                      {/* <small className="text-muted">📍 Venue: [Add venue]</small> */}
                     </div>
                   </div>
             </div>
@@ -262,6 +263,26 @@ Let us all participate actively with full enthusiasm, involve our families, and 
           </div>
         </div>
       </div>
+      
+      {/* Footer */}
+      <footer className="bg-light mt-5 py-4">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6">
+              <h6 className="fw-bold">K-Ville Festivals</h6>
+              <p className="text-muted small mb-2">Celebrating community spirit through festivals</p>
+            </div>
+            <div className="col-md-6">
+              <h6 className="fw-bold">Quick Links</h6>
+              <div className="d-flex flex-wrap gap-3">
+                <Link to="/about" className="text-decoration-none small">About Us</Link>
+                <Link to="/contact" className="text-decoration-none small">Contact</Link>
+                <Link to="/privacy" className="text-decoration-none small">Privacy Policy</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
@@ -285,6 +306,11 @@ function ContactUsWithTitle() {
 function BusinessHubWithTitle() {
   useEffect(() => { document.title = 'Business Hub - K-Ville Festivals' }, [])
   return <BusinessHub />
+}
+
+function PrivacyPolicyWithTitle() {
+  useEffect(() => { document.title = 'Privacy Policy - K-Ville Festivals' }, [])
+  return <PrivacyPolicy />
 }
 
 function AuthPageWithTitle() {
@@ -321,7 +347,18 @@ function RequireAuth({ children }) {
   return children
 }
 
-export default function App() {
+function AppWithAnalytics() {
+  const location = useLocation()
+  
+  useEffect(() => {
+    const GA_ID = import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+    if (window.gtag && GA_ID) {
+      window.gtag('config', GA_ID, {
+        page_path: location.pathname + location.search,
+      })
+    }
+  }, [location])
+  
   return (
     <AuthProvider>
       <NavBar />
@@ -331,6 +368,7 @@ export default function App() {
         <Route path="/about" element={<AboutUsWithTitle />} />
         <Route path="/contact" element={<ContactUsWithTitle />} />
         <Route path="/business" element={<BusinessHubWithTitle />} />
+        <Route path="/privacy" element={<PrivacyPolicyWithTitle />} />
         <Route path="/auth" element={<AuthPageWithTitle />} />
         <Route path="/profile" element={<RequireAuth><ProfilePageWithTitle /></RequireAuth>} />
         <Route path="/submit" element={<RequireAuth><ActivityFormWithTitle /></RequireAuth>} />
@@ -340,4 +378,8 @@ export default function App() {
       {/* <footer className="text-center py-4 text-muted">Built with Firebase <span className="material-icons">whatshot</span> & React</footer> */}
     </AuthProvider>
   )
+}
+
+export default function App() {
+  return <AppWithAnalytics />
 }
