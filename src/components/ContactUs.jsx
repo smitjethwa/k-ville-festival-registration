@@ -24,7 +24,7 @@ export default function ContactUs() {
     },
     {
       team: 'Registration Help',
-      name: 'Prasad',
+      name: 'Prasad Pingale',
       mobile: '+91 9225216121',
     },
     {
