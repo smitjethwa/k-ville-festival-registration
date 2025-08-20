@@ -1,20 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 import { AuthProvider, useAuth } from './AuthContext.jsx'
 import NavBar from './components/NavBar.jsx'
 import AuthPage from './components/AuthPage.jsx'
 import ActivityForm from './components/ActivityForm.jsx'
 import MySubmissions from './components/MySubmissions.jsx'
-import AdminView from './components/AdminView.jsx'
+
 import ProfilePage from './components/ProfilePage.jsx'
 import EventDetails from './components/EventDetails.jsx'
 import AboutUs from './components/AboutUs.jsx'
 import ContactUs from './components/ContactUs.jsx'
-import AdminManagement from './components/AdminManagement.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
 import BusinessHub from './components/BusinessHub.jsx'
 
 function Home() {
+  useEffect(() => {
+    document.title = 'K-Ville Festivals - Ganesh Chaturthi 2025'
+  }, [])
+
   return (
     <div className="container mt-4">
       <div className="card">
@@ -263,6 +266,54 @@ Let us all participate actively with full enthusiasm, involve our families, and 
   )
 }
 
+// Wrapper components with page titles
+function EventDetailsWithTitle() {
+  useEffect(() => { document.title = 'Event Details - K-Ville Festivals' }, [])
+  return <EventDetails />
+}
+
+function AboutUsWithTitle() {
+  useEffect(() => { document.title = 'About Us - K-Ville Festivals' }, [])
+  return <AboutUs />
+}
+
+function ContactUsWithTitle() {
+  useEffect(() => { document.title = 'Contact Us - K-Ville Festivals' }, [])
+  return <ContactUs />
+}
+
+function BusinessHubWithTitle() {
+  useEffect(() => { document.title = 'Business Hub - K-Ville Festivals' }, [])
+  return <BusinessHub />
+}
+
+function AuthPageWithTitle() {
+  useEffect(() => { document.title = 'Login - K-Ville Festivals' }, [])
+  return <AuthPage />
+}
+
+function ProfilePageWithTitle() {
+  useEffect(() => { document.title = 'My Profile - K-Ville Festivals' }, [])
+  return <ProfilePage />
+}
+
+function ActivityFormWithTitle() {
+  useEffect(() => { document.title = 'Register Event - K-Ville Festivals' }, [])
+  return <ActivityForm />
+}
+
+function MySubmissionsWithTitle() {
+  useEffect(() => { document.title = 'My Submissions - K-Ville Festivals' }, [])
+  return <MySubmissions />
+}
+
+function AdminDashboardWithTitle() {
+  useEffect(() => { document.title = 'Admin Dashboard - K-Ville Festivals' }, [])
+  return <AdminDashboard />
+}
+
+
+
 function RequireAuth({ children }) {
   const { user, loading } = useAuth()
   if (loading) return <div className="container mt-4"><div className="card"><div className="card-body">Loading…</div></div></div>
@@ -276,16 +327,15 @@ export default function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/events" element={<EventDetails />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/contact" element={<ContactUs />} />
-        <Route path="/business" element={<BusinessHub />} />
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="/profile" element={<RequireAuth><ProfilePage /></RequireAuth>} />
-        <Route path="/submit" element={<RequireAuth><ActivityForm /></RequireAuth>} />
-        <Route path="/my" element={<RequireAuth><MySubmissions /></RequireAuth>} />
-        <Route path="/admin" element={<RequireAuth><AdminDashboard /></RequireAuth>} />
-        <Route path="/admin-manage" element={<RequireAuth><AdminManagement /></RequireAuth>} />
+        <Route path="/events" element={<EventDetailsWithTitle />} />
+        <Route path="/about" element={<AboutUsWithTitle />} />
+        <Route path="/contact" element={<ContactUsWithTitle />} />
+        <Route path="/business" element={<BusinessHubWithTitle />} />
+        <Route path="/auth" element={<AuthPageWithTitle />} />
+        <Route path="/profile" element={<RequireAuth><ProfilePageWithTitle /></RequireAuth>} />
+        <Route path="/submit" element={<RequireAuth><ActivityFormWithTitle /></RequireAuth>} />
+        <Route path="/my" element={<RequireAuth><MySubmissionsWithTitle /></RequireAuth>} />
+        <Route path="/admin" element={<RequireAuth><AdminDashboardWithTitle /></RequireAuth>} />
       </Routes>
       {/* <footer className="text-center py-4 text-muted">Built with Firebase <span className="material-icons">whatshot</span> & React</footer> */}
     </AuthProvider>
