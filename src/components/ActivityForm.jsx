@@ -59,7 +59,7 @@ export default function ActivityForm({ editDoc, onBack }) {
     if (editDoc) setForm(f => ({ ...f, ...editDoc }))
   }, [editDoc])
 
-  const showTitle = ['Dance', 'Singing', 'Skit', 'Fancy Dress'].includes(form.activity)
+  const showTitle = ['Dance', 'Singing'].includes(form.activity)
   const isTeamActivity = TEAM_ACTIVITIES.includes(form.activity)
 
   const onChange = (e) => {
