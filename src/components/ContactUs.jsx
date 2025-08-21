@@ -39,8 +39,8 @@ export default function ContactUs() {
     },
     {
       team: 'Team',
-      name: 'Swapnil',
-      mobile: '+91 8983682294',
+      name: 'Nikhil Tipore',
+      mobile: '+91 9595554425',
     },
     {
       team: 'Team',
@@ -61,8 +61,22 @@ export default function ContactUs() {
       team: 'Team',
       name: 'Mit Jethwa',
       mobile: '+91 8080073888'
+    },
+    {
+      team: 'Team',
+      name: 'Neha Dhanve',
+      mobile: '+91 9370163713'
+    },
+    {
+      team: 'Team',
+      name: 'Jagriti Patil',
+      mobile: '+91 9168991599'
+    },
+    {
+      team: 'Team',
+      name: 'Rajani Pendhare',
+      mobile: '+91 8830247160'
     }
-
   ]
 
   // Group contacts by team
