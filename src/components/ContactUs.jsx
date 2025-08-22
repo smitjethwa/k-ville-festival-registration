@@ -39,7 +39,7 @@ export default function ContactUs() {
     },
     {
       team: 'Team',
-      name: 'Nikhil Tipore',
+      name: 'Nikhil Tipare',
       mobile: '+91 9595554425',
     },
     {
