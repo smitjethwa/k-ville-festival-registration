@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { db } from '../firebase'
-import { collection, getDocs, doc, getDoc } from 'firebase/firestore'
+import { collection, getDocs, doc, getDoc, deleteDoc } from 'firebase/firestore'
 import { useAuth } from '../AuthContext'
 import * as XLSX from 'xlsx'
 
@@ -12,6 +12,7 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('submissions')
   const [activityFilter, setActivityFilter] = useState('All')
   const [isSuperuser, setIsSuperuser] = useState(false)
+  const [deleteModal, setDeleteModal] = useState({ show: false, submissionId: null, participantName: '' })
 
   useEffect(() => {
     checkSuperuser()
@@ -37,6 +38,11 @@ export default function AdminDashboard() {
   const loadSubmissions = async () => {
     const snap = await getDocs(collection(db, 'submissions'))
     const submissionList = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+      .sort((a, b) => {
+        const nameA = (a.name || `${a.first_name || ''} ${a.last_name || ''}`.trim()).toLowerCase()
+        const nameB = (b.name || `${b.first_name || ''} ${b.last_name || ''}`.trim()).toLowerCase()
+        return nameA.localeCompare(nameB)
+      })
     setSubmissions(submissionList)
     setFilteredSubmissions(submissionList)
   }
@@ -56,10 +62,26 @@ export default function AdminDashboard() {
 
   const handleActivityFilter = (activity) => {
     setActivityFilter(activity)
-    if (activity === 'All') {
-      setFilteredSubmissions(submissions)
-    } else {
-      setFilteredSubmissions(submissions.filter(sub => sub.activity === activity))
+    let filtered = activity === 'All' ? submissions : submissions.filter(sub => sub.activity === activity)
+    filtered = filtered.sort((a, b) => {
+      const nameA = (a.name || `${a.first_name || ''} ${a.last_name || ''}`.trim()).toLowerCase()
+      const nameB = (b.name || `${b.first_name || ''} ${b.last_name || ''}`.trim()).toLowerCase()
+      return nameA.localeCompare(nameB)
+    })
+    setFilteredSubmissions(filtered)
+  }
+
+  const showDeleteModal = (submissionId, participantName) => {
+    setDeleteModal({ show: true, submissionId, participantName })
+  }
+
+  const confirmDelete = async () => {
+    try {
+      await deleteDoc(doc(db, 'submissions', deleteModal.submissionId))
+      setDeleteModal({ show: false, submissionId: null, participantName: '' })
+      loadSubmissions()
+    } catch (error) {
+      alert('Error deleting submission: ' + error.message)
     }
   }
 
@@ -183,6 +205,7 @@ export default function AdminDashboard() {
                       <th>Team Name</th>
                       <th>Team Members</th>
                       <th>Created</th>
+                      {isSuperuser && <th>Actions</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -202,6 +225,17 @@ export default function AdminDashboard() {
                           ) : 'N/A'}
                         </td>
                         <td>{sub.created_at?.toDate?.()?.toLocaleDateString() || 'N/A'}</td>
+                        {isSuperuser && (
+                          <td>
+                            <button 
+                              className="btn btn-sm btn-outline-danger"
+                              onClick={() => showDeleteModal(sub.id, sub.name || `${sub.first_name || ''} ${sub.last_name || ''}`.trim())}
+                              title="Delete submission"
+                            >
+                              <span className="material-icons" style={{fontSize: '16px'}}>delete</span>
+                            </button>
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>
@@ -211,6 +245,34 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {deleteModal.show && (
+        <div className="modal show d-block" style={{backgroundColor: 'rgba(0,0,0,0.5)'}}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Confirm Deletion</h5>
+              </div>
+              <div className="modal-body">
+                <p>Are you sure you want to delete the submission for <strong>{deleteModal.participantName}</strong>?</p>
+                <p className="text-muted">This action cannot be undone.</p>
+              </div>
+              <div className="modal-footer">
+                <button 
+                  className="btn btn-secondary" 
+                  onClick={() => setDeleteModal({ show: false, submissionId: null, participantName: '' })}
+                >
+                  Cancel
+                </button>
+                <button className="btn btn-danger" onClick={confirmDelete}>
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
