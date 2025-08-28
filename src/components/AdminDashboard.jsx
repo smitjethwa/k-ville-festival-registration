@@ -98,7 +98,11 @@ export default function AdminDashboard() {
       'Gender': sub.gender,
       'Flat': sub.flat_number,
       'Mobile': sub.mobile_number,
+      'Title/Song': (['Dance', 'Singing'].includes(sub.activity) && sub.title) || 'N/A',
       'Team Name': sub.team_name || 'N/A',
+      'Stall Type': (sub.activity === 'Business Hub' && sub.stall_type) || 'N/A',
+      'Food Stall': (sub.activity === 'Business Hub' && sub.is_food_stall) || 'N/A',
+      'Requirements': (sub.activity === 'Business Hub' && sub.other_requirements) || 'N/A',
       'Team Members': sub.members?.map(m => `${m.first_name || m.name || ''} ${m.last_name || ''}`.trim() + (m.age ? ` (${m.age})` : '')).join(', ') || 'N/A',
       'Created': sub.created_at?.toDate?.()?.toLocaleDateString() || 'N/A'
     }))
@@ -202,7 +206,11 @@ export default function AdminDashboard() {
                       <th>Gender</th>
                       <th>Flat</th>
                       <th>Mobile</th>
+                      <th>Title/Song</th>
                       <th>Team Name</th>
+                      <th>Stall Type</th>
+                      <th>Food Stall</th>
+                      <th>Requirements</th>
                       <th>Team Members</th>
                       <th>Created</th>
                       {isSuperuser && <th>Actions</th>}
@@ -218,7 +226,23 @@ export default function AdminDashboard() {
                         <td>{sub.gender}</td>
                         <td>{sub.flat_number}</td>
                         <td>{sub.mobile_number}</td>
+                        <td>{(['Dance', 'Singing'].includes(sub.activity) && sub.title) || 'N/A'}</td>
                         <td>{sub.team_name || 'N/A'}</td>
+                        <td>{(sub.activity === 'Business Hub' && sub.stall_type) || 'N/A'}</td>
+                        <td>
+                          {sub.activity === 'Business Hub' ? (
+                            <span className={`badge ${sub.is_food_stall === 'Yes' ? 'bg-success' : 'bg-secondary'}`}>
+                              {sub.is_food_stall || 'No'}
+                            </span>
+                          ) : 'N/A'}
+                        </td>
+                        <td>
+                          {(sub.activity === 'Business Hub' && sub.other_requirements) ? (
+                            <small title={sub.other_requirements}>
+                              {sub.other_requirements.length > 20 ? sub.other_requirements.substring(0, 20) + '...' : sub.other_requirements}
+                            </small>
+                          ) : 'N/A'}
+                        </td>
                         <td>
                           {sub.members?.length > 0 ? (
                             <small>{sub.members.map(m => `${m.first_name || m.name || ''} ${m.last_name || ''}`.trim() + (m.age ? ` (${m.age})` : '')).join(', ')}</small>
