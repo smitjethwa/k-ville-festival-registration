@@ -20,9 +20,7 @@ export default function MySubmissions() {
     return () => unsub()
   }, [user])
 
-  const del = async (id) => { if (!confirm('Delete this entry?')) return; await deleteDoc(doc(db, 'submissions', id)) }
-
-  if (editing) return <ActivityForm editDoc={editing} onBack={() => setEditing(null)} />
+  // Registration closed - no editing allowed
 
   return (
     <div className="container mt-4 mb-5">
@@ -50,8 +48,7 @@ export default function MySubmissions() {
                     <small className="text-muted">Entry #{index + 1}</small>
                   </div>
                   <div>
-                    <button className="btn btn-sm btn-outline-primary me-2" onClick={()=>setEditing(it)}>Edit</button>
-                    <button className="btn btn-sm btn-danger" onClick={()=>del(it.id)}>Delete</button>
+                    <span className="badge bg-success">Submitted</span>
                   </div>
                 </div>
                 <div className="card-body">

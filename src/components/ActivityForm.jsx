@@ -19,6 +19,36 @@ const ACTIVITIES = ['Dance', 'Singing', 'Rangoli', 'Skit', 'Drawing', 'Fancy Dre
 const TEAM_ACTIVITIES = ['Dance', 'Singing', 'Skit', 'Fancy Dress', 'Business Hub']
 
 export default function ActivityForm({ editDoc, onBack }) {
+  // If not editing (new registration), show closed message
+  if (!editDoc) {
+    return (
+      <div className="container mt-4 mb-5">
+        <div className="card">
+          <div className="card-body text-center">
+            <div className="mb-4">
+              <span className="material-icons" style={{fontSize: '64px', color: '#dc3545'}}>event_busy</span>
+            </div>
+            <h2 className="card-title mb-3">🚫 Registration Closed</h2>
+            <p className="text-muted mb-4">Event registrations are now closed. Thank you for your interest!</p>
+            <div className="mb-4">
+              <h5>Follow us for updates:</h5>
+              <a 
+                href="https://instagram.com/festival_kville_iii_iv" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="btn btn-primary btn-lg"
+              >
+                <span className="material-icons me-2">camera_alt</span>
+                Visit Instagram
+              </a>
+            </div>
+            <p className="text-muted small">Stay tuned for event highlights and future announcements!</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   const { user } = useAuth()
   const [form, setForm] = useState({
     first_name: '',
