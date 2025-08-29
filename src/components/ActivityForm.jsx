@@ -19,8 +19,61 @@ const ACTIVITIES = ['Dance', 'Singing', 'Rangoli', 'Skit', 'Drawing', 'Fancy Dre
 const TEAM_ACTIVITIES = ['Dance', 'Singing', 'Skit', 'Fancy Dress', 'Business Hub']
 
 export default function ActivityForm({ editDoc, onBack }) {
-  // If not editing (new registration), show closed message
-  if (!editDoc) {
+  const { user } = useAuth()
+  const [isSuperuser, setIsSuperuser] = useState(false)
+  const [form, setForm] = useState({
+    first_name: '',
+    last_name: '',
+    age: '',
+    gender: '',
+    flat_number: '',
+    mobile_number: '',
+    alternate_mobile: '',
+    activity: '',
+    title: '',
+    team_name: '',
+    stall_type: '',
+    other_requirements: '',
+    is_food_stall: '',
+    members: [{ first_name: '', last_name: '', age: '', flat_number: '' }]
+  })
+  const [msg, setMsg] = useState('')
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    const checkSuperuser = async () => {
+      if (!user) return
+      const adminDoc = await getDoc(doc(db, 'admins', user.uid))
+      if (adminDoc.exists()) {
+        const adminData = adminDoc.data()
+        setIsSuperuser(adminData.role === 'superuser')
+      }
+    }
+    checkSuperuser()
+  }, [user])
+
+  useEffect(() => {
+    const load = async () => {
+      if (!user) return
+      const snap = await getDoc(doc(db, 'users', user.uid))
+      if (snap.exists()) {
+        const u = snap.data()
+        setForm(f => ({
+          ...f,
+          flat_number: u.flat_number || '',
+          mobile_number: u.mobile_number || ''
+        }))
+      }
+    }
+    load()
+  }, [user])
+
+  useEffect(() => {
+    if (editDoc) setForm(f => ({ ...f, ...editDoc }))
+  }, [editDoc])
+
+  // If not editing (new registration) and not superuser, show closed message
+  if (!editDoc && !isSuperuser) {
     return (
       <div className="container mt-4 mb-5">
         <div className="card">
@@ -48,46 +101,6 @@ export default function ActivityForm({ editDoc, onBack }) {
       </div>
     )
   }
-
-  const { user } = useAuth()
-  const [form, setForm] = useState({
-    first_name: '',
-    last_name: '',
-    age: '',
-    gender: '',
-    flat_number: '',
-    mobile_number: '',
-    alternate_mobile: '',
-    activity: '',
-    title: '',
-    team_name: '',
-    stall_type: '',
-    other_requirements: '',
-    is_food_stall: '',
-    members: [{ first_name: '', last_name: '', age: '', flat_number: '' }]
-  })
-  const [msg, setMsg] = useState('')
-  const [error, setError] = useState('')
-
-  useEffect(() => {
-    const load = async () => {
-      if (!user) return
-      const snap = await getDoc(doc(db, 'users', user.uid))
-      if (snap.exists()) {
-        const u = snap.data()
-        setForm(f => ({
-          ...f,
-          flat_number: u.flat_number || '',
-          mobile_number: u.mobile_number || ''
-        }))
-      }
-    }
-    load()
-  }, [user])
-
-  useEffect(() => {
-    if (editDoc) setForm(f => ({ ...f, ...editDoc }))
-  }, [editDoc])
 
   const showTitle = ['Dance', 'Singing'].includes(form.activity)
   const isTeamActivity = TEAM_ACTIVITIES.includes(form.activity)
@@ -201,7 +214,10 @@ export default function ActivityForm({ editDoc, onBack }) {
       <div className="card">
         <div className="card-body">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h2 className="card-title mb-0">{editDoc ? 'Update ' : 'Register for the event'}</h2>
+            <h2 className="card-title mb-0">
+              {editDoc ? 'Update ' : 'Register for the event'}
+              {!editDoc && isSuperuser && <span className="badge bg-warning text-dark ms-2">Admin</span>}
+            </h2>
             {editDoc && (
               <button type="button" className="btn btn-outline-secondary" onClick={onBack}>
                 ← Back to List
@@ -433,7 +449,6 @@ export default function ActivityForm({ editDoc, onBack }) {
                             onMemberChange(i, 'flat_number', newFlat)
                           }
                         }}
-                        disabled={i === 0}
                         required
                       >
                         <option value="">Select</option>
@@ -456,7 +471,6 @@ export default function ActivityForm({ editDoc, onBack }) {
                             onMemberChange(i, 'flat_number', newFlat)
                           }
                         }}
-                        disabled={i === 0}
                         required
                       />
                     </div>
@@ -484,7 +498,6 @@ export default function ActivityForm({ editDoc, onBack }) {
                   flatNum={form.flat_number.split('-')[1] || ''}
                   onWingChange={(value) => onFlatChange('wing', value)}
                   onFlatChange={(value) => onFlatChange('flat_num', value)}
-                  disabled
                 />
               </div>
               <div className="col-md-4 mb-3">
