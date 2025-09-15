@@ -30,3 +30,7 @@ npm-debug.log*
 
 # Runtime
 .cache/
+
+# Backup files
+backup.json
+credentials.json
