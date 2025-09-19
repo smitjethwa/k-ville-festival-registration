@@ -15,8 +15,8 @@ import {
   updateDoc
 } from 'firebase/firestore'
 
-const ACTIVITIES = ['Dance', 'Singing', 'Rangoli', 'Skit', 'Drawing', 'Fancy Dress', 'Business Hub']
-const TEAM_ACTIVITIES = ['Dance', 'Singing', 'Skit', 'Fancy Dress', 'Business Hub']
+const ACTIVITIES = ['FunFair']
+const TEAM_ACTIVITIES = ['FunFair']
 
 export default function ActivityForm({ editDoc, onBack }) {
   const { user } = useAuth()
@@ -28,7 +28,7 @@ export default function ActivityForm({ editDoc, onBack }) {
     flat_number: '',
     mobile_number: '',
     alternate_mobile: '',
-    activity: '',
+    activity: 'FunFair',
     title: '',
     team_name: '',
     stall_type: '',
@@ -36,6 +36,7 @@ export default function ActivityForm({ editDoc, onBack }) {
     is_food_stall: '',
     members: [{ first_name: '', last_name: '', age: '', flat_number: '' }]
   })
+  const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [msg, setMsg] = useState('')
   const [error, setError] = useState('')
 
@@ -83,7 +84,7 @@ export default function ActivityForm({ editDoc, onBack }) {
   }
 
   const addMember = () => {
-    if (form.members.length < 10) {
+    if (form.members.length < 5) {
       setForm(prev => ({
         ...prev,
         members: [...prev.members, { name: '', age: '', flat_number: '' }]
@@ -111,10 +112,16 @@ export default function ActivityForm({ editDoc, onBack }) {
     try {
       if (!user) throw new Error('Not signed in')
       
-
-
-
-
+      // Check for existing submission
+      const existingQuery = query(
+        collection(db, 'submissions'),
+        where('uid', '==', user.uid),
+        where('activity', '==', 'FunFair')
+      )
+      const existingSnap = await getDocs(existingQuery)
+      if (!existingSnap.empty && !editDoc) {
+        throw new Error('You have already submitted for this activity')
+      }
 
       const { wing, flat_num, ...cleanForm } = form
       const payload = {
@@ -129,9 +136,9 @@ export default function ActivityForm({ editDoc, onBack }) {
         flat_number: cleanForm.flat_number,
         mobile_number: cleanForm.mobile_number,
         team_name: isTeamActivity ? cleanForm.team_name : null,
-        stall_type: cleanForm.activity === 'Business Hub' ? cleanForm.stall_type : null,
-        other_requirements: cleanForm.activity === 'Business Hub' ? cleanForm.other_requirements : null,
-        is_food_stall: cleanForm.activity === 'Business Hub' ? cleanForm.is_food_stall : null,
+        stall_type: cleanForm.activity === 'FunFair' ? cleanForm.stall_type : null,
+        other_requirements: cleanForm.activity === 'FunFair' ? cleanForm.other_requirements : null,
+        is_food_stall: cleanForm.activity === 'FunFair' ? cleanForm.is_food_stall : null,
         members: isTeamActivity ? [
           { first_name: cleanForm.first_name, last_name: cleanForm.last_name, age: cleanForm.age, flat_number: cleanForm.flat_number },
           ...cleanForm.members.slice(1)
@@ -150,19 +157,31 @@ export default function ActivityForm({ editDoc, onBack }) {
           created_at: serverTimestamp()
         })
         setMsg('Submitted successfully 🎉')
-        setTimeout(() => setMsg(''), 5000)
-        setForm(f => ({
-          ...f,
-          title: '',
-          team_name: '',
-          members: [{ name: '', age: '', flat_number: '' }]
-        }))
+        setTimeout(() => {
+          setMsg('')
+          // Reset entire form
+          setForm({
+            first_name: '',
+            last_name: '',
+            age: '',
+            gender: '',
+            flat_number: '',
+            mobile_number: '',
+            alternate_mobile: '',
+            activity: 'FunFair',
+            title: '',
+            team_name: '',
+            stall_type: '',
+            other_requirements: '',
+            is_food_stall: '',
+            members: [{ first_name: '', last_name: '', age: '', flat_number: '' }]
+          })
+          setAgreedToTerms(false)
+        }, 2000)
       }
     } catch (err) {
-      if (!err.message.includes('You already submitted')) {
-        setError(err.message)
-        setTimeout(() => setError(''), 5000)
-      }
+      setError(err.message)
+      setTimeout(() => setError(''), 5000)
     }
   }
 
@@ -171,7 +190,7 @@ export default function ActivityForm({ editDoc, onBack }) {
       <div className="card">
         <div className="card-body">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h2 className="card-title mb-0">{editDoc ? 'Update ' : 'Register for the event'}</h2>
+            <h2 className="card-title mb-0">{editDoc ? 'Update ' : 'Register for Fun Fair'}</h2>
             {editDoc && (
               <button type="button" className="btn btn-outline-secondary" onClick={onBack}>
                 ← Back to List
@@ -179,7 +198,7 @@ export default function ActivityForm({ editDoc, onBack }) {
             )}
           </div>
           <form onSubmit={handleSubmit}>
-            <h5 className="mb-3">Participant Details</h5>
+            <hr></hr>
             <div className="row">
               <div className="col-md-3 mb-3">
                 <label className="form-label">First Name</label>
@@ -234,21 +253,7 @@ export default function ActivityForm({ editDoc, onBack }) {
               </div>
             </div>
 
-            <div className="mb-3">
-              <label className="form-label">Activity</label>
-              <select
-                className="form-select"
-                name="activity"
-                value={form.activity}
-                onChange={onChange}
-                required
-              >
-                <option value="">Select Activity</option>
-                {ACTIVITIES.map(a => (
-                  <option key={a} value={a}>{a}</option>
-                ))}
-              </select>
-            </div>
+
 
             <div className="row">
               {showTitle && (
@@ -277,17 +282,33 @@ export default function ActivityForm({ editDoc, onBack }) {
                   />
                 </div>
               )}
-              {form.activity === 'Business Hub' && (
-                <>
+              {form.activity === 'FunFair' && (
+                <div className="col-md-6 mb-3">
+                  <label className="form-label">Stall Name (Optional)</label>
+                  <input
+                    className="form-control"
+                    name="team_name"
+                    value={form.team_name}
+                    onChange={onChange}
+                    placeholder="Enter stall name"
+                    maxLength={25}
+                  />
+                </div>
+              )}
+            </div>
+
+            {form.activity === 'FunFair' && (
+              <>
+                <div className="row">
                   <div className="col-md-6 mb-3">
-                    <label className="form-label">Business Name (Optional)</label>
+                    <label className="form-label">Type of Stall</label>
                     <input
                       className="form-control"
-                      name="team_name"
-                      value={form.team_name}
+                      name="stall_type"
+                      value={form.stall_type}
                       onChange={onChange}
-                      placeholder="Enter business name"
-                      maxLength={25}
+                      placeholder="Enter stall type"
+                      required
                     />
                   </div>
                   <div className="col-md-6 mb-3">
@@ -304,146 +325,21 @@ export default function ActivityForm({ editDoc, onBack }) {
                       <option value="No">No</option>
                     </select>
                   </div>
-                </>
-              )}
-            </div>
-
-            {form.activity === 'Business Hub' && (
-              <div className="row">
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Type of Stall</label>
-                  <input
-                    className="form-control"
-                    name="stall_type"
-                    value={form.stall_type}
-                    onChange={onChange}
-                    placeholder="Enter stall type"
-                    required
-                  />
                 </div>
-                <div className="col-md-6 mb-3">
+                <div className="mb-3">
                   <label className="form-label">Any Other Requirements</label>
-                  <textarea
+                  <input
                     className="form-control"
                     name="other_requirements"
                     value={form.other_requirements}
                     onChange={onChange}
                     placeholder="Enter any special requirements"
-                    rows="2"
                   />
                 </div>
-              </div>
-            )}
-
-            {isTeamActivity && (
-              <>
-
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h5>Team Members ({form.members.length}/10)</h5>
-                  <div>
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-success me-2"
-                      onClick={addMember}
-                      disabled={form.members.length >= 10}
-                    >
-                      + Add Member
-                    </button>
-                  </div>
-                </div>
-
-                {form.members.map((m, i) => (
-                  <div key={i} className="row mb-3 border p-3 rounded">
-                    <div className="col-md-2">
-                      <label className="form-label">{i === 0 ? 'First Name' : `Member ${i + 1} First Name`}</label>
-                      <input
-                        className="form-control"
-                        value={i === 0 ? form.first_name : m.first_name}
-                        onChange={(e) => i === 0 ? onChange({target: {name: 'first_name', value: e.target.value}}) : onMemberChange(i, 'first_name', e.target.value)}
-                        placeholder="First name"
-                        maxLength={25}
-                        required
-                        disabled={i === 0}
-                      />
-                    </div>
-                    <div className="col-md-2">
-                      <label className="form-label">{i === 0 ? 'Last Name' : `Last Name`}</label>
-                      <input
-                        className="form-control"
-                        value={i === 0 ? form.last_name : m.last_name}
-                        onChange={(e) => i === 0 ? onChange({target: {name: 'last_name', value: e.target.value}}) : onMemberChange(i, 'last_name', e.target.value)}
-                        placeholder="Last name"
-                        maxLength={25}
-                        disabled={i === 0}
-                      />
-                    </div>
-                    <div className="col-md-2">
-                      <label className="form-label">Age</label>
-                      <input
-                        className="form-control"
-                        type="number"
-                        min="1"
-                        value={i === 0 ? form.age : (m.age || '')}
-                        onChange={(e) => i === 0 ? onChange({target: {name: 'age', value: e.target.value}}) : onMemberChange(i, 'age', e.target.value)}
-                        required
-                        disabled={i === 0}
-                      />
-                    </div>
-                    <div className="col-md-2">
-                      <label className="form-label">Wing</label>
-                      <select
-                        className="form-select"
-                        value={i === 0 ? form.flat_number.split('-')[0] || '' : ((m.flat_number || '').split('-')[0] || '')}
-                        onChange={(e) => {
-                          if (i === 0) {
-                            onFlatChange('wing', e.target.value)
-                          } else {
-                            const parts = (m.flat_number || '').split('-')
-                            const newFlat = `${e.target.value}-${parts[1] || ''}`
-                            onMemberChange(i, 'flat_number', newFlat)
-                          }
-                        }}
-                        disabled={i === 0}
-                        required
-                      >
-                        <option value="">Select</option>
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="C">C</option>
-                      </select>
-                    </div>
-                    <div className="col-md-2">
-                      <label className="form-label">Flat #</label>
-                      <input
-                        className="form-control"
-                        value={i === 0 ? form.flat_number.split('-')[1] || '' : ((m.flat_number || '').split('-')[1] || '')}
-                        onChange={(e) => {
-                          if (i === 0) {
-                            onFlatChange('flat_num', e.target.value)
-                          } else {
-                            const parts = (m.flat_number || '').split('-')
-                            const newFlat = `${parts[0] || ''}-${e.target.value}`
-                            onMemberChange(i, 'flat_number', newFlat)
-                          }
-                        }}
-                        disabled={i === 0}
-                        required
-                      />
-                    </div>
-                    <div className="col-md-2 d-flex align-items-end">
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-danger"
-                        onClick={() => removeMember(i)}
-                        disabled={form.members.length <= 1 || i === 0}
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                ))}
               </>
             )}
+
+
 
             <hr className="my-4" />
             <h6 className="mb-3">Contact Details (From Profile)</h6>
@@ -488,6 +384,20 @@ export default function ActivityForm({ editDoc, onBack }) {
               </div>
             </div>
 
+            <div className="form-check mb-3">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="termsCheck"
+                checked={agreedToTerms}
+                onChange={(e) => setAgreedToTerms(e.target.checked)}
+                required
+              />
+              <label className="form-check-label" htmlFor="termsCheck">
+                I agree to the <a href="/events" target="_blank" rel="noopener noreferrer">terms and conditions</a>
+              </label>
+            </div>
+
             {error && (
               <div className="alert alert-danger">
                 ⚠ {error}
@@ -495,7 +405,7 @@ export default function ActivityForm({ editDoc, onBack }) {
             )}
             {msg && <div className="alert alert-success">✅ {msg}</div>}
             <div className="mt-3">
-              <button className="btn btn-primary" type="submit">
+              <button className="btn btn-primary" type="submit" disabled={!agreedToTerms}>
                 {editDoc ? 'Update' : 'Submit'}
               </button>
             </div>

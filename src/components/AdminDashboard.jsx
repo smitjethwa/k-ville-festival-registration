@@ -55,7 +55,7 @@ export default function AdminDashboard() {
       'Skit': 'bg-info',
       'Drawing': 'bg-secondary',
       'Fancy Dress': 'bg-primary',
-      'Business Hub': 'bg-dark'
+      'FunFair': 'bg-dark'
     }
     return classes[activity] || 'bg-primary'
   }
@@ -124,13 +124,7 @@ export default function AdminDashboard() {
                   onChange={(e) => handleActivityFilter(e.target.value)}
                 >
                   <option value="All">All Activities</option>
-                  <option value="Dance">Dance</option>
-                  <option value="Singing">Singing</option>
-                  <option value="Rangoli">Rangoli</option>
-                  <option value="Skit">Skit</option>
-                  <option value="Drawing">Drawing</option>
-                  <option value="Fancy Dress">Fancy Dress</option>
-                  <option value="Business Hub">Business Hub</option>
+                  <option value="FunFair">FunFair</option>
                 </select>
                 <button className="btn btn-success" onClick={exportToExcel}>
                   <span className="material-icons">download</span> Export Excel
