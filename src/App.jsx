@@ -57,7 +57,7 @@ Let us all participate actively with full enthusiasm, involve our families, and 
       <div className="mt-5 mb-5">
         <div className="card mb-4">
           <div className="card-body">
-            <h4 className="card-title"><span className="material-icons">event</span> 10-Day Festival Schedule</h4>
+            <h4 className="card-title"><span className="material-icons">event</span> 9 Days Festival Schedule</h4>
             <h6>Will Update soon</h6>
           </div>
         </div>
@@ -251,19 +251,19 @@ Let us all participate actively with full enthusiasm, involve our families, and 
             </div>
           </div>
         </div>
-
+*/}
         <div className="card mb-4">
           <div className="card-body">
             <div className="row">
               <div className="col-md-6 text-center">
                 <img src="/images/schedule.png" alt="Festival Schedule" className="img-fluid rounded" style={{maxHeight: '600px'}} />
               </div>
-              <div className="col-md-6 text-center">
+              {/* <div className="col-md-6 text-center">
                 <img src="/images/schedule_mr.png" alt="Festival Schedule" className="img-fluid rounded" style={{maxHeight: '600px'}} />
-              </div>
+              </div> */}
             </div>
           </div>
-        </div> */}
+        </div> 
       </div>
       
       {/* Footer */}
