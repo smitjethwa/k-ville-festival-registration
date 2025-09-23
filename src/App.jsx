@@ -60,212 +60,307 @@ Let us all participate actively with full enthusiasm, involve our families, and 
         <div className="card mb-4">
           <div className="card-body">
             <h4 className="card-title"><span className="material-icons">event</span> 9 Days Festival Schedule</h4>
-            <h6>Will Update soon</h6>
           </div>
         </div>
-        {/* <div className="row mb-4">
+        
+        <div className="row mb-4">
           <div className="col-md-6 mb-3">
-            <div className="card border-primary h-100">
-                  <div className="card-header bg-primary text-white">
-                    <h5 className="mb-0">🎉 Day 1 - 27 Aug 2025</h5>
+            <div className="card h-100" style={{backgroundColor: 'white', border: '1px solid #dee2e6'}}>
+              <div className="card-header d-flex justify-content-between align-items-center" style={{backgroundColor: 'white', color: 'black'}}>
+                <h5 className="mb-0">Day 1 - September 22nd, Monday</h5>
+                <span className="badge bg-secondary">White</span>
+              </div>
+              <div className="card-body">
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">9:00 AM</span>
+                    <span className="badge bg-primary">🪔 Morning Aarti</span>
                   </div>
-                  <div className="card-body">
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">03:00 PM</span>
-                        <span className="badge bg-success fs-6">🕉️ Ganpatiji Arrival</span>
-                      </div>
-
-                    </div>
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">07:45 PM</span>
-                        <span className="badge bg-info fs-6">🎮 Children's Game</span>
-                      </div>
-
-                    </div>
+                </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">4:30 PM</span>
+                    <span className="badge bg-primary">🪔 Devi Sthapna</span>
                   </div>
+                </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">8:30 PM</span>
+                    <span className="badge bg-primary">🪔 Evening Aarti</span>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="fw-bold">9:00 PM</span>
+                  <span className="badge bg-dark">💃 Garba & Dandiya</span>
+                </div>
+              </div>
             </div>
           </div>
           <div className="col-md-6 mb-3">
-            <div className="card border-success h-100">
-                  <div className="card-header bg-success text-white">
-                    <h5 className="mb-0">🌟 Day 2 - 28 Aug 2025</h5>
+            <div className="card h-100" style={{backgroundColor: '#dc3545', border: '1px solid #dc3545'}}>
+              <div className="card-header d-flex justify-content-between align-items-center" style={{backgroundColor: '#dc3545', color: 'white'}}>
+                <h5 className="mb-0">Day 2 - September 23rd, Tuesday</h5>
+                <span className="badge bg-light text-dark">Red</span>
+              </div>
+              <div className="card-body" style={{color: 'white'}}>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">9:00 AM</span>
+                    <span className="badge bg-light text-dark">🪔 Morning Aarti</span>
                   </div>
-                  <div className="card-body">
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">09:00 AM</span>
-                        <span className="badge bg-success fs-6">🪔 Aarti</span>
-                      </div>
-
-                    </div>
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">07:30 PM</span>
-                        <span className="badge bg-success fs-6">🪔 Aarti</span>
-                      </div>
-
-                    </div>
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">07:45 PM</span>
-                        <span className="badge bg-info fs-6">🎲 Housie Game</span>
-                      </div>
-
-                    </div>
+                </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">8:30 PM</span>
+                    <span className="badge bg-light text-dark">🪔 Evening Aarti</span>
                   </div>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="fw-bold">9:00 PM</span>
+                  <span className="badge bg-dark">💃 Garba & Dandiya</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <div className="row mb-4">
           <div className="col-md-6 mb-3">
-            <div className="card border-info h-100">
-                  <div className="card-header bg-info text-white">
-                    <h5 className="mb-0">🎊 Day 3 - 29 Aug 2025</h5>
+            <div className="card h-100" style={{backgroundColor: '#0d6efd', border: '1px solid #0d6efd'}}>
+              <div className="card-header d-flex justify-content-between align-items-center" style={{backgroundColor: '#0d6efd', color: 'white'}}>
+                <h5 className="mb-0">Day 3 - September 24th, Wednesday</h5>
+                <span className="badge bg-light text-dark">Royal Blue</span>
+              </div>
+              <div className="card-body" style={{color: 'white'}}>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">9:00 AM</span>
+                    <span className="badge bg-light text-dark">🪔 Morning Aarti</span>
                   </div>
-                  <div className="card-body">
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">09:00 AM</span>
-                        <span className="badge bg-success fs-6">🪔 Aarti</span>
-                      </div>
-
-                    </div>
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">07:00 PM</span>
-                        <span className="badge bg-info fs-6">🎡 Fun Fair</span>
-                      </div>
-
-                    </div>
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">07:30 PM</span>
-                        <span className="badge bg-success fs-6">🪔 Aarti</span>
-                      </div>
-
-                    </div>
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">07:45 PM</span>
-                        <span className="badge bg-warning fs-6">🪑 Musical Chairs</span>
-                      </div>
-
-                    </div>
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">07:45 PM</span>
-                        <span className="badge bg-warning fs-6">🎵 Antakshari</span>
-                      </div>
-
-                    </div>
+                </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">4:30 PM</span>
+                    <span className="badge bg-light text-dark">🌺 Kunkumarchan & Shreesukta</span>
                   </div>
+                </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">8:30 PM</span>
+                    <span className="badge bg-light text-dark">🪔 Evening Aarti</span>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="fw-bold">9:00 PM</span>
+                  <span className="badge bg-dark">💃 Garba & Dandiya</span>
+                </div>
+              </div>
             </div>
           </div>
           <div className="col-md-6 mb-3">
-            <div className="card border-warning h-100">
-                  <div className="card-header bg-warning text-dark">
-                    <h5 className="mb-0">🎭 Day 4 - 30 Aug 2025 (Main Event Day)</h5>
+            <div className="card h-100" style={{backgroundColor: '#ffc107', border: '1px solid #ffc107'}}>
+              <div className="card-header d-flex justify-content-between align-items-center" style={{backgroundColor: '#ffc107', color: 'black'}}>
+                <h5 className="mb-0">Day 4 - September 25th, Thursday</h5>
+                <span className="badge bg-dark">Yellow</span>
+              </div>
+              <div className="card-body" style={{color: 'black'}}>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">9:00 AM</span>
+                    <span className="badge bg-dark">🪔 Morning Aarti</span>
                   </div>
-                  <div className="card-body">
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">09:00 AM</span>
-                        <span className="badge bg-success fs-6">🪔 Aarti</span>
-                      </div>
-
-                    </div>
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">11:00 AM</span>
-                        <span className="badge bg-primary fs-6">🙏 Satyanarayan Pooja</span>
-                      </div>
-
-                    </div>
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">11:00 AM</span>
-                        <span className="badge bg-danger fs-6">🌺 Rangoli Competition</span>
-                      </div>
-
-                    </div>
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">11:00 AM</span>
-                        <span className="badge bg-danger fs-6">🎨 Drawing Competition</span>
-                      </div>
-
-                    </div>
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">05:30 PM</span>
-                        <span className="badge bg-danger fs-6">🎪 Cultural Program</span>
-                      </div>
-
-                    </div>
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">05:30 PM</span>
-                        <span className="badge bg-danger fs-6">🎭 Drama Performance</span>
-                      </div>
-
-                    </div>
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">07:30 PM</span>
-                        <span className="badge bg-success fs-6">🪔 Aarti</span>
-                      </div>
-
-                    </div>
+                </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">8:30 PM</span>
+                    <span className="badge bg-dark">🪔 Evening Aarti</span>
                   </div>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="fw-bold">9:00 PM</span>
+                  <span className="badge bg-dark">💃 Dandiya Night</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <div className="row mb-4">
-          <div className="col-12">
-            <div className="card border-danger">
-                  <div className="card-header bg-danger text-white">
-                    <h5 className="mb-0">🙏 Day 5 - 31 Aug 2025 (Visarjan)</h5>
+          <div className="col-md-6 mb-3">
+            <div className="card h-100" style={{backgroundColor: '#198754', border: '1px solid #198754'}}>
+              <div className="card-header d-flex justify-content-between align-items-center" style={{backgroundColor: '#198754', color: 'white'}}>
+                <h5 className="mb-0">Day 5 - September 26th, Friday</h5>
+                <span className="badge bg-light text-dark">Green</span>
+              </div>
+              <div className="card-body" style={{color: 'white'}}>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">9:00 AM</span>
+                    <span className="badge bg-light text-dark">🪔 Morning Aarti</span>
                   </div>
-                  <div className="card-body">
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">09:00 AM</span>
-                        <span className="badge bg-success fs-6">🪔 Aarti</span>
-                      </div>
-
-                    </div>
-                    <div className="d-flex justify-content-between align-items-center mb-2">
-                      <span className="fw-bold">04:30 PM</span>
-                      <span className="badge bg-info fs-6">🚶‍♂️ Visarjan Procession</span>
-                    </div>
-                    <div className="mb-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <span className="fw-bold">08:00 PM</span>
-                        <span className="badge bg-success fs-6">🍽️ Mahaprasad</span>
-                      </div>
-
-                    </div>
+                </div>
+                <div className="mb-2">
+                  <div className="text-center">
+                    <span className="badge bg-light text-dark">👗 Theme: Gujarati Saree</span>
                   </div>
+                </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">8:30 PM</span>
+                    <span className="badge bg-light text-dark">🪔 Evening Aarti</span>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="fw-bold">9:00 PM</span>
+                  <span className="badge bg-dark">💃 Garba & Dandiya</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6 mb-3">
+            <div className="card h-100" style={{backgroundColor: '#6c757d', border: '1px solid #6c757d'}}>
+              <div className="card-header d-flex justify-content-between align-items-center" style={{backgroundColor: '#6c757d', color: 'white'}}>
+                <h5 className="mb-0">Day 6 - September 27th, Saturday</h5>
+                <span className="badge bg-light text-dark">Grey</span>
+              </div>
+              <div className="card-body" style={{color: 'white'}}>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">9:00 AM</span>
+                    <span className="badge bg-light text-dark">🪔 Morning Aarti</span>
+                  </div>
+                </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">5:00 PM</span>
+                    <span className="badge bg-light text-dark">🏪 Non Resident Business Stall</span>
+                  </div>
+                </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">8:30 PM</span>
+                    <span className="badge bg-light text-dark">🪔 Evening Aarti</span>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="fw-bold">9:00 PM</span>
+                  <span className="badge bg-dark">💃 Garba & Dandiya</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-*/}
+
+        <div className="row mb-4">
+          <div className="col-md-6 mb-3">
+            <div className="card h-100" style={{backgroundColor: '#fd7e14', border: '1px solid #fd7e14'}}>
+              <div className="card-header d-flex justify-content-between align-items-center" style={{backgroundColor: '#fd7e14', color: 'white'}}>
+                <h5 className="mb-0">Day 7 - September 28th, Sunday</h5>
+                <span className="badge bg-light text-dark">Orange</span>
+              </div>
+              <div className="card-body" style={{color: 'white'}}>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">9:00 AM</span>
+                    <span className="badge bg-light text-dark">🪔 Morning Aarti</span>
+                  </div>
+                </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">5:00 PM</span>
+                    <span className="badge bg-light text-dark">🎊 Bhondla</span>
+                  </div>
+                </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">6:00 PM</span>
+                    <span className="badge bg-light text-dark">🏪 Resident Business Stall</span>
+                  </div>
+                </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">8:30 PM</span>
+                    <span className="badge bg-light text-dark">🪔 Evening Aarti</span>
+                  </div>
+                </div>
+                <div className="text-center">
+                  <span className="badge bg-dark">💃 Garba Night with Best Dress Competition</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6 mb-3">
+            <div className="card h-100" style={{backgroundColor: '#20c997', border: '1px solid #20c997'}}>
+              <div className="card-header d-flex justify-content-between align-items-center" style={{backgroundColor: '#20c997', color: 'white'}}>
+                <h5 className="mb-0">Day 8 - September 29th, Monday</h5>
+                <span className="badge bg-light text-dark">Peacock Green</span>
+              </div>
+              <div className="card-body" style={{color: 'white'}}>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">9:00 AM</span>
+                    <span className="badge bg-light text-dark">🪔 Morning Aarti</span>
+                  </div>
+                </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">8:30 PM</span>
+                    <span className="badge bg-light text-dark">🪔 Evening Aarti</span>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="fw-bold">9:00 PM</span>
+                  <span className="badge bg-dark">🎬 Bollywood Garba</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="row mb-4">
+          <div className="col-md-6 mb-3">
+            <div className="card h-100" style={{backgroundColor: '#e83e8c', border: '1px solid #e83e8c'}}>
+              <div className="card-header d-flex justify-content-between align-items-center" style={{backgroundColor: '#e83e8c', color: 'white'}}>
+                <h5 className="mb-0">Day 9 - September 30th, Tuesday</h5>
+                <span className="badge bg-light text-dark">Pink</span>
+              </div>
+              <div className="card-body" style={{color: 'white'}}>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">9:00 AM</span>
+                    <span className="badge bg-light text-dark">🪔 Morning Aarti</span>
+                  </div>
+                </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">6:30 PM</span>
+                    <span className="badge bg-light text-dark">🙏 Kanyapoojan</span>
+                  </div>
+                </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">8:30 PM</span>
+                    <span className="badge bg-light text-dark">🪔 Evening Aarti</span>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="fw-bold">9:00 PM</span>
+                  <span className="badge bg-dark">💃 Garba & Dandiya</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
         <div className="card mb-4">
           <div className="card-body">
             <div className="row">
               <div className="col-md-6 text-center">
                 <img src="/images/schedule.png" alt="Festival Schedule" className="img-fluid rounded" style={{maxHeight: '600px'}} />
               </div>
-              {/* <div className="col-md-6 text-center">
-                <img src="/images/schedule_mr.png" alt="Festival Schedule" className="img-fluid rounded" style={{maxHeight: '600px'}} />
-              </div> */}
             </div>
           </div>
-        </div> 
+        </div>
       </div>
       
       {/* Footer */}
