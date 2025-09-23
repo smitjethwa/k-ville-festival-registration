@@ -22,8 +22,13 @@ export default function NavBar() {
         setIsAdmin(false)
         return
       }
-      const snap = await getDoc(doc(db, 'admins', user.uid))
-      setIsAdmin(snap.exists())
+      try {
+        const snap = await getDoc(doc(db, 'admins', user.uid))
+        setIsAdmin(snap.exists())
+      } catch (error) {
+        // console.log('Admin check failed:', error)
+        setIsAdmin(false)
+      }
     }
     checkAdmin()
   }, [user])
