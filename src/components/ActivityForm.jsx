@@ -15,8 +15,8 @@ import {
   updateDoc
 } from 'firebase/firestore'
 
-const ACTIVITIES = ['FunFair']
-const TEAM_ACTIVITIES = ['FunFair']
+const ACTIVITIES = ['FunFair', 'BusinessHub']
+const TEAM_ACTIVITIES = ['FunFair', 'BusinessHub']
 
 export default function ActivityForm({ editDoc, onBack }) {
   const { user } = useAuth()
@@ -28,7 +28,7 @@ export default function ActivityForm({ editDoc, onBack }) {
     flat_number: '',
     mobile_number: '',
     alternate_mobile: '',
-    activity: 'FunFair',
+    activity: '',
     title: '',
     team_name: '',
     stall_type: '',
@@ -36,6 +36,9 @@ export default function ActivityForm({ editDoc, onBack }) {
     is_food_stall: '',
     table_count: '0',
     transaction_id: '',
+    resident_type: 'resident',
+    business_name: '',
+    address: '',
     members: [{ first_name: '', last_name: '', age: '', flat_number: '' }]
   })
   const [agreedToTerms, setAgreedToTerms] = useState(false)
@@ -118,7 +121,7 @@ export default function ActivityForm({ editDoc, onBack }) {
       const existingQuery = query(
         collection(db, 'submissions'),
         where('uid', '==', user.uid),
-        where('activity', '==', 'FunFair')
+        where('activity', '==', cleanForm.activity)
       )
       const existingSnap = await getDocs(existingQuery)
       if (!existingSnap.empty && !editDoc) {
@@ -138,11 +141,14 @@ export default function ActivityForm({ editDoc, onBack }) {
         flat_number: cleanForm.flat_number,
         mobile_number: cleanForm.mobile_number,
         team_name: isTeamActivity ? cleanForm.team_name : null,
-        stall_type: cleanForm.activity === 'FunFair' ? cleanForm.stall_type : null,
-        other_requirements: cleanForm.activity === 'FunFair' ? cleanForm.other_requirements : null,
-        is_food_stall: cleanForm.activity === 'FunFair' ? cleanForm.is_food_stall : null,
-        table_count: cleanForm.activity === 'FunFair' ? cleanForm.table_count : null,
-        transaction_id: cleanForm.activity === 'FunFair' ? cleanForm.transaction_id : null,
+        stall_type: (cleanForm.activity === 'FunFair' || cleanForm.activity === 'BusinessHub') ? cleanForm.stall_type : null,
+        other_requirements: (cleanForm.activity === 'FunFair' || cleanForm.activity === 'BusinessHub') ? cleanForm.other_requirements : null,
+        is_food_stall: (cleanForm.activity === 'FunFair' || cleanForm.activity === 'BusinessHub') ? cleanForm.is_food_stall : null,
+        table_count: (cleanForm.activity === 'FunFair' || cleanForm.activity === 'BusinessHub') && cleanForm.resident_type === 'resident' ? cleanForm.table_count : (cleanForm.resident_type === 'non-resident' ? '1' : null),
+        transaction_id: (cleanForm.activity === 'FunFair' || cleanForm.activity === 'BusinessHub') ? cleanForm.transaction_id : null,
+        resident_type: cleanForm.resident_type,
+        business_name: cleanForm.resident_type === 'non-resident' ? cleanForm.business_name : null,
+        address: cleanForm.resident_type === 'non-resident' ? cleanForm.address : null,
         members: isTeamActivity ? [
           { first_name: cleanForm.first_name, last_name: cleanForm.last_name, age: cleanForm.age, flat_number: cleanForm.flat_number },
           ...cleanForm.members.slice(1)
@@ -172,7 +178,7 @@ export default function ActivityForm({ editDoc, onBack }) {
             flat_number: '',
             mobile_number: '',
             alternate_mobile: '',
-            activity: 'FunFair',
+            activity: '',
             title: '',
             team_name: '',
             stall_type: '',
@@ -180,6 +186,9 @@ export default function ActivityForm({ editDoc, onBack }) {
             is_food_stall: '',
             table_count: '0',
             transaction_id: '',
+            resident_type: 'resident',
+            business_name: '',
+            address: '',
             members: [{ first_name: '', last_name: '', age: '', flat_number: '' }]
           })
           setAgreedToTerms(false)
@@ -196,7 +205,7 @@ export default function ActivityForm({ editDoc, onBack }) {
       <div className="card">
         <div className="card-body">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h2 className="card-title mb-0">{editDoc ? 'Update ' : 'Register for Fun Fair'}</h2>
+            <h2 className="card-title mb-0">{editDoc ? 'Update Registration' : 'Event Registration'}</h2>
             {editDoc && (
               <button type="button" className="btn btn-outline-secondary" onClick={onBack}>
                 ← Back to List
@@ -204,6 +213,61 @@ export default function ActivityForm({ editDoc, onBack }) {
             )}
           </div>
           <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label className="form-label">Registration Type</label>
+              <div>
+                <div className="form-check form-check-inline">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="resident_type"
+                    id="resident"
+                    value="resident"
+                    checked={form.resident_type === 'resident'}
+                    onChange={onChange}
+                  />
+                  <label className="form-check-label" htmlFor="resident">
+                    Resident
+                  </label>
+                </div>
+                <div className="form-check form-check-inline">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="resident_type"
+                    id="non-resident"
+                    value="non-resident"
+                    checked={form.resident_type === 'non-resident'}
+                    onChange={onChange}
+                  />
+                  <label className="form-check-label" htmlFor="non-resident">
+                    Non-Resident
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Select Event</label>
+              <select
+                className="form-select"
+                name="activity"
+                value={form.activity}
+                onChange={onChange}
+                required
+              >
+                <option value="">Choose event</option>
+                {form.resident_type === 'non-resident' ? (
+                  <option value="BusinessHub">Business Hub - 27th Sept (Saturday)</option>
+                ) : (
+                  <>
+                    <option value="FunFair">Fun Fair - 28th Sept (Sunday)</option>
+                    <option value="BusinessHub">Business Hub - 27th Sept (Saturday)</option>
+                  </>
+                )}
+              </select>
+            </div>
+
             <hr></hr>
             <div className="row">
               <div className="col-md-3 mb-3">
@@ -276,7 +340,7 @@ export default function ActivityForm({ editDoc, onBack }) {
                 </div>
               )}
 
-              {form.activity === 'FunFair' && (
+              {form.activity === 'BusinessHub' && (
                 <div className="col-md-6 mb-3">
                   <label className="form-label">Stall Name (Optional)</label>
                   <input
@@ -289,9 +353,23 @@ export default function ActivityForm({ editDoc, onBack }) {
                   />
                 </div>
               )}
+              {form.activity === 'FunFair' && (
+                <div className="col-md-6 mb-3">
+                  <label className="form-label">Game Name</label>
+                  <input
+                    className="form-control"
+                    name="team_name"
+                    value={form.team_name}
+                    onChange={onChange}
+                    placeholder="Enter game name"
+                    maxLength={25}
+                    required
+                  />
+                </div>
+              )}
             </div>
 
-            {form.activity === 'FunFair' && (
+            {form.activity === 'BusinessHub' && (
               <>
                 <div className="row">
                   <div className="col-md-6 mb-3">
@@ -332,32 +410,117 @@ export default function ActivityForm({ editDoc, onBack }) {
                 </div>
               </>
             )}
+            {form.activity === 'FunFair' && (
+              <>
+                <div className="row">
+                  <div className="col-md-6 mb-3">
+                    <label className="form-label">Game Type</label>
+                    <input
+                      className="form-control"
+                      name="stall_type"
+                      value={form.stall_type}
+                      onChange={onChange}
+                      placeholder="Enter game type (e.g., Ring Toss, Dart Game)"
+                      required
+                    />
+                  </div>
+                  <div className="col-md-6 mb-3">
+                    <label className="form-label">Age Group</label>
+                    <select
+                      className="form-select"
+                      name="is_food_stall"
+                      value={form.is_food_stall}
+                      onChange={onChange}
+                      required
+                    >
+                      <option value="">Select age group</option>
+                      <option value="Kids">Kids (5-12 years)</option>
+                      <option value="Teens">Teens (13-17 years)</option>
+                      <option value="Adults">Adults (18+ years)</option>
+                      <option value="All Ages">All Ages</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Game Description</label>
+                  <textarea
+                    className="form-control"
+                    name="other_requirements"
+                    value={form.other_requirements}
+                    onChange={onChange}
+                    placeholder="Describe your game, rules, and any special requirements"
+                    rows="3"
+                    required
+                  />
+                </div>
+              </>
+            )}
 
 
 
             <hr className="my-4" />
-            <h6 className="mb-3">Stall Requirements</h6>
-            <div className="row">
-              <div className="col-md-6 mb-3">
-                <label className="form-label">Number of Tables</label>
-                <select
-                  className="form-select"
-                  name="table_count"
-                  value={form.table_count}
-                  onChange={onChange}
-                >
-                  <option value="0">0 Tables (No table needed)</option>
-                  <option value="1">1 Table</option>
-                  <option value="2">2 Tables</option>
-                </select>
-              </div>
-              <div className="col-md-6 mb-3">
-                <p className="text-muted mt-4"><small>Remark: Per table ₹250</small></p>
-              </div>
-            </div>
-
-            {form.table_count && form.table_count !== '0' && (
+            <h6 className="mb-3">Stall Requirements & Payment</h6>
+            {form.resident_type === 'resident' ? (
               <>
+                <div className="row">
+                  <div className="col-md-6 mb-3">
+                    <label className="form-label">Number of Tables</label>
+                    <select
+                      className="form-select"
+                      name="table_count"
+                      value={form.table_count}
+                      onChange={onChange}
+                    >
+                      <option value="0">0 Tables (No table needed)</option>
+                      <option value="1">1 Table</option>
+                      <option value="2">2 Tables</option>
+                    </select>
+                  </div>
+                  <div className="col-md-6 mb-3">
+                    <p className="text-muted mt-4"><small>Remark: Per table ₹200</small></p>
+                  </div>
+                </div>
+
+                {form.table_count && form.table_count !== '0' && (
+                  <>
+                    <h6 className="mb-3">Payment Details</h6>
+                    <div className="row">
+                      <div className="col-md-6 mb-3">
+                        <div className="card">
+                          <div className="card-body text-center">
+                            <h6>Scan QR Code to Pay</h6>
+                            <img src="/images/payment_qr.png" alt="UPI QR Code" className="img-fluid" style={{maxWidth: '200px'}} />
+                            <p className="mt-2"><strong>UPI ID:</strong> kvillephase3@sbi</p>
+                            <p className="mt-2"><strong>KVILLE FESTIVAL COMMITTEE, K VILLE PHASE III AND PHASE IV CO-OPERATIVE HOUSING SOCIETY</strong> </p>
+                            <p className="text-muted small">Amount: ₹{parseInt(form.table_count) * 200}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label className="form-label">Last 5 digits of Transaction ID</label>
+                        <input
+                          className="form-control"
+                          name="transaction_id"
+                          value={form.transaction_id || ''}
+                          onChange={onChange}
+                          placeholder="Enter last 5 digits"
+                          maxLength={5}
+                          pattern="[0-9]{5}"
+                          required
+                        />
+                        <small className="text-muted">Enter the last 5 digits of your payment transaction ID</small>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <div className="alert alert-info">
+                  <h6>Non-Resident Registration</h6>
+                  <p className="mb-2">• Registration Fee: ₹650</p>
+                  <p className="mb-0">• One table will be provided</p>
+                </div>
                 <h6 className="mb-3">Payment Details</h6>
                 <div className="row">
                   <div className="col-md-6 mb-3">
@@ -367,7 +530,7 @@ export default function ActivityForm({ editDoc, onBack }) {
                         <img src="/images/payment_qr.png" alt="UPI QR Code" className="img-fluid" style={{maxWidth: '200px'}} />
                         <p className="mt-2"><strong>UPI ID:</strong> kvillephase3@sbi</p>
                         <p className="mt-2"><strong>KVILLE FESTIVAL COMMITTEE, K VILLE PHASE III AND PHASE IV CO-OPERATIVE HOUSING SOCIETY</strong> </p>
-                        <p className="text-muted small">Amount: ₹{parseInt(form.table_count) * 250}</p>
+                        <p className="text-muted small">Amount: ₹650</p>
                       </div>
                     </div>
                   </div>
@@ -390,47 +553,77 @@ export default function ActivityForm({ editDoc, onBack }) {
             )}
 
             <hr className="my-4" />
-            <h6 className="mb-3">Contact Details (From Profile)</h6>
-            <div className="row">
-              <div className="col-md-4 mb-3">
-                <FlatNumberInput
-                  wing={form.flat_number.split('-')[0] || ''}
-                  flatNum={form.flat_number.split('-')[1] || ''}
-                  onWingChange={(value) => onFlatChange('wing', value)}
-                  onFlatChange={(value) => onFlatChange('flat_num', value)}
-                  disabled
-                />
-              </div>
-              <div className="col-md-4 mb-3">
-                <label className="form-label">Mobile Number</label>
-                <input 
-                  className="form-control" 
-                  name="mobile_number"
-                  type="tel"
-                  pattern="[0-9]{10}"
-                  maxLength="10"
-                  value={form.mobile_number} 
-                  onChange={onChange}
-                  placeholder="Enter 10-digit mobile number"
-                  required
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4 mb-3">
-                <label className="form-label">Alternate Mobile (Optional)</label>
-                <input 
-                  className="form-control" 
-                  name="alternate_mobile"
-                  type="tel"
-                  pattern="[0-9]{10}"
-                  maxLength="10"
-                  value={form.alternate_mobile} 
-                  onChange={onChange}
-                  placeholder="Enter 10-digit mobile number"
-                />
-              </div>
-            </div>
+            <h6 className="mb-3">Contact Details</h6>
+            {form.resident_type === 'resident' ? (
+              <>
+                <div className="row">
+                  <div className="col-md-4 mb-3">
+                    <FlatNumberInput
+                      wing={form.flat_number.split('-')[0] || ''}
+                      flatNum={form.flat_number.split('-')[1] || ''}
+                      onWingChange={(value) => onFlatChange('wing', value)}
+                      onFlatChange={(value) => onFlatChange('flat_num', value)}
+                    />
+                  </div>
+                  <div className="col-md-4 mb-3">
+                    <label className="form-label">Mobile Number</label>
+                    <input 
+                      className="form-control" 
+                      name="mobile_number"
+                      type="tel"
+                      pattern="[0-9]{10}"
+                      maxLength="10"
+                      value={form.mobile_number} 
+                      onChange={onChange}
+                      placeholder="Enter 10-digit mobile number"
+                      required
+                    />
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="row">
+                  <div className="col-md-6 mb-3">
+                    <label className="form-label">Mobile Number</label>
+                    <input 
+                      className="form-control" 
+                      name="mobile_number"
+                      type="tel"
+                      pattern="[0-9]{10}"
+                      maxLength="10"
+                      value={form.mobile_number} 
+                      onChange={onChange}
+                      placeholder="Enter 10-digit mobile number"
+                      required
+                    />
+                  </div>
+                  <div className="col-md-6 mb-3">
+                    <label className="form-label">Business Name</label>
+                    <input
+                      className="form-control"
+                      name="business_name"
+                      value={form.business_name}
+                      onChange={onChange}
+                      placeholder="Enter business name"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Address</label>
+                  <textarea
+                    className="form-control"
+                    name="address"
+                    value={form.address}
+                    onChange={onChange}
+                    placeholder="Enter complete address"
+                    rows="3"
+                    required
+                  />
+                </div>
+              </>
+            )}
 
             <div className="form-check mb-3">
               <input

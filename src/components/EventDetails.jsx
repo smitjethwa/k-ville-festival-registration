@@ -19,6 +19,11 @@ export default function EventDetails() {
       description: 'Celebrate the spirit of Navratri with vibrant Garba and energetic Dandiya Raas! Gather your team, showcase your rhythm, and light up the stage with traditional moves, colorful attire, and boundless energy.',
       rules: ['No rules, just join us with colorful vibes and unlimited enthusiasm!']
     },
+    {
+      name: 'Fun Fair - 28th Sept (Sunday)',
+      description: 'Join us for exciting on-the-spot games and activities! No prior registration needed for games - just come and participate.',
+      rules: ['On-the-spot participation', 'Various games and activities throughout the day', 'Prizes for winners', 'Fun for all age groups']
+    },
     // {
     //   name: 'Singing',
     //   description: 'Solo or group singing performance',
@@ -80,8 +85,8 @@ export default function EventDetails() {
         <div className="col-md-12">
           <div className="card">
             <div className="card-body">
-              <h2 className="card-title">💡 Business Hub</h2>
-              <p className="text-muted">Food stalls and business opportunities for the festival</p>
+              <h2 className="card-title">💡 Business Hub - 27th Sept (Saturday)</h2>
+              <p className="text-muted">Food stalls and business opportunities</p>
               <h6 className="card-title">1. General Guidelines:</h6>
               <ul>
                 <li>Stall owners must bring all necessary supplies and materials for their stalls.</li>

@@ -103,6 +103,7 @@ export default function ProfilePage() {
                 <div className="d-flex gap-2">
                   <button className="btn btn-primary" type="submit">Save</button>
                   <button className="btn btn-secondary" type="button" onClick={() => setIsEditing(false)}>Cancel</button>
+                  <a href="/submit" className="btn btn-outline-info">Skip Profile</a>
                 </div>
               </form>
               )}
