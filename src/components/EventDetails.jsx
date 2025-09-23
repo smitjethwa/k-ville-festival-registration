@@ -22,7 +22,7 @@ export default function EventDetails() {
     {
       name: 'Fun Fair - 28th Sept (Sunday)',
       description: 'Join us for exciting on-the-spot games and activities! No prior registration needed for games - just come and participate.',
-      rules: ['On-the-spot participation', 'Various games and activities throughout the day', 'Prizes for winners', 'Fun for all age groups']
+      rules: ['On-the-spot participation', 'Various games and activities in the evening', 'Fun for all age groups']
     },
     // {
     //   name: 'Singing',
