@@ -15,8 +15,8 @@ import {
   updateDoc
 } from 'firebase/firestore'
 
-const ACTIVITIES = ['FunFair', 'BusinessHub']
-const TEAM_ACTIVITIES = ['FunFair', 'BusinessHub']
+const ACTIVITIES = ['BusinessHub']
+const TEAM_ACTIVITIES = ['BusinessHub']
 
 export default function ActivityForm({ editDoc, onBack }) {
   const { user } = useAuth()
@@ -141,11 +141,11 @@ export default function ActivityForm({ editDoc, onBack }) {
         flat_number: cleanForm.flat_number,
         mobile_number: cleanForm.mobile_number,
         team_name: isTeamActivity ? cleanForm.team_name : null,
-        stall_type: (cleanForm.activity === 'FunFair' || cleanForm.activity === 'BusinessHub') ? cleanForm.stall_type : null,
-        other_requirements: (cleanForm.activity === 'FunFair' || cleanForm.activity === 'BusinessHub') ? cleanForm.other_requirements : null,
-        is_food_stall: (cleanForm.activity === 'FunFair' || cleanForm.activity === 'BusinessHub') ? cleanForm.is_food_stall : null,
-        table_count: (cleanForm.activity === 'FunFair' || cleanForm.activity === 'BusinessHub') && cleanForm.resident_type === 'resident' ? cleanForm.table_count : (cleanForm.resident_type === 'non-resident' ? '1' : null),
-        transaction_id: (cleanForm.activity === 'FunFair' || cleanForm.activity === 'BusinessHub') ? cleanForm.transaction_id : null,
+        stall_type: cleanForm.activity === 'BusinessHub' ? cleanForm.stall_type : null,
+        other_requirements: cleanForm.activity === 'BusinessHub' ? cleanForm.other_requirements : null,
+        is_food_stall: cleanForm.activity === 'BusinessHub' ? cleanForm.is_food_stall : null,
+        table_count: cleanForm.activity === 'BusinessHub' && cleanForm.resident_type === 'resident' ? cleanForm.table_count : (cleanForm.resident_type === 'non-resident' ? '1' : null),
+        transaction_id: cleanForm.activity === 'BusinessHub' ? cleanForm.transaction_id : null,
         resident_type: cleanForm.resident_type,
         business_name: cleanForm.resident_type === 'non-resident' ? cleanForm.business_name : null,
         address: cleanForm.resident_type === 'non-resident' ? cleanForm.address : null,
@@ -178,7 +178,7 @@ export default function ActivityForm({ editDoc, onBack }) {
             flat_number: '',
             mobile_number: '',
             alternate_mobile: '',
-            activity: '',
+            activity: 'BusinessHub',
             title: '',
             team_name: '',
             stall_type: '',
@@ -260,10 +260,7 @@ export default function ActivityForm({ editDoc, onBack }) {
                 {form.resident_type === 'non-resident' ? (
                   <option value="BusinessHub">Business Hub - 27th Sept (Saturday)</option>
                 ) : (
-                  <>
-                    <option value="FunFair">Fun Fair - 28th Sept (Sunday)</option>
-                    <option value="BusinessHub">Business Hub - 27th Sept (Saturday)</option>
-                  </>
+                  <option value="BusinessHub">Business Hub - 28th Sept (Sunday)</option>
                 )}
               </select>
             </div>
@@ -353,20 +350,6 @@ export default function ActivityForm({ editDoc, onBack }) {
                   />
                 </div>
               )}
-              {form.activity === 'FunFair' && (
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Game Name</label>
-                  <input
-                    className="form-control"
-                    name="team_name"
-                    value={form.team_name}
-                    onChange={onChange}
-                    placeholder="Enter game name"
-                    maxLength={25}
-                    required
-                  />
-                </div>
-              )}
             </div>
 
             {form.activity === 'BusinessHub' && (
@@ -410,51 +393,7 @@ export default function ActivityForm({ editDoc, onBack }) {
                 </div>
               </>
             )}
-            {form.activity === 'FunFair' && (
-              <>
-                <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Game Type</label>
-                    <input
-                      className="form-control"
-                      name="stall_type"
-                      value={form.stall_type}
-                      onChange={onChange}
-                      placeholder="Enter game type (e.g., Ring Toss, Dart Game)"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Age Group</label>
-                    <select
-                      className="form-select"
-                      name="is_food_stall"
-                      value={form.is_food_stall}
-                      onChange={onChange}
-                      required
-                    >
-                      <option value="">Select age group</option>
-                      <option value="Kids">Kids (5-12 years)</option>
-                      <option value="Teens">Teens (13-17 years)</option>
-                      <option value="Adults">Adults (18+ years)</option>
-                      <option value="All Ages">All Ages</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Game Description</label>
-                  <textarea
-                    className="form-control"
-                    name="other_requirements"
-                    value={form.other_requirements}
-                    onChange={onChange}
-                    placeholder="Describe your game, rules, and any special requirements"
-                    rows="3"
-                    required
-                  />
-                </div>
-              </>
-            )}
+
 
 
 

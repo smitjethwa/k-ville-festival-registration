@@ -19,11 +19,7 @@ export default function EventDetails() {
       description: 'Celebrate the spirit of Navratri with vibrant Garba and energetic Dandiya Raas! Gather your team, showcase your rhythm, and light up the stage with traditional moves, colorful attire, and boundless energy.',
       rules: ['No rules, just join us with colorful vibes and unlimited enthusiasm!']
     },
-    {
-      name: 'Fun Fair - 28th Sept (Sunday)',
-      description: 'Join us for exciting on-the-spot games and activities! No prior registration needed for games - just come and participate.',
-      rules: ['On-the-spot participation', 'Various games and activities in the evening', 'Fun for all age groups']
-    },
+
     // {
     //   name: 'Singing',
     //   description: 'Solo or group singing performance',
