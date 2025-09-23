@@ -117,6 +117,8 @@ export default function ActivityForm({ editDoc, onBack }) {
     try {
       if (!user) throw new Error('Not signed in')
       
+      const { wing, flat_num, ...cleanForm } = form
+      
       // Check for existing submission
       const existingQuery = query(
         collection(db, 'submissions'),
@@ -127,8 +129,6 @@ export default function ActivityForm({ editDoc, onBack }) {
       if (!existingSnap.empty && !editDoc) {
         throw new Error('You have already submitted for this activity')
       }
-
-      const { wing, flat_num, ...cleanForm } = form
       const payload = {
         uid: cleanForm.uid || user.uid,
         activity: cleanForm.activity,
