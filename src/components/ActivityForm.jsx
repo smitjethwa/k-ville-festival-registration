@@ -131,7 +131,7 @@ export default function ActivityForm({ editDoc, onBack }) {
       }
       const payload = {
         uid: cleanForm.uid || user.uid,
-        activity: cleanForm.activity,
+        activity: cleanForm.resident_type === 'resident' ? 'BusinessHub Resident' : 'BusinessHub Non Resident',
         title: showTitle ? cleanForm.title : '',
         name: `${cleanForm.first_name} ${cleanForm.last_name}`.trim(),
         first_name: cleanForm.first_name,

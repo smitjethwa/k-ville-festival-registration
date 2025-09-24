@@ -10,7 +10,7 @@ export default function AdminDashboard() {
   const [submissions, setSubmissions] = useState([])
   const [filteredSubmissions, setFilteredSubmissions] = useState([])
   const [activeTab, setActiveTab] = useState('submissions')
-  const [activityFilter, setActivityFilter] = useState('All')
+  const [activityFilter, setActivityFilter] = useState('BusinessHub Resident')
   const [isSuperuser, setIsSuperuser] = useState(false)
   const [deleteModal, setDeleteModal] = useState({ show: false, submissionId: null, participantName: '' })
 
@@ -62,7 +62,7 @@ export default function AdminDashboard() {
 
   const handleActivityFilter = (activity) => {
     setActivityFilter(activity)
-    let filtered = activity === 'All' ? submissions : submissions.filter(sub => sub.activity === activity)
+    let filtered = submissions.filter(sub => sub.activity === activity)
     filtered = filtered.sort((a, b) => {
       const nameA = (a.name || `${a.first_name || ''} ${a.last_name || ''}`.trim()).toLowerCase()
       const nameB = (b.name || `${b.first_name || ''} ${b.last_name || ''}`.trim()).toLowerCase()
@@ -90,18 +90,37 @@ export default function AdminDashboard() {
   }, [submissions])
 
   const exportToExcel = () => {
-    const exportData = filteredSubmissions.map((sub, index) => ({
-      'Sr. No.': index + 1,
-      'Activity': sub.activity,
-      'Participant Name': sub.name || `${sub.first_name || ''} ${sub.last_name || ''}`.trim(),
-      'Age': sub.age,
-      'Gender': sub.gender,
-      'Flat': sub.flat_number,
-      'Mobile': sub.mobile_number,
-      'Team Name': sub.team_name || 'N/A',
-      'Team Members': sub.members?.map(m => `${m.first_name || m.name || ''} ${m.last_name || ''}`.trim() + (m.age ? ` (${m.age})` : '')).join(', ') || 'N/A',
-      'Created': sub.created_at?.toDate?.()?.toLocaleDateString() || 'N/A'
-    }))
+    const isResident = activityFilter === 'BusinessHub Resident'
+    const exportData = filteredSubmissions.map((sub, index) => {
+      const baseData = {
+        'activity': sub.activity,
+        'age': sub.age,
+        'business_name': sub.business_name || 'N/A',
+        'created_at': sub.created_at?.toDate?.()?.toLocaleDateString() || 'N/A',
+        'gender': sub.gender,
+        'is_food_stall': sub.is_food_stall || 'N/A',
+        'name': sub.name || `${sub.first_name || ''} ${sub.last_name || ''}`.trim(),
+        'mobile_number': sub.mobile_number,
+        'other_requirements': sub.other_requirements || 'N/A',
+        'stall_type': sub.stall_type || 'N/A',
+        'table_count': sub.table_count || 'N/A',
+        'team_name': sub.team_name || 'N/A',
+        'transaction_id': sub.transaction_id || 'N/A',
+        'updated_at': sub.updated_at?.toDate?.()?.toLocaleDateString() || 'N/A'
+      }
+      
+      if (isResident) {
+        return {
+          ...baseData,
+          'flat_number': sub.flat_number || 'N/A'
+        }
+      } else {
+        return {
+          ...baseData,
+          'address': sub.address || 'N/A'
+        }
+      }
+    })
     
     const ws = XLSX.utils.json_to_sheet(exportData)
     const wb = XLSX.utils.book_new()
@@ -113,21 +132,21 @@ export default function AdminDashboard() {
     <div className="container mt-4 mb-5">
       <div className="card">
         <div className="card-body">
-          <div className="d-flex justify-content-between align-items-center">
-            <h2 className="card-title mb-0"><span className="material-icons">dashboard</span> Admin Dashboard</h2>
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+            <h2 className="card-title mb-2 mb-md-0"><span className="material-icons">dashboard</span> Admin Dashboard</h2>
             {activeTab === 'submissions' && (
-              <div>
+              <div className="d-flex flex-column flex-sm-row gap-2">
                 <select 
-                  className="form-select me-2" 
-                  style={{width: '200px', display: 'inline-block'}}
+                  className="form-select" 
+                  style={{minWidth: '180px'}}
                   value={activityFilter} 
                   onChange={(e) => handleActivityFilter(e.target.value)}
                 >
-                  <option value="All">All Activities</option>
-                  <option value="FunFair">FunFair</option>
+                  <option value="BusinessHub Resident">BusinessHub Resident</option>
+                  <option value="BusinessHub Non Resident">BusinessHub Non Resident</option>
                 </select>
                 <button className="btn btn-success" onClick={exportToExcel}>
-                  <span className="material-icons">download</span> Export Excel
+                  <span className="material-icons">download</span> <span className="d-none d-sm-inline">Export Excel</span>
                 </button>
               </div>
             )}
@@ -163,6 +182,9 @@ export default function AdminDashboard() {
                       <th>User ID</th>
                       <th>Name</th>
                       <th>Email</th>
+                      <th>Age</th>
+                      <th>Gender</th>
+                      <th>Wing</th>
                       <th>Flat Number</th>
                       <th>Mobile</th>
                       <th>Created</th>
@@ -171,12 +193,15 @@ export default function AdminDashboard() {
                   <tbody>
                     {users.map(user => (
                       <tr key={user.id}>
-                        <td><code>{user.id}</code></td>
+                        <td><code style={{fontSize: '12px'}}>{user.id}</code></td>
                         <td>{user.name || 'N/A'}</td>
-                        <td>{user.email || 'N/A'}</td>
-                        <td>{user.flat_number || 'N/A'}</td>
-                        <td>{user.mobile_number || 'N/A'}</td>
-                        <td>{user.created_at?.toDate?.()?.toLocaleDateString() || 'N/A'}</td>
+                        <td><small>{user.email || 'N/A'}</small></td>
+                        <td>{user.age || 'N/A'}</td>
+                        <td><small>{user.gender || 'N/A'}</small></td>
+                        <td><small>{user.wing || 'N/A'}</small></td>
+                        <td><small>{user.flat_number || 'N/A'}</small></td>
+                        <td><small>{user.mobile_number || 'N/A'}</small></td>
+                        <td><small>{user.created_at?.toDate?.()?.toLocaleDateString() || 'N/A'}</small></td>
                       </tr>
                     ))}
                   </tbody>
@@ -185,55 +210,71 @@ export default function AdminDashboard() {
             )}
 
             {activeTab === 'submissions' && (
-              <div className="table-responsive">
-                <table className="table table-striped">
-                  <thead className="table-light">
-                    <tr>
-                      <th>Sr.</th>
-                      <th>Activity</th>
-                      <th>Participant Name</th>
-                      <th>Age</th>
-                      <th>Gender</th>
-                      <th>Flat</th>
-                      <th>Mobile</th>
-                      <th>Team Name</th>
-                      <th>Team Members</th>
-                      <th>Created</th>
-                      {isSuperuser && <th>Actions</th>}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredSubmissions.map((sub, index) => (
-                      <tr key={sub.id}>
-                        <td>{index + 1}</td>
-                        <td><span className={`badge ${getActivityBadgeClass(sub.activity)}`}>{sub.activity}</span></td>
-                        <td>{sub.name || `${sub.first_name || ''} ${sub.last_name || ''}`.trim()}</td>
-                        <td>{sub.age}</td>
-                        <td>{sub.gender}</td>
-                        <td>{sub.flat_number}</td>
-                        <td>{sub.mobile_number}</td>
-                        <td>{sub.team_name || 'N/A'}</td>
-                        <td>
-                          {sub.members?.length > 0 ? (
-                            <small>{sub.members.map(m => `${m.first_name || m.name || ''} ${m.last_name || ''}`.trim() + (m.age ? ` (${m.age})` : '')).join(', ')}</small>
-                          ) : 'N/A'}
-                        </td>
-                        <td>{sub.created_at?.toDate?.()?.toLocaleDateString() || 'N/A'}</td>
-                        {isSuperuser && (
-                          <td>
+              <div className="row">
+                {filteredSubmissions.map((sub, index) => (
+                  <div key={sub.id} className="col-12 col-md-6 col-lg-4 mb-3">
+                    <div className="card h-100">
+                      <div className="card-header d-flex justify-content-between align-items-center">
+                        <span className="fw-bold">#{index + 1}</span>
+                        <span className={`badge ${getActivityBadgeClass(sub.activity)} text-wrap`} style={{fontSize: '0.7rem'}}>
+                          {activityFilter === 'BusinessHub Resident' ? 'Resident' : 'Non-Resident'}
+                        </span>
+                      </div>
+                      <div className="card-body">
+                        <h6 className="card-title">{sub.name || `${sub.first_name || ''} ${sub.last_name || ''}`.trim()}</h6>
+                        <div className="row small">
+                          <div className="col-6"><strong>Age:</strong> {sub.age}</div>
+                          <div className="col-6"><strong>Gender:</strong> {sub.gender}</div>
+                        </div>
+                        <hr className="my-2"/>
+                        <div className="mb-2 small">
+                          <strong>Business:</strong> {sub.business_name || 'N/A'}<br/>
+                          <strong>Stall Type:</strong> {sub.stall_type || 'N/A'}<br/>
+                          <strong>Food Stall:</strong> {sub.is_food_stall || 'N/A'}
+                        </div>
+                        <div className="mb-2 small">
+                          {activityFilter === 'BusinessHub Resident' ? (
+                            <><strong>Flat:</strong> {sub.flat_number || 'N/A'}</>
+                          ) : (
+                            <><strong>Address:</strong> <span className="text-break">{sub.address || 'N/A'}</span></>
+                          )}
+                        </div>
+                        <div className="mb-2 small">
+                          <strong>Mobile:</strong> {sub.mobile_number}<br/>
+                          <strong>Tables:</strong> {sub.table_count || 'N/A'}<br/>
+                          <strong>Team Name:</strong> {sub.team_name || 'N/A'}
+                        </div>
+                        {sub.other_requirements && (
+                          <div className="mb-2 small">
+                            <strong>Requirements:</strong> <span className="text-break">{sub.other_requirements}</span>
+                          </div>
+                        )}
+                        <div className="mb-2 small">
+                          <strong>Txn ID:</strong> {sub.transaction_id || 'N/A'}
+                        </div>
+                      </div>
+                      <div className="card-footer">
+                        <div className="d-flex justify-content-between align-items-center">
+                          <small className="text-muted">
+                            Created: {sub.created_at?.toDate?.()?.toLocaleDateString() || 'N/A'}
+                          </small>
+                          {isSuperuser && (
                             <button 
                               className="btn btn-sm btn-outline-danger"
                               onClick={() => showDeleteModal(sub.id, sub.name || `${sub.first_name || ''} ${sub.last_name || ''}`.trim())}
                               title="Delete submission"
                             >
-                              <span className="material-icons" style={{fontSize: '16px'}}>delete</span>
+                              <span className="material-icons" style={{fontSize: '14px'}}>delete</span>
                             </button>
-                          </td>
-                        )}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                          )}
+                        </div>
+                        <small className="text-muted">
+                          ID: <code style={{fontSize: '10px'}}>{sub.id}</code>
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </div>
