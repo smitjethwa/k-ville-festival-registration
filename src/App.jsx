@@ -13,6 +13,7 @@ import ContactUs from './components/ContactUs.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
 import BusinessHub from './components/BusinessHub.jsx'
 import PrivacyPolicy from './components/PrivacyPolicy.jsx'
+import PhotoFrame from './components/PhotoFrame.jsx'
 
 function Home() {
   useEffect(() => {
@@ -436,6 +437,11 @@ function AdminDashboardWithTitle() {
   return <AdminDashboard />
 }
 
+function PhotoFrameWithTitle() {
+  useEffect(() => { document.title = 'Photo Frame - K-Ville Festivals' }, [])
+  return <PhotoFrame />
+}
+
 
 
 function RequireAuth({ children }) {
@@ -472,6 +478,7 @@ function AppWithAnalytics() {
         <Route path="/submit" element={<RequireAuth><ActivityFormWithTitle /></RequireAuth>} />
         <Route path="/my" element={<RequireAuth><MySubmissionsWithTitle /></RequireAuth>} />
         <Route path="/admin" element={<RequireAuth><AdminDashboardWithTitle /></RequireAuth>} />
+        <Route path="/frame-it" element={<PhotoFrameWithTitle />} />
       </Routes>
       {/* <footer className="text-center py-4 text-muted">Built with Firebase <span className="material-icons">whatshot</span> & React</footer> */}
     </AuthProvider>
