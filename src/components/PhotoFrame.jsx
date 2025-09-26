@@ -281,7 +281,12 @@ export default function PhotoFrame() {
             </div>
           </div>
 
-
+          <div className="alert alert-secondary mt-4">
+            <small className="text-muted">
+              <span className="material-icons me-1" style={{fontSize: '14px'}}>security</span>
+              <strong>Privacy:</strong> We process the photo only to generate the frame, and do not upload or store the photo anywhere.
+            </small>
+          </div>
         </div>
       </div>
     </div>

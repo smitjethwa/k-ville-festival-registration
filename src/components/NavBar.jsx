@@ -48,7 +48,7 @@ export default function NavBar() {
         <div className="collapse navbar-collapse" id="navbarNav">
         <div className="navbar-nav me-auto">
           <Link to="/events" className="nav-link" onClick={collapseNavbar}><span className="material-icons">event</span> Events</Link>
-          <Link to="/frame-it" className="nav-link" onClick={collapseNavbar}><span className="material-icons">photo_camera</span> Photo Frame</Link>
+          {/* <Link to="/frame-it" className="nav-link" onClick={collapseNavbar}><span className="material-icons">photo_camera</span> Photo Frame</Link> */}
           <Link to="/contact" className="nav-link" onClick={collapseNavbar}><span className="material-icons">contact_phone</span> Contact</Link>
           {user && (<>
             <Link to="/submit" className="nav-link" onClick={collapseNavbar}><span className="material-icons">add</span> Register</Link>
