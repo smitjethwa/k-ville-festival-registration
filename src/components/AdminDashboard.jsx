@@ -10,7 +10,7 @@ export default function AdminDashboard() {
   const [submissions, setSubmissions] = useState([])
   const [filteredSubmissions, setFilteredSubmissions] = useState([])
   const [activeTab, setActiveTab] = useState('submissions')
-  const [activityFilter, setActivityFilter] = useState('BusinessHub Resident')
+  const [activityFilter, setActivityFilter] = useState('BusinessHub')
   const [isSuperuser, setIsSuperuser] = useState(false)
   const [deleteModal, setDeleteModal] = useState({ show: false, submissionId: null, participantName: '' })
 
@@ -62,7 +62,10 @@ export default function AdminDashboard() {
 
   const handleActivityFilter = (activity) => {
     setActivityFilter(activity)
-    let filtered = submissions.filter(sub => sub.activity === activity)
+    let filtered = submissions.filter(sub => 
+      sub.activity === 'BusinessHub' || 
+      sub.activity === 'BusinessHub Resident'
+    )
     filtered = filtered.sort((a, b) => {
       const nameA = (a.name || `${a.first_name || ''} ${a.last_name || ''}`.trim()).toLowerCase()
       const nameB = (b.name || `${b.first_name || ''} ${b.last_name || ''}`.trim()).toLowerCase()
@@ -90,37 +93,22 @@ export default function AdminDashboard() {
   }, [submissions])
 
   const exportToExcel = () => {
-    const isResident = activityFilter === 'BusinessHub Resident'
-    const exportData = filteredSubmissions.map((sub, index) => {
-      const baseData = {
-        'activity': sub.activity,
-        'age': sub.age,
-        'business_name': sub.business_name || 'N/A',
-        'created_at': sub.created_at?.toDate?.()?.toLocaleDateString() || 'N/A',
-        'gender': sub.gender,
-        'is_food_stall': sub.is_food_stall || 'N/A',
-        'name': sub.name || `${sub.first_name || ''} ${sub.last_name || ''}`.trim(),
-        'mobile_number': sub.mobile_number,
-        'other_requirements': sub.other_requirements || 'N/A',
-        'stall_type': sub.stall_type || 'N/A',
-        'table_count': sub.table_count || 'N/A',
-        'team_name': sub.team_name || 'N/A',
-        'transaction_id': sub.transaction_id || 'N/A',
-        'updated_at': sub.updated_at?.toDate?.()?.toLocaleDateString() || 'N/A'
-      }
-      
-      if (isResident) {
-        return {
-          ...baseData,
-          'flat_number': sub.flat_number || 'N/A'
-        }
-      } else {
-        return {
-          ...baseData,
-          'address': sub.address || 'N/A'
-        }
-      }
-    })
+    const exportData = filteredSubmissions.map((sub, index) => ({
+      'activity': sub.activity,
+      'age': sub.age,
+      'created_at': sub.created_at?.toDate?.()?.toLocaleDateString() || 'N/A',
+      'flat_number': sub.flat_number || 'N/A',
+      'gender': sub.gender,
+      'is_food_stall': sub.is_food_stall || 'N/A',
+      'mobile_number': sub.mobile_number,
+      'name': sub.name || `${sub.first_name || ''} ${sub.last_name || ''}`.trim(),
+      'other_requirements': sub.other_requirements || 'N/A',
+      'stall_type': sub.stall_type || 'N/A',
+      'table_count': sub.table_count || 'N/A',
+      'team_name': sub.team_name || 'N/A',
+      'transaction_id': sub.transaction_id || 'N/A',
+      'updated_at': sub.updated_at?.toDate?.()?.toLocaleDateString() || 'N/A'
+    }))
     
     const ws = XLSX.utils.json_to_sheet(exportData)
     const wb = XLSX.utils.book_new()
@@ -136,15 +124,7 @@ export default function AdminDashboard() {
             <h2 className="card-title mb-2 mb-md-0"><span className="material-icons">dashboard</span> Admin Dashboard</h2>
             {activeTab === 'submissions' && (
               <div className="d-flex flex-column flex-sm-row gap-2">
-                <select 
-                  className="form-select" 
-                  style={{minWidth: '180px'}}
-                  value={activityFilter} 
-                  onChange={(e) => handleActivityFilter(e.target.value)}
-                >
-                  <option value="BusinessHub Resident">BusinessHub Resident</option>
-                  <option value="BusinessHub Non Resident">BusinessHub Non Resident</option>
-                </select>
+
                 <button className="btn btn-success" onClick={exportToExcel}>
                   <span className="material-icons">download</span> <span className="d-none d-sm-inline">Export Excel</span>
                 </button>
@@ -217,7 +197,7 @@ export default function AdminDashboard() {
                       <div className="card-header d-flex justify-content-between align-items-center">
                         <span className="fw-bold">#{index + 1}</span>
                         <span className={`badge ${getActivityBadgeClass(sub.activity)} text-wrap`} style={{fontSize: '0.7rem'}}>
-                          {activityFilter === 'BusinessHub Resident' ? 'Resident' : 'Non-Resident'}
+                          Business Hub
                         </span>
                       </div>
                       <div className="card-body">
@@ -233,11 +213,7 @@ export default function AdminDashboard() {
                           <strong>Food Stall:</strong> {sub.is_food_stall || 'N/A'}
                         </div>
                         <div className="mb-2 small">
-                          {activityFilter === 'BusinessHub Resident' ? (
-                            <><strong>Flat:</strong> {sub.flat_number || 'N/A'}</>
-                          ) : (
-                            <><strong>Address:</strong> <span className="text-break">{sub.address || 'N/A'}</span></>
-                          )}
+                          <strong>Flat:</strong> {sub.flat_number || 'N/A'}
                         </div>
                         <div className="mb-2 small">
                           <strong>Mobile:</strong> {sub.mobile_number}<br/>

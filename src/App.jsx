@@ -34,7 +34,7 @@ Dear Society Members, 🙏</p>
             <p className="mb-3">We are delighted to announce that our society will be celebrating the <strong>Navratri Festival</strong> with great devotion and joy this year. Let us all come together to celebrate <strong>Maa Durga</strong> and make these nine nights truly memorable with unity, devotion, and festivities!</p>
             
             <p className="mb-3">📅 <strong>Festival Dates:</strong> 22th September 2025 to 1st October 2025<br />
-            🏢 <strong>Business Hub:</strong> 27th Sept (Non-Residents) & 28th Sept (Residents)
+            🏢 <strong>Business Hub:</strong> 28th Sept (Residents)
     </p><p className="mb-3">
 
 Let us all participate actively with full enthusiasm, involve our families, and make this celebration a grand success. 🎊  
