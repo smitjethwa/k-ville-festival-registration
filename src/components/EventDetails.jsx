@@ -81,7 +81,7 @@ export default function EventDetails() {
         <div className="col-md-12">
           <div className="card">
             <div className="card-body">
-              <h2 className="card-title">💡 Business Hub - 27th Sept (Saturday)</h2>
+              <h2 className="card-title">💡 Business Hub - 28th Sept (Sunday)</h2>
               <p className="text-muted">Food stalls and business opportunities</p>
               <h6 className="card-title">1. General Guidelines:</h6>
               <ul>
