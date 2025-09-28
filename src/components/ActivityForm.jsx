@@ -20,6 +20,7 @@ const TEAM_ACTIVITIES = ['BusinessHub']
 
 export default function ActivityForm({ editDoc, onBack }) {
   const { user } = useAuth()
+  const [isSuperuser, setIsSuperuser] = useState(false)
   const [form, setForm] = useState({
     first_name: '',
     last_name: '',
@@ -45,6 +46,15 @@ export default function ActivityForm({ editDoc, onBack }) {
   useEffect(() => {
     const load = async () => {
       if (!user) return
+      
+      // Check if user is superuser
+      try {
+        const superuserSnap = await getDoc(doc(db, 'superusers', user.uid))
+        setIsSuperuser(superuserSnap.exists())
+      } catch (error) {
+        setIsSuperuser(false)
+      }
+      
       const snap = await getDoc(doc(db, 'users', user.uid))
       if (snap.exists()) {
         const u = snap.data()
@@ -186,6 +196,8 @@ export default function ActivityForm({ editDoc, onBack }) {
       setTimeout(() => setError(''), 5000)
     }
   }
+
+
 
   return (
     <div className="container mt-4 mb-5">
