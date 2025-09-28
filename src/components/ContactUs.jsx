@@ -48,7 +48,7 @@ export default function ContactUs() {
       mobile: '+91 9405475704'
     },
     {
-      team: 'Technical Support',
+      team: 'Web Master',
       name: 'Smit Jethwa',
       mobile: '+91 8767973888'
     },

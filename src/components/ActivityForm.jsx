@@ -20,6 +20,7 @@ const TEAM_ACTIVITIES = ['BusinessHub']
 
 export default function ActivityForm({ editDoc, onBack }) {
   const { user } = useAuth()
+  const [isSuperuser, setIsSuperuser] = useState(false)
   const [form, setForm] = useState({
     first_name: '',
     last_name: '',
@@ -45,6 +46,15 @@ export default function ActivityForm({ editDoc, onBack }) {
   useEffect(() => {
     const load = async () => {
       if (!user) return
+      
+      // Check if user is superuser
+      try {
+        const superuserSnap = await getDoc(doc(db, 'superusers', user.uid))
+        setIsSuperuser(superuserSnap.exists())
+      } catch (error) {
+        setIsSuperuser(false)
+      }
+      
       const snap = await getDoc(doc(db, 'users', user.uid))
       if (snap.exists()) {
         const u = snap.data()
@@ -187,269 +197,29 @@ export default function ActivityForm({ editDoc, onBack }) {
     }
   }
 
+
+
   return (
     <div className="container mt-4 mb-5">
       <div className="card">
-        <div className="card-body">
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <h2 className="card-title mb-0">{editDoc ? 'Update Registration' : 'Event Registration'}</h2>
-            {editDoc && (
-              <button type="button" className="btn btn-outline-secondary" onClick={onBack}>
-                ← Back to List
-              </button>
-            )}
+        <div className="card-body text-center">
+          <h2 className="card-title text-danger">
+            <span className="material-icons">event_busy</span> Registration Closed
+          </h2>
+          <p className="text-muted mb-4">Event registrations are now closed. Thank you for your interest!</p>
+          <div className="alert alert-info">
+            <p className="mb-2">Follow us on Instagram for updates:</p>
+            <a 
+              href="https://instagram.com/festival_kville_iii_iv" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-decoration-none fw-bold"
+            >
+              @festival_kville_iii_iv
+            </a>
           </div>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label className="form-label">Select Event</label>
-              <select
-                className="form-select"
-                name="activity"
-                value={form.activity}
-                onChange={onChange}
-                required
-              >
-                <option value="">Choose event</option>
-                <option value="BusinessHub">Business Hub - 28th Sept (Sunday)</option>
-              </select>
-            </div>
-
-            <hr></hr>
-            <div className="row">
-              <div className="col-md-3 mb-3">
-                <label className="form-label">First Name</label>
-                <input
-                  className="form-control"
-                  name="first_name"
-                  value={form.first_name}
-                  onChange={onChange}
-                  placeholder="Enter first name"
-                  maxLength={25}
-                  required
-                />
-              </div>
-              <div className="col-md-3 mb-3">
-                <label className="form-label">Last Name (Optional)</label>
-                <input
-                  className="form-control"
-                  name="last_name"
-                  value={form.last_name}
-                  onChange={onChange}
-                  placeholder="Enter last name"
-                  maxLength={25}
-                />
-              </div>
-              <div className="col-md-3 mb-3">
-                <label className="form-label">Age</label>
-                <input
-                  className="form-control"
-                  name="age"
-                  type="number"
-                  min="1"
-                  value={form.age}
-                  onChange={onChange}
-                  placeholder="Age"
-                  required
-                />
-              </div>
-              <div className="col-md-3 mb-3">
-                <label className="form-label">Gender</label>
-                <select
-                  className="form-select"
-                  name="gender"
-                  value={form.gender}
-                  onChange={onChange}
-                  required
-                >
-                  <option value="">Select gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="row">
-              {showTitle && (
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Song Name</label>
-                  <input
-                    className="form-control"
-                    name="title"
-                    value={form.title}
-                    onChange={onChange}
-                    maxLength={100}
-                    required
-                  />
-                </div>
-              )}
-
-              {form.activity === 'BusinessHub' && (
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Stall Name (Optional)</label>
-                  <input
-                    className="form-control"
-                    name="team_name"
-                    value={form.team_name}
-                    onChange={onChange}
-                    placeholder="Enter stall name"
-                    maxLength={25}
-                  />
-                </div>
-              )}
-            </div>
-
-            {form.activity === 'BusinessHub' && (
-              <>
-                <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Type of Stall</label>
-                    <input
-                      className="form-control"
-                      name="stall_type"
-                      value={form.stall_type}
-                      onChange={onChange}
-                      placeholder="Enter stall type"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Food Stall?</label>
-                    <select
-                      className="form-select"
-                      name="is_food_stall"
-                      value={form.is_food_stall}
-                      onChange={onChange}
-                      required
-                    >
-                      <option value="">Select</option>
-                      <option value="Yes">Yes</option>
-                      <option value="No">No</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Any Other Requirements</label>
-                  <input
-                    className="form-control"
-                    name="other_requirements"
-                    value={form.other_requirements}
-                    onChange={onChange}
-                    placeholder="Enter any special requirements"
-                  />
-                </div>
-              </>
-            )}
-
-            <hr className="my-4" />
-            <h6 className="mb-3">Stall Requirements & Payment</h6>
-            <div className="row">
-              <div className="col-md-6 mb-3">
-                <label className="form-label">Number of Tables</label>
-                <select
-                  className="form-select"
-                  name="table_count"
-                  value={form.table_count}
-                  onChange={onChange}
-                >
-                  <option value="0">0 Tables (No table needed)</option>
-                  <option value="1">1 Table</option>
-                  <option value="2">2 Tables</option>
-                </select>
-              </div>
-              <div className="col-md-6 mb-3">
-                <p className="text-muted mt-4"><small>Remark: Per table ₹200</small></p>
-              </div>
-            </div>
-
-            {form.table_count && form.table_count !== '0' && (
-              <>
-                <h6 className="mb-3">Payment Details</h6>
-                <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <div className="card">
-                      <div className="card-body text-center">
-                        <h6>Scan QR Code to Pay</h6>
-                        <img src="/images/payment_qr.png" alt="UPI QR Code" className="img-fluid" style={{maxWidth: '200px'}} />
-                        <p className="mt-2"><strong>UPI ID:</strong> kvillephase3@sbi</p>
-                        <p className="mt-2"><strong>KVILLE FESTIVAL COMMITTEE, K VILLE PHASE III AND PHASE IV CO-OPERATIVE HOUSING SOCIETY</strong> </p>
-                        <p className="text-muted small">Amount: ₹{parseInt(form.table_count) * 200}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Last 5 digits of Transaction ID</label>
-                    <input
-                      className="form-control"
-                      name="transaction_id"
-                      value={form.transaction_id || ''}
-                      onChange={onChange}
-                      placeholder="Enter last 5 digits"
-                      maxLength={5}
-                      pattern="[0-9]{5}"
-                      required
-                    />
-                    <small className="text-muted">Enter the last 5 digits of your payment transaction ID</small>
-                  </div>
-                </div>
-              </>
-            )}
-
-            <hr className="my-4" />
-            <h6 className="mb-3">Contact Details</h6>
-            <div className="row">
-              <div className="col-md-4 mb-3">
-                <FlatNumberInput
-                  wing={form.flat_number.split('-')[0] || ''}
-                  flatNum={form.flat_number.split('-')[1] || ''}
-                  onWingChange={(value) => onFlatChange('wing', value)}
-                  onFlatChange={(value) => onFlatChange('flat_num', value)}
-                />
-              </div>
-              <div className="col-md-4 mb-3">
-                <label className="form-label">Mobile Number</label>
-                <input 
-                  className="form-control" 
-                  name="mobile_number"
-                  type="tel"
-                  pattern="[0-9]{10}"
-                  maxLength="10"
-                  value={form.mobile_number} 
-                  onChange={onChange}
-                  placeholder="Enter 10-digit mobile number"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="form-check mb-3">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                id="termsCheck"
-                checked={agreedToTerms}
-                onChange={(e) => setAgreedToTerms(e.target.checked)}
-                required
-              />
-              <label className="form-check-label" htmlFor="termsCheck">
-                I agree to the <a href="/events" target="_blank" rel="noopener noreferrer">terms and conditions</a>
-              </label>
-            </div>
-
-            {error && (
-              <div className="alert alert-danger">
-                ⚠ {error}
-              </div>
-            )}
-            {msg && <div className="alert alert-success">✅ {msg}</div>}
-            <div className="mt-3">
-              <button className="btn btn-primary" type="submit" disabled={!agreedToTerms}>
-                {editDoc ? 'Update' : 'Submit'}
-              </button>
-            </div>
-          </form>
         </div>
       </div>
     </div>
   )
-}
+}	

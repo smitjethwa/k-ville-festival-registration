@@ -267,12 +267,6 @@ Let us all participate actively with full enthusiasm, involve our families, and 
                 </div>
                 <div className="mb-2">
                   <div className="d-flex justify-content-between align-items-center mb-1">
-                    <span className="fw-bold">5:00 PM</span>
-                    <span className="badge bg-light text-dark">🎊 Bhondla</span>
-                  </div>
-                </div>
-                <div className="mb-2">
-                  <div className="d-flex justify-content-between align-items-center mb-1">
                     <span className="fw-bold">6:00 PM</span>
                     <span className="badge bg-light text-dark">🏪 Resident Business Stall</span>
                   </div>
@@ -317,7 +311,7 @@ Let us all participate actively with full enthusiasm, involve our families, and 
           </div>
         </div>
 
-        <div className="row mb-4">
+                <div className="row mb-4">
           <div className="col-md-6 mb-3">
             <div className="card h-100" style={{backgroundColor: '#e83e8c', border: '1px solid #e83e8c'}}>
               <div className="card-header d-flex justify-content-between align-items-center" style={{backgroundColor: '#e83e8c', color: 'white'}}>
@@ -343,6 +337,34 @@ Let us all participate actively with full enthusiasm, involve our families, and 
                     <span className="badge bg-light text-dark">🪔 Evening Aarti</span>
                   </div>
                 </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">9:00 PM</span>
+                    <span className="badge bg-dark text-light">💃 Garba & Dandiya</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6 mb-3">
+            <div className="card h-100" style={{backgroundColor: '#0d6efd', border: '1px solid #0d6efd'}}>
+              <div className="card-header d-flex justify-content-between align-items-center" style={{backgroundColor: '#0d6efd', color: 'white'}}>
+                <h5 className="mb-0">Day 10 - October 1st, Wednesday</h5>
+                <span className="badge bg-light text-dark"> </span>
+              </div>
+              <div className="card-body" style={{color: 'white'}}>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">9:00 AM</span>
+                    <span className="badge bg-light text-dark">🪔 Morning Aarti</span>
+                  </div>
+                </div>
+                <div className="mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span className="fw-bold">8:30 PM</span>
+                    <span className="badge bg-light text-dark">🪔 Evening Aarti</span>
+                  </div>
+                </div>
                 <div className="d-flex justify-content-between align-items-center">
                   <span className="fw-bold">9:00 PM</span>
                   <span className="badge bg-dark">💃 Garba & Dandiya</span>
@@ -351,6 +373,7 @@ Let us all participate actively with full enthusiasm, involve our families, and 
             </div>
           </div>
         </div>
+        
         
         <div className="card mb-4">
           <div className="card-body">

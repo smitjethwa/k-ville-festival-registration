@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { collection, deleteDoc, doc, onSnapshot, query, where } from 'firebase/firestore'
+import { collection, deleteDoc, doc, onSnapshot, query, where, getDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from '../AuthContext'
 import ActivityForm from './ActivityForm.jsx'
@@ -8,9 +8,22 @@ export default function MySubmissions() {
   const { user } = useAuth()
   const [items, setItems] = useState([])
   const [editing, setEditing] = useState(null)
+  const [isSuperuser, setIsSuperuser] = useState(false)
 
   useEffect(() => {
     if (!user) return
+    
+    // Check if user is superuser
+    const checkSuperuser = async () => {
+      try {
+        const superuserSnap = await getDoc(doc(db, 'superusers', user.uid))
+        setIsSuperuser(superuserSnap.exists())
+      } catch (error) {
+        setIsSuperuser(false)
+      }
+    }
+    checkSuperuser()
+    
     const q = query(collection(db, 'submissions'), where('uid', '==', user.uid))
     const unsub = onSnapshot(q, (snap) => {
       const rows = []
@@ -50,8 +63,7 @@ export default function MySubmissions() {
                     <small className="text-muted">Entry #{index + 1}</small>
                   </div>
                   <div>
-                    <button className="btn btn-sm btn-outline-primary me-2" onClick={()=>setEditing(it)}>Edit</button>
-                    <button className="btn btn-sm btn-danger" onClick={()=>del(it.id)}>Delete</button>
+                    <span className="badge bg-secondary">View Only</span>
                   </div>
                 </div>
                 <div className="card-body">
