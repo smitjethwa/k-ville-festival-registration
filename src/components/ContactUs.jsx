@@ -3,80 +3,165 @@ import React from 'react'
 export default function ContactUs() {
   const contacts = [
     {
-      team: 'Event Coordinator',
-      name: 'Bhagyashree Tipare',
-      mobile: '+91 7058899285'
+      team: 'Wing-wise Coordinator',
+      name: '(A-wing) Akshay Mamidwar',
+      mobile: '+91  9172484440'
     },
     {
-      team: 'Event Coordinator',
-      name: 'Zarin',
-      mobile: '+91 9172429212'
+      team: 'Wing-wise Coordinator',
+      name: '(B-wing) Shubhada Thite',
+      mobile: '+91 9923408093'
     },
     {
-      team: 'Team',
-      name: 'Nikhil Patil',
-      mobile: '+91 8850121563'
-    },
-    {
-      team: 'Team',
-      name: 'Pooja Bidve',
-      mobile: '+91 9921608990'
+      team: 'Wing-wise Coordinator',
+      name: '(C-wing) Prasad Pingale',
+      mobile: '+91 9225216121'
     },
     {
       team: 'Team',
-      name: 'Prasad Pingale',
-      mobile: '+91 9225216121',
+      name: 'Aishwarya Gabhane',
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Ajit Pendhare',
+      mobile: '',
     },
     {
       team: 'Team',
       name: 'Rucha Kulkarni',
-      mobile: '+91 9503584169',
+      mobile: '',
     },
     {
       team: 'Team',
-      name: 'Shubhada Thite',
-      mobile: '+91 9923408093',
+      name: 'Anu Sachdeva',
+      mobile: '',
     },
     {
       team: 'Team',
-      name: 'Nikhil Tipare',
-      mobile: '+91 9595554425',
+      name: 'Jagriti Patil',
+      mobile: '',
     },
     {
       team: 'Team',
       name: 'Swapnil Kulkarni',
-      mobile: '+91 9405475704'
+      mobile: ''
     },
     {
-      team: 'Technical Support',
+      team: 'Webmaster',
       name: 'Smit Jethwa',
       mobile: '+91 8767973888'
     },
     {
       team: 'Team',
       name: 'Rupali Patil',
-      mobile: '+91 8805011639'
+      mobile: ''
     },
     {
       team: 'Team',
       name: 'Mit Jethwa',
-      mobile: '+91 8080073888'
+      mobile: ''
     },
     {
       team: 'Team',
-      name: 'Neha Dhanve',
-      mobile: '+91 9370163713'
-    },
-    {
-      team: 'Team',
-      name: 'Jagriti Patil',
-      mobile: '+91 9168991599'
+      name: 'Nikhil Patil',
+      mobile: ''
     },
     {
       team: 'Team',
       name: 'Rajani Pendhare',
-      mobile: '+91 8830247160'
-    }
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Pooja Bidve',
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Sarika Kadam',
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Snehal Pingle',
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Swapnil Mote',
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Tithi Agarwal',
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Vrushali Ghate',
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Leena Bendale',
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Priyanka Dumane',
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Deepali Sonar',
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Gayatri Chaudhari',
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Komal Sheti',
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Samudyatha Tanedkar',
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Sarika Pandit',
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Shrilaxmi',
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Shubhangi',
+      mobile: ''
+    },
+    {
+      team: 'Team',
+      name: 'Sneha Gawande',
+      mobile: ''
+    }, 
+    {
+      team: 'Team',
+      name: 'Swati Srivastava',
+      mobile: ''
+    }, 
+    {
+      team: 'Team',
+      name: 'Veena',
+      mobile: ''
+    }, 
   ]
 
   // Group contacts by team
@@ -105,8 +190,8 @@ export default function ContactUs() {
               <div className="card-body">
                 <h5 className="card-title text-primary mb-3">
                   <span className="material-icons me-2">
-                    {team === 'Technical Support' ? 'support' :
-                      team === 'Event Coordinator' ? 'event' : 'help'}
+                    {team === 'Webmaster' ? 'support' :
+                      team === 'Wing-wise Coordinator' ? 'event' : 'help'}
                   </span>
                   {team}
                 </h5>
@@ -116,12 +201,14 @@ export default function ContactUs() {
                     <div key={index} className="col-lg-3 col-md-4 col-sm-6">
                       <div className="border rounded p-3">
                         <h6 className="mb-1">{contact.name}</h6>
-                        <p className="mb-0">
-                          <a href={`tel:${contact.mobile}`} className="text-decoration-none">
-                            <span className="material-icons me-1" style={{ fontSize: '16px', verticalAlign: 'middle' }}>phone</span>
-                            {contact.mobile}
-                          </a>
-                        </p>
+                        {contact.mobile && (
+                          <p className="mb-0">
+                            <a href={`tel:${contact.mobile}`} className="text-decoration-none">
+                              <span className="material-icons me-1" style={{ fontSize: '16px', verticalAlign: 'middle' }}>phone</span>
+                              {contact.mobile}
+                            </a>
+                          </p>
+                        )}
                       </div>
                     </div>
                   ))}

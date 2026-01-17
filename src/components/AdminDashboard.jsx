@@ -62,10 +62,7 @@ export default function AdminDashboard() {
 
   const handleActivityFilter = (activity) => {
     setActivityFilter(activity)
-    let filtered = submissions.filter(sub => 
-      sub.activity === 'BusinessHub' || 
-      sub.activity === 'BusinessHub Resident'
-    )
+    let filtered = submissions
     filtered = filtered.sort((a, b) => {
       const nameA = (a.name || `${a.first_name || ''} ${a.last_name || ''}`.trim()).toLowerCase()
       const nameB = (b.name || `${b.first_name || ''} ${b.last_name || ''}`.trim()).toLowerCase()
@@ -197,7 +194,7 @@ export default function AdminDashboard() {
                       <div className="card-header d-flex justify-content-between align-items-center">
                         <span className="fw-bold">#{index + 1}</span>
                         <span className={`badge ${getActivityBadgeClass(sub.activity)} text-wrap`} style={{fontSize: '0.7rem'}}>
-                          Business Hub
+                          {sub.activity}
                         </span>
                       </div>
                       <div className="card-body">
@@ -208,25 +205,13 @@ export default function AdminDashboard() {
                         </div>
                         <hr className="my-2"/>
                         <div className="mb-2 small">
-                          <strong>Business:</strong> {sub.business_name || 'N/A'}<br/>
-                          <strong>Stall Type:</strong> {sub.stall_type || 'N/A'}<br/>
-                          <strong>Food Stall:</strong> {sub.is_food_stall || 'N/A'}
-                        </div>
-                        <div className="mb-2 small">
                           <strong>Flat:</strong> {sub.flat_number || 'N/A'}
                         </div>
                         <div className="mb-2 small">
                           <strong>Mobile:</strong> {sub.mobile_number}<br/>
-                          <strong>Tables:</strong> {sub.table_count || 'N/A'}<br/>
+                          {sub.title && <><strong>Title:</strong> {sub.title}<br/></>}
+                          {sub.topic && <><strong>Topic:</strong> {sub.topic}<br/></>}
                           <strong>Team Name:</strong> {sub.team_name || 'N/A'}
-                        </div>
-                        {sub.other_requirements && (
-                          <div className="mb-2 small">
-                            <strong>Requirements:</strong> <span className="text-break">{sub.other_requirements}</span>
-                          </div>
-                        )}
-                        <div className="mb-2 small">
-                          <strong>Txn ID:</strong> {sub.transaction_id || 'N/A'}
                         </div>
                       </div>
                       <div className="card-footer">

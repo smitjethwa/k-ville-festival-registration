@@ -15,8 +15,8 @@ import {
   updateDoc
 } from 'firebase/firestore'
 
-const ACTIVITIES = ['BusinessHub']
-const TEAM_ACTIVITIES = ['BusinessHub']
+const ACTIVITIES = ['Singing', 'Dance', 'Speech', 'Drama', 'Others']
+const TEAM_ACTIVITIES = ['Singing', 'Dance', 'Drama', 'Others']
 
 export default function ActivityForm({ editDoc, onBack }) {
   const { user } = useAuth()
@@ -31,6 +31,7 @@ export default function ActivityForm({ editDoc, onBack }) {
     alternate_mobile: '',
     activity: '',
     title: '',
+    topic: '',
     team_name: '',
     stall_type: '',
     other_requirements: '',
@@ -73,6 +74,7 @@ export default function ActivityForm({ editDoc, onBack }) {
   }, [editDoc])
 
   const showTitle = ['Dance', 'Singing'].includes(form.activity)
+  const showTopic = ['Speech', 'Drama', 'Others'].includes(form.activity)
   const isTeamActivity = TEAM_ACTIVITIES.includes(form.activity)
 
   const onChange = (e) => {
@@ -99,7 +101,7 @@ export default function ActivityForm({ editDoc, onBack }) {
     if (form.members.length < 5) {
       setForm(prev => ({
         ...prev,
-        members: [...prev.members, { name: '', age: '', flat_number: '' }]
+        members: [...prev.members, { first_name: '', last_name: '', age: '', flat_number: '' }]
       }))
     }
   }
@@ -134,8 +136,9 @@ export default function ActivityForm({ editDoc, onBack }) {
       }
       const payload = {
         uid: cleanForm.uid || user.uid,
-        activity: 'BusinessHub',
+        activity: cleanForm.activity,
         title: showTitle ? cleanForm.title : '',
+        topic: showTopic ? cleanForm.topic : '',
         name: `${cleanForm.first_name} ${cleanForm.last_name}`.trim(),
         first_name: cleanForm.first_name,
         last_name: cleanForm.last_name,
@@ -178,8 +181,9 @@ export default function ActivityForm({ editDoc, onBack }) {
             flat_number: '',
             mobile_number: '',
             alternate_mobile: '',
-            activity: 'BusinessHub',
+            activity: '',
             title: '',
+            topic: '',
             team_name: '',
             stall_type: '',
             other_requirements: '',
@@ -222,7 +226,11 @@ export default function ActivityForm({ editDoc, onBack }) {
                 required
               >
                 <option value="">Choose event</option>
-                <option value="BusinessHub">Business Hub - 28th Sept (Sunday)</option>
+                <option value="Singing">Singing</option>
+                <option value="Dance">Dance</option>
+                <option value="Speech">Speech</option>
+                <option value="Drama">Drama</option>
+                <option value="Others">Others</option>
               </select>
             </div>
 
@@ -296,114 +304,97 @@ export default function ActivityForm({ editDoc, onBack }) {
                 </div>
               )}
 
-              {form.activity === 'BusinessHub' && (
+              {showTopic && (
                 <div className="col-md-6 mb-3">
-                  <label className="form-label">Stall Name (Optional)</label>
+                  <label className="form-label">Topic</label>
                   <input
                     className="form-control"
-                    name="team_name"
-                    value={form.team_name}
+                    name="topic"
+                    value={form.topic}
                     onChange={onChange}
-                    placeholder="Enter stall name"
-                    maxLength={25}
+                    placeholder="Enter topic"
+                    maxLength={100}
+                    required
                   />
                 </div>
               )}
             </div>
 
-            {form.activity === 'BusinessHub' && (
+            {isTeamActivity && (
               <>
-                <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Type of Stall</label>
-                    <input
-                      className="form-control"
-                      name="stall_type"
-                      value={form.stall_type}
-                      onChange={onChange}
-                      placeholder="Enter stall type"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Food Stall?</label>
-                    <select
-                      className="form-select"
-                      name="is_food_stall"
-                      value={form.is_food_stall}
-                      onChange={onChange}
-                      required
-                    >
-                      <option value="">Select</option>
-                      <option value="Yes">Yes</option>
-                      <option value="No">No</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Any Other Requirements</label>
-                  <input
-                    className="form-control"
-                    name="other_requirements"
-                    value={form.other_requirements}
-                    onChange={onChange}
-                    placeholder="Enter any special requirements"
-                  />
-                </div>
-              </>
-            )}
-
-            <hr className="my-4" />
-            <h6 className="mb-3">Stall Requirements & Payment</h6>
-            <div className="row">
-              <div className="col-md-6 mb-3">
-                <label className="form-label">Number of Tables</label>
-                <select
-                  className="form-select"
-                  name="table_count"
-                  value={form.table_count}
-                  onChange={onChange}
-                >
-                  <option value="0">0 Tables (No table needed)</option>
-                  <option value="1">1 Table</option>
-                  <option value="2">2 Tables</option>
-                </select>
-              </div>
-              <div className="col-md-6 mb-3">
-                <p className="text-muted mt-4"><small>Remark: Per table ₹200</small></p>
-              </div>
-            </div>
-
-            {form.table_count && form.table_count !== '0' && (
-              <>
-                <h6 className="mb-3">Payment Details</h6>
-                <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <div className="card">
-                      <div className="card-body text-center">
-                        <h6>Scan QR Code to Pay</h6>
-                        <img src="/images/payment_qr.png" alt="UPI QR Code" className="img-fluid" style={{maxWidth: '200px'}} />
-                        <p className="mt-2"><strong>UPI ID:</strong> kvillephase3@sbi</p>
-                        <p className="mt-2"><strong>KVILLE FESTIVAL COMMITTEE, K VILLE PHASE III AND PHASE IV CO-OPERATIVE HOUSING SOCIETY</strong> </p>
-                        <p className="text-muted small">Amount: ₹{parseInt(form.table_count) * 200}</p>
+                <hr className="my-4" />
+                <h6 className="mb-3">Team Members (Max 5)</h6>
+                {form.members.slice(1).map((member, index) => (
+                  <div key={index + 1} className="card mb-3">
+                    <div className="card-body">
+                      <div className="d-flex justify-content-between align-items-center mb-3">
+                        <h6 className="mb-0">Member {index + 2}</h6>
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-outline-danger"
+                          onClick={() => removeMember(index + 1)}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-3 mb-3">
+                          <label className="form-label">First Name</label>
+                          <input
+                            className="form-control"
+                            value={member.first_name}
+                            onChange={(e) => onMemberChange(index + 1, 'first_name', e.target.value)}
+                            placeholder="First name"
+                            maxLength={25}
+                            required
+                          />
+                        </div>
+                        <div className="col-md-3 mb-3">
+                          <label className="form-label">Last Name</label>
+                          <input
+                            className="form-control"
+                            value={member.last_name}
+                            onChange={(e) => onMemberChange(index + 1, 'last_name', e.target.value)}
+                            placeholder="Last name"
+                            maxLength={25}
+                          />
+                        </div>
+                        <div className="col-md-3 mb-3">
+                          <label className="form-label">Age</label>
+                          <input
+                            className="form-control"
+                            type="number"
+                            min="1"
+                            value={member.age}
+                            onChange={(e) => onMemberChange(index + 1, 'age', e.target.value)}
+                            placeholder="Age"
+                            required
+                          />
+                        </div>
+                        <div className="col-md-3 mb-3">
+                          <label className="form-label">Flat Number</label>
+                          <input
+                            className="form-control"
+                            value={member.flat_number}
+                            onChange={(e) => onMemberChange(index + 1, 'flat_number', e.target.value)}
+                            placeholder="e.g., A-101"
+                            maxLength={10}
+                            required
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Last 5 digits of Transaction ID</label>
-                    <input
-                      className="form-control"
-                      name="transaction_id"
-                      value={form.transaction_id || ''}
-                      onChange={onChange}
-                      placeholder="Enter last 5 digits"
-                      maxLength={5}
-                      pattern="[0-9]{5}"
-                      required
-                    />
-                    <small className="text-muted">Enter the last 5 digits of your payment transaction ID</small>
-                  </div>
-                </div>
+                ))}
+                {form.members.length < 5 && (
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary mb-3"
+                    onClick={addMember}
+                  >
+                    <span className="material-icons">add</span> Add Team Member
+                  </button>
+                )}
               </>
             )}
 

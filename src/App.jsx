@@ -31,32 +31,34 @@ function Home() {
 
 Dear Society Members, 🙏</p>
             
-            <p className="mb-3">We are delighted to announce that our society will be celebrating the <strong>Navratri Festival</strong> with great devotion and joy this year. Let us all come together to celebrate <strong>Maa Durga</strong> and make these nine nights truly memorable with unity, devotion, and festivities!</p>
+            <p className="mb-3">We are proud to announce that K-Ville Society Phase 3 & 4 will be celebrating the 76th Republic Day of India with great patriotism and unity. Let us come together to honor our Constitution, our freedom fighters, and the democratic values that make our nation strong.</p>
             
-            <p className="mb-3">📅 <strong>Festival Dates:</strong> 22th September 2025 to 1st October 2025<br />
-            🏢 <strong>Business Hub:</strong> 28th Sept (Residents)
-    </p><p className="mb-3">
+            <p className="mb-1">📅 <strong>Date: </strong> 26th January 2026 (Monday)<br /></p>
+            <p className="mb-1">⏰ <strong>Time: </strong> Morning (exact time to be shared)<br /></p>
+            <p className="mb-1">📍 <strong>Venue: </strong> Lawn Area 'C' Wing<br /></p>
 
-Let us all participate actively with full enthusiasm, involve our families, and make this celebration a grand success. 🎊  
+            {/* 🏢 <strong>Business Hub:</strong> 28th Sept (Residents) */}
+    <p className="mb-3">
 
 </p>
+We invite all residents and families to participate enthusiastically in the celebration and make this occasion meaningful and memorable.
             
-            <p className="mb-3">🙏 <strong>Request:</strong> Kindly contribute your time, talents, and support to ensure smooth arrangements.
- Together, let's celebrate Navratri with devotion and joy. 
-
-</p>
+<br>
+</br>Let us celebrate this day with pride, respect, and unity.
+            {/* <p className="mb-3">🙏 <strong>Request:</strong> Kindly contribute your time, talents, and support to ensure smooth arrangements. */}
+ {/* Together, let's celebrate Navratri with devotion and joy. </p> */}
 
             
-            <p className="text-center mb-3"><strong>जय माता दी! नवरात्रीच्या हार्दिक शुभेच्छा! 🌸🙏✨</strong>  
-
-</p>
-            
+            <p className="text-center mb-3">
+              <strong>जय हिंद! </strong>
+              <strong> वंदे मातरम्! </strong>
+            </p>
             <p className="text-end text-muted mb-3">- K-Ville Society Phase 3 & 4 Festival Committee</p>
           {/* <Link className="btn btn-primary" to="/submit">Register</Link> */}
         </div>
       </div>
 
-      <div className="mt-5 mb-5">
+      {/* <div className="mt-5 mb-5">
         <div className="card mb-4">
           <div className="card-body">
             <h4 className="card-title"><span className="material-icons">event</span> 9 Days Festival Schedule</h4>
@@ -361,7 +363,7 @@ Let us all participate actively with full enthusiasm, involve our families, and 
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       
       {/* Footer */}
       <footer className="bg-light mt-5 py-4">
