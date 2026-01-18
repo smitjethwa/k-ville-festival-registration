@@ -42,7 +42,7 @@ export default function EventDetails() {
       description: 'Inspirational and patriotic speech performance',
       rules: [
         'Individual event',
-        'Time limit: 2–3 minutes',
+        'Time limit: 5-10 minutes',
         'Topic will be related to national pride and unity',
         'Content should be original and appropriate'
       ]
@@ -61,7 +61,7 @@ export default function EventDetails() {
     {
       name: 'Others',
       description: 'Showcase your creativity',
-      rules: ['Individual/Dual event', 'Performance time: 1-2 minutes', 'Participants must bring their own costume and props',
+      rules: ['Individual/Dual event', 'Performance time: 5-10 minutes', 'Participants must bring their own costume and props',
         'Short introduction or dialogue related to the character is encouraged']
     }
   ]
