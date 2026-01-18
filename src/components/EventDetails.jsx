@@ -47,6 +47,17 @@ export default function EventDetails() {
         'Content should be original and appropriate'
       ]
     },
+    {
+      name: 'Dance',
+      description: 'Patriotic dance performance showcasing culture and national spirit',
+      rules: [
+        'Solo or group event (1-5 members)',
+        'Performance time: 5-10 minutes',
+        'Songs/music must be submitted in advance',
+        'Performance should be theme-based and appropriate'
+      ]
+    },
+
     // {
     //   name: 'Drawing',
     //   description: 'Art and creativity competition',
