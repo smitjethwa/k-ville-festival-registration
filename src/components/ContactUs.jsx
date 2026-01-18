@@ -84,7 +84,7 @@ export default function ContactUs() {
     },
     {
       team: 'Team',
-      name: 'Snehal Pingle',
+      name: 'Snehal Pingale',
       mobile: ''
     },
     {
