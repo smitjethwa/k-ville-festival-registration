@@ -3,77 +3,40 @@ import React from 'react'
 export default function EventDetails() {
   const getActivityIcon = (name) => {
     switch (name) {
-      case 'Dance': return '🕺'
-      case 'Singing': return '🎤'
-      case 'Rangoli': return '🎨'
-      case 'Skit': return '🎭'
-      case 'Drawing': return '✏️'
-      case 'Fancy Dress': return '👗'
       case 'Speech': return '📢'
-      case 'Others': return '🎨'
+      case 'Play': return '🎭'
+      case 'Singing': return '🎤'
+      case 'Fancy Dress': return '👗'
+      case 'Anchoring': return '🎙️'
       default: return '🎪'
     }
   }
 
   const events = [
-    // {
-    //   name: 'Garba and Dandiya Raas',
-    //   description: 'Celebrate the spirit of Navratri with vibrant Garba and energetic Dandiya Raas! Gather your team, showcase your rhythm, and light up the stage with traditional moves, colorful attire, and boundless energy.',
-    //   rules: ['No rules, just join us with colorful vibes and unlimited enthusiasm!']
-    // },
-
-    {
-      name: 'Singing',
-      description: 'Solo or group singing performance',
-      rules: ['Team event (1-5 members)', 'Performance time: 3-5 minutes', 'Accompaniment allowed']
-    },
-    // {
-    //   name: 'Rangoli',
-    //   description: 'Traditional floor art competition',
-    //   rules: ['Individual event', 'Time limit: 2 hours']
-    // },
-    {
-      name: 'Skit',
-      description: 'Drama and theatrical performance',
-      rules: ['Team event (1-10 members)', 'Performance time: 15-20 minutes', 'Props allowed']
-    },
     {
       name: 'Speech',
-      description: 'Inspirational and patriotic speech performance',
-      rules: [
-        'Individual event',
-        'Time limit: 5-10 minutes',
-        'Topic will be related to national pride and unity',
-        'Content should be original and appropriate'
-      ]
+      description: 'Express your thoughts and inspire the audience with your speaking skills on relevant topics.',
+      rules: ['Individual event', 'Time limit: 3-5 minutes', 'Content should be appropriate and original']
     },
     {
-      name: 'Dance',
-      description: 'Patriotic dance performance showcasing culture and national spirit',
-      rules: [
-        'Solo or group event (1-5 members)',
-        'Performance time: 5-10 minutes',
-        'Songs/music must be submitted in advance',
-        'Performance should be theme-based and appropriate'
-      ]
+      name: 'Play',
+      description: 'Bring characters to life on stage through skits, plays, or short drama performances.',
+      rules: ['Team event (1-5 members)', 'Performance time: 5-10 minutes', 'Props are allowed']
     },
-
-    // {
-    //   name: 'Drawing',
-    //   description: 'Art and creativity competition',
-    //   rules: ['Individual event', 'Time limit: 2 hours','Bring the necessary materials','A3 Size paper would be provided']
-    // },
-    // {
-    //   name: 'Fancy Dress',
-    //   description: 'Showcase your creativity by dressing up in unique costumes and portraying a character',
-    //   rules: ['Individual/Dual event', 'Performance time: 1-2 minutes', 'Participants must bring their own costume and props',
-    //           'Short introduction or dialogue related to the character is encouraged']
-    // }
     {
-      name: 'Others',
-      description: 'Showcase your creativity',
-      rules: ['Individual/Dual event', 'Performance time: 5-10 minutes', 'Participants must bring their own costume and props',
-        'Short introduction or dialogue related to the character is encouraged']
+      name: 'Singing',
+      description: 'Showcase your vocal talents and musicality in solo or team performances.',
+      rules: ['Solo or Team event (1-5 members)', 'Performance time: 3-5 minutes', 'Karaoke tracks or musical instruments allowed']
+    },
+    {
+      name: 'Fancy Dress',
+      description: 'Dress up as historic, patriotic, or creative characters and capture the essence of the theme.',
+      rules: ['Individual event', 'Performance time: 1-2 minutes', 'A short intro or dialogue is encouraged']
+    },
+    {
+      name: 'Anchoring',
+      description: 'Guide the event forward with style, keeping the audience engaged and entertained.',
+      rules: ['Individual or Dual event', 'Must be engaging, polite, and energetic', 'Scripts will be coordinated with the committee']
     }
   ]
 

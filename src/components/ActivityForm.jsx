@@ -15,8 +15,8 @@ import {
   updateDoc
 } from 'firebase/firestore'
 
-const ACTIVITIES = ['Singing', 'Dance', 'Speech', 'Drama', 'Others']
-const TEAM_ACTIVITIES = ['Singing', 'Dance', 'Drama', 'Others']
+const ACTIVITIES = ['Speech', 'Play', 'Singing', 'Fancy Dress', 'Anchoring']
+const TEAM_ACTIVITIES = ['Play', 'Singing']
 
 export default function ActivityForm({ editDoc, onBack }) {
   const { user } = useAuth()
@@ -73,8 +73,8 @@ export default function ActivityForm({ editDoc, onBack }) {
     if (editDoc) setForm(f => ({ ...f, ...editDoc }))
   }, [editDoc])
 
-  const showTitle = ['Dance', 'Singing'].includes(form.activity)
-  const showTopic = ['Speech', 'Drama', 'Others'].includes(form.activity)
+  const showTitle = ['Singing', 'Play'].includes(form.activity)
+  const showTopic = ['Speech', 'Fancy Dress'].includes(form.activity)
   const isTeamActivity = TEAM_ACTIVITIES.includes(form.activity)
 
   const onChange = (e) => {
@@ -226,11 +226,11 @@ export default function ActivityForm({ editDoc, onBack }) {
                 required
               >
                 <option value="">Choose event</option>
-                <option value="Singing">Singing</option>
-                <option value="Dance">Dance</option>
                 <option value="Speech">Speech</option>
-                <option value="Drama">Drama</option>
-                <option value="Others">Others</option>
+                <option value="Play">Play</option>
+                <option value="Singing">Singing</option>
+                <option value="Fancy Dress">Fancy Dress</option>
+                <option value="Anchoring">Anchoring</option>
               </select>
             </div>
 
@@ -260,17 +260,20 @@ export default function ActivityForm({ editDoc, onBack }) {
                 />
               </div>
               <div className="col-md-3 mb-3">
-                <label className="form-label">Age</label>
-                <input
-                  className="form-control"
+                <label className="form-label">Age Group</label>
+                <select
+                  className="form-select"
                   name="age"
-                  type="number"
-                  min="1"
                   value={form.age}
                   onChange={onChange}
-                  placeholder="Age"
                   required
-                />
+                >
+                  <option value="">Select age group</option>
+                  <option value="3 to 5">3 to 5</option>
+                  <option value="5 to 8">5 to 8</option>
+                  <option value="8 to 12">8 to 12</option>
+                  <option value="12 +">12 +</option>
+                </select>
               </div>
               <div className="col-md-3 mb-3">
                 <label className="form-label">Gender</label>
@@ -292,7 +295,7 @@ export default function ActivityForm({ editDoc, onBack }) {
             <div className="row">
               {showTitle && (
                 <div className="col-md-6 mb-3">
-                  <label className="form-label">Song Name</label>
+                  <label className="form-label">{form.activity === 'Singing' ? 'Song Name' : 'Play Title'}</label>
                   <input
                     className="form-control"
                     name="title"
@@ -306,7 +309,7 @@ export default function ActivityForm({ editDoc, onBack }) {
 
               {showTopic && (
                 <div className="col-md-6 mb-3">
-                  <label className="form-label">Topic</label>
+                  <label className="form-label">{form.activity === 'Speech' ? 'Speech Topic' : 'Character/Theme'}</label>
                   <input
                     className="form-control"
                     name="topic"
@@ -360,16 +363,19 @@ export default function ActivityForm({ editDoc, onBack }) {
                           />
                         </div>
                         <div className="col-md-3 mb-3">
-                          <label className="form-label">Age</label>
-                          <input
-                            className="form-control"
-                            type="number"
-                            min="1"
+                          <label className="form-label">Age Group</label>
+                          <select
+                            className="form-select"
                             value={member.age}
                             onChange={(e) => onMemberChange(index + 1, 'age', e.target.value)}
-                            placeholder="Age"
                             required
-                          />
+                          >
+                            <option value="">Select age group</option>
+                            <option value="3 to 5">3 to 5</option>
+                            <option value="5 to 8">5 to 8</option>
+                            <option value="8 to 12">8 to 12</option>
+                            <option value="12 +">12 +</option>
+                          </select>
                         </div>
                         <div className="col-md-3 mb-3">
                           <label className="form-label">Flat Number</label>

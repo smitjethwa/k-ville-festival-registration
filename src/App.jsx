@@ -17,7 +17,7 @@ import PhotoFrame from './components/PhotoFrame.jsx'
 
 function Home() {
   useEffect(() => {
-    document.title = 'K-Ville Festivals - Navratri'
+    document.title = 'K-Ville Festivals - Independence Day'
   }, [])
 
   return (
@@ -31,11 +31,11 @@ function Home() {
 
 Dear Society Members, 🙏</p>
             
-            <p className="mb-3">We are proud to announce that K-Ville Society Phase 3 & 4 will be celebrating the 77th Republic Day of India with great patriotism and unity. Let us come together to honor our Constitution, our freedom fighters, and the democratic values that make our nation strong.</p>
+            <p className="mb-3">We are proud to announce that K-Ville Society Phase 3 & 4 will be celebrating the 80th Independence Day of India with great patriotism and unity. Let us come together to honor our Constitution, our freedom fighters, and the democratic values that make our nation strong.</p>
             
-            <p className="mb-1">📅 <strong>Date: </strong> 26th January 2026 (Monday)<br /></p>
+            <p className="mb-1">📅 <strong>Date: </strong> 15th Aug 2026 (Sat)<br /></p>
             <p className="mb-1">⏰ <strong>Time: </strong> Evening (exact time to be shared)<br /></p>
-            <p className="mb-1">📍 <strong>Venue: </strong> Lawn Area 'C' Wing<br /></p>
+            <p className="mb-1">📍 <strong>Venue: </strong> Parking Area 'A' Wing<br /></p>
 
             {/* 🏢 <strong>Business Hub:</strong> 28th Sept (Residents) */}
     <p className="mb-3">

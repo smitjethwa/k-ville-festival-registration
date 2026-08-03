@@ -49,13 +49,11 @@ export default function AdminDashboard() {
 
   const getActivityBadgeClass = (activity) => {
     const classes = {
-      'Dance': 'bg-danger',
-      'Singing': 'bg-success', 
-      'Rangoli': 'bg-warning text-dark',
-      'Skit': 'bg-info',
-      'Drawing': 'bg-secondary',
-      'Fancy Dress': 'bg-primary',
-      'FunFair': 'bg-dark'
+      'Speech': 'bg-primary',
+      'Play': 'bg-danger',
+      'Singing': 'bg-success',
+      'Fancy Dress': 'bg-warning text-dark',
+      'Anchoring': 'bg-info text-dark'
     }
     return classes[activity] || 'bg-primary'
   }
