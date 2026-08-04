@@ -27,33 +27,31 @@ function Home() {
           <h1 className="card-title"><span className="material-icons">celebration</span> K-Ville Festivals</h1>
           <br></br>
           {/* <p className="text-center mb-3">🌺✨ <strong>Jai Mata Di!</strong> ✨🌺</p> */}
-            <p className="text-muted">
+          <p>Dear Society Members, 🙏</p>
 
-Dear Society Members, 🙏</p>
-            
-            <p className="mb-3">We are proud to announce that K-Ville Society Phase 3 & 4 will be celebrating the 80th Independence Day of India with great patriotism and unity. Let us come together to honor our Constitution, our freedom fighters, and the democratic values that make our nation strong.</p>
-            
-            <p className="mb-1">📅 <strong>Date: </strong> 15th Aug 2026 (Sat)<br /></p>
-            <p className="mb-1">⏰ <strong>Time: </strong> Evening (exact time to be shared)<br /></p>
-            <p className="mb-1">📍 <strong>Venue: </strong> Parking Area 'A' Wing<br /></p>
+          <p className="mb-3">We are proud to announce that K-Ville Society Phase 3 & 4 will be celebrating the <strong>80th Independence Day </strong>of India with great patriotism and unity. Let us come together to honor our Constitution, our freedom fighters, and the democratic values that make our nation strong.</p>
 
-            {/* 🏢 <strong>Business Hub:</strong> 28th Sept (Residents) */}
-    <p className="mb-3">
+          <p className="mb-1">📅 <strong>Date: </strong> 15th August 2026 (Saturday)<br /></p>
+          <p className="mb-1">⏰ <strong>Time: </strong> Evening (exact time to be shared)<br /></p>
+          <p className="mb-1">📍 <strong>Venue: </strong> Parking Area 'A' Wing<br /></p>
 
-</p>
-We invite all residents and families to participate enthusiastically in the celebration and make this occasion meaningful and memorable.
-            
-<br>
-</br>Let us celebrate this day with pride, respect, and unity.
-            {/* <p className="mb-3">🙏 <strong>Request:</strong> Kindly contribute your time, talents, and support to ensure smooth arrangements. */}
- {/* Together, let's celebrate Navratri with devotion and joy. </p> */}
+          {/* 🏢 <strong>Business Hub:</strong> 28th Sept (Residents) */}
+          <p className="mb-3">
 
-            
-            <p className="text-center mb-3">
-              <strong>जय हिंद! </strong>
-              <strong> वंदे मातरम्! </strong>
-            </p>
-            <p className="text-end text-muted mb-3">- K-Ville Society Phase 3 & 4 Festival Committee</p>
+          </p>
+          We invite all residents and families to participate enthusiastically in the celebration and make this occasion meaningful and memorable.
+
+          <br>
+          </br>Let us celebrate this day with pride, respect, and unity.
+          {/* <p className="mb-3">🙏 <strong>Request:</strong> Kindly contribute your time, talents, and support to ensure smooth arrangements. */}
+          {/* Together, let's celebrate Navratri with devotion and joy. </p> */}
+
+
+          <p className="text-center mb-3">
+            <strong>जय हिंद! </strong>
+            <strong> वंदे मातरम्! </strong>
+          </p>
+          <p className="text-end text-muted mb-3">- K-Ville Society Phase 3 & 4 Festival Committee</p>
           {/* <Link className="btn btn-primary" to="/submit">Register</Link> */}
         </div>
       </div>
@@ -364,7 +362,7 @@ We invite all residents and families to participate enthusiastically in the cele
           </div>
         </div>
       </div> */}
-      
+
       {/* Footer */}
       <footer className="bg-light mt-5 py-4">
         <div className="container">
@@ -455,7 +453,7 @@ function RequireAuth({ children }) {
 
 function AppWithAnalytics() {
   const location = useLocation()
-  
+
   useEffect(() => {
     const GA_ID = import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
     if (window.gtag && GA_ID) {
@@ -464,7 +462,7 @@ function AppWithAnalytics() {
       })
     }
   }, [location])
-  
+
   return (
     <AuthProvider>
       <NavBar />
