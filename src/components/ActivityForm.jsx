@@ -38,6 +38,7 @@ export default function ActivityForm({ editDoc, onBack }) {
     is_food_stall: '',
     table_count: '0',
     transaction_id: '',
+    language: '',
     members: [{ first_name: '', last_name: '', age: '', flat_number: '' }]
   })
   const [agreedToTerms, setAgreedToTerms] = useState(false)
@@ -70,7 +71,28 @@ export default function ActivityForm({ editDoc, onBack }) {
   }, [user])
 
   useEffect(() => {
-    if (editDoc) setForm(f => ({ ...f, ...editDoc }))
+    if (editDoc) {
+      const mappedDoc = { ...editDoc }
+      if (mappedDoc.age) {
+        if (mappedDoc.age === '3 to 5') mappedDoc.age = '3 to 5 Years'
+        else if (mappedDoc.age === '5 to 8') mappedDoc.age = '5 to 8 Years'
+        else if (mappedDoc.age === '8 to 12') mappedDoc.age = '8 to 12 Years'
+        else if (mappedDoc.age === '12 +') {
+          mappedDoc.age = mappedDoc.activity === 'Anchoring' ? '' : '12+ Years'
+        }
+      }
+      if (Array.isArray(mappedDoc.members)) {
+        mappedDoc.members = mappedDoc.members.map(m => {
+          const mappedMember = { ...m }
+          if (mappedMember.age === '3 to 5') mappedMember.age = '3 to 5 Years'
+          else if (mappedMember.age === '5 to 8') mappedMember.age = '5 to 8 Years'
+          else if (mappedMember.age === '8 to 12') mappedMember.age = '8 to 12 Years'
+          else if (mappedMember.age === '12 +') mappedMember.age = '12+ Years'
+          return mappedMember
+        })
+      }
+      setForm(f => ({ language: '', ...f, ...mappedDoc }))
+    }
   }, [editDoc])
 
   const showTitle = ['Singing', 'Play'].includes(form.activity)
@@ -79,7 +101,14 @@ export default function ActivityForm({ editDoc, onBack }) {
 
   const onChange = (e) => {
     const { name, value } = e.target
-    setForm(prev => ({ ...prev, [name]: value }))
+    setForm(prev => {
+      let updated = { ...prev, [name]: value }
+      if (name === 'activity') {
+        updated.age = ''
+        updated.language = ''
+      }
+      return updated
+    })
   }
 
   const onFlatChange = (field, value) => {
@@ -122,6 +151,13 @@ export default function ActivityForm({ editDoc, onBack }) {
     try {
       if (!user) throw new Error('Not signed in')
       
+      if (form.activity === 'Anchoring') {
+        const ageNum = parseInt(form.age, 10)
+        if (isNaN(ageNum) || ageNum < 15) {
+          throw new Error('Minimum age for Anchoring is 15 years.')
+        }
+      }
+      
       const { wing, flat_num, ...cleanForm } = form
       
       // Check for existing submission
@@ -152,6 +188,7 @@ export default function ActivityForm({ editDoc, onBack }) {
         is_food_stall: cleanForm.activity === 'BusinessHub' ? cleanForm.is_food_stall : null,
         table_count: cleanForm.activity === 'BusinessHub' ? cleanForm.table_count : null,
         transaction_id: cleanForm.activity === 'BusinessHub' ? cleanForm.transaction_id : null,
+        language: cleanForm.activity === 'Anchoring' ? cleanForm.language : null,
         members: isTeamActivity ? [
           { first_name: cleanForm.first_name, last_name: cleanForm.last_name, age: cleanForm.age, flat_number: cleanForm.flat_number },
           ...cleanForm.members.slice(1)
@@ -190,6 +227,7 @@ export default function ActivityForm({ editDoc, onBack }) {
             is_food_stall: '',
             table_count: '0',
             transaction_id: '',
+            language: '',
             members: [{ first_name: '', last_name: '', age: '', flat_number: '' }]
           })
           setAgreedToTerms(false)
@@ -260,20 +298,38 @@ export default function ActivityForm({ editDoc, onBack }) {
                 />
               </div>
               <div className="col-md-3 mb-3">
-                <label className="form-label">Age Group</label>
-                <select
-                  className="form-select"
-                  name="age"
-                  value={form.age}
-                  onChange={onChange}
-                  required
-                >
-                  <option value="">Select age group</option>
-                  <option value="3 to 5">3 to 5</option>
-                  <option value="5 to 8">5 to 8</option>
-                  <option value="8 to 12">8 to 12</option>
-                  <option value="12 +">12 +</option>
-                </select>
+                {form.activity === 'Anchoring' ? (
+                  <>
+                    <label className="form-label">Age (in Years)</label>
+                    <input
+                      className="form-control"
+                      type="number"
+                      name="age"
+                      value={form.age}
+                      onChange={onChange}
+                      placeholder="Enter age (min 15)"
+                      min="15"
+                      required
+                    />
+                  </>
+                ) : (
+                  <>
+                    <label className="form-label">Age Group</label>
+                    <select
+                      className="form-select"
+                      name="age"
+                      value={form.age}
+                      onChange={onChange}
+                      required
+                    >
+                      <option value="">Select age group</option>
+                      <option value="3 to 5 Years">3 to 5 Years</option>
+                      <option value="5 to 8 Years">5 to 8 Years</option>
+                      <option value="8 to 12 Years">8 to 12 Years</option>
+                      <option value="12+ Years">12+ Years</option>
+                    </select>
+                  </>
+                )}
               </div>
               <div className="col-md-3 mb-3">
                 <label className="form-label">Gender</label>
@@ -291,6 +347,26 @@ export default function ActivityForm({ editDoc, onBack }) {
                 </select>
               </div>
             </div>
+
+            {form.activity === 'Anchoring' && (
+              <div className="row">
+                <div className="col-md-3 mb-3">
+                  <label className="form-label">Language</label>
+                  <select
+                    className="form-select"
+                    name="language"
+                    value={form.language}
+                    onChange={onChange}
+                    required
+                  >
+                    <option value="">Select language</option>
+                    <option value="Marathi">Marathi</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="English">English</option>
+                  </select>
+                </div>
+              </div>
+            )}
 
             <div className="row">
               {showTitle && (
@@ -371,10 +447,10 @@ export default function ActivityForm({ editDoc, onBack }) {
                             required
                           >
                             <option value="">Select age group</option>
-                            <option value="3 to 5">3 to 5</option>
-                            <option value="5 to 8">5 to 8</option>
-                            <option value="8 to 12">8 to 12</option>
-                            <option value="12 +">12 +</option>
+                            <option value="3 to 5 Years">3 to 5 Years</option>
+                            <option value="5 to 8 Years">5 to 8 Years</option>
+                            <option value="8 to 12 Years">8 to 12 Years</option>
+                            <option value="12+ Years">12+ Years</option>
                           </select>
                         </div>
                         <div className="col-md-3 mb-3">

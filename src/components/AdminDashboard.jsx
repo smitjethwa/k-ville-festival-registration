@@ -97,6 +97,8 @@ export default function AdminDashboard() {
       'is_food_stall': sub.is_food_stall || 'N/A',
       'mobile_number': sub.mobile_number,
       'name': sub.name || `${sub.first_name || ''} ${sub.last_name || ''}`.trim(),
+      'alternate_mobile': sub.alternate_mobile || 'N/A',
+      'language': sub.language || 'N/A',
       'other_requirements': sub.other_requirements || 'N/A',
       'stall_type': sub.stall_type || 'N/A',
       'table_count': sub.table_count || 'N/A',
@@ -209,6 +211,7 @@ export default function AdminDashboard() {
                           <strong>Mobile:</strong> {sub.mobile_number}<br/>
                           {sub.title && <><strong>Title:</strong> {sub.title}<br/></>}
                           {sub.topic && <><strong>Topic:</strong> {sub.topic}<br/></>}
+                          {sub.language && <><strong>Language:</strong> {sub.language}<br/></>}
                           <strong>Team Name:</strong> {sub.team_name || 'N/A'}
                         </div>
                       </div>

@@ -44,7 +44,7 @@ export default function EventDetails() {
     <div className="container mt-4">
       <div className="card">
         <div className="card-body">
-          <h1 className="card-title"><span className="material-icons">event</span> Event Details</h1>
+          <h1 className="card-title"><span className="material-icons">event</span> 80<sup>th</sup> Independence Day - Event Details</h1>
           <p className="text-muted">Complete information about all events</p>
         </div>
       </div>

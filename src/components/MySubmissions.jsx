@@ -112,6 +112,16 @@ export default function MySubmissions() {
                     </>
                   )}
                   
+                  {it.language && (
+                    <>
+                      <hr className="my-3" />
+                      <div>
+                        <strong>Language:</strong><br />
+                        <span>{it.language}</span>
+                      </div>
+                    </>
+                  )}
+                  
                   {it.team_name && (
                     <>
                       <hr className="my-3" />

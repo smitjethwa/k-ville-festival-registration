@@ -29,11 +29,6 @@ export default function ContactUs() {
     },
     {
       team: 'Team',
-      name: 'Rucha Kulkarni',
-      mobile: '',
-    },
-    {
-      team: 'Team',
       name: 'Anu Sachdeva',
       mobile: '',
     },
@@ -43,11 +38,6 @@ export default function ContactUs() {
       mobile: '',
     },
     {
-      team: 'Team',
-      name: 'Swapnil Kulkarni',
-      mobile: ''
-    },
-    {
       team: 'Webmaster',
       name: 'Smit Jethwa',
       mobile: '+91 8767973888'
@@ -55,11 +45,6 @@ export default function ContactUs() {
     {
       team: 'Team',
       name: 'Rupali Patil',
-      mobile: ''
-    },
-    {
-      team: 'Team',
-      name: 'Mit Jethwa',
       mobile: ''
     },
     {
@@ -89,11 +74,6 @@ export default function ContactUs() {
     },
     {
       team: 'Team',
-      name: 'Swapnil Mote',
-      mobile: ''
-    },
-    {
-      team: 'Team',
       name: 'Tithi Agarwal',
       mobile: ''
     },
@@ -109,32 +89,12 @@ export default function ContactUs() {
     },
     {
       team: 'Team',
-      name: 'Priyanka Dumane',
-      mobile: ''
-    },
-    {
-      team: 'Team',
-      name: 'Deepali Sonar',
-      mobile: ''
-    },
-    {
-      team: 'Team',
       name: 'Gayatri Chaudhari',
       mobile: ''
     },
     {
       team: 'Team',
-      name: 'Komal Sheti',
-      mobile: ''
-    },
-    {
-      team: 'Team',
-      name: 'Samudyatha Tanedkar',
-      mobile: ''
-    },
-    {
-      team: 'Team',
-      name: 'Sarika Pandit',
+      name: 'Samudyatha Tandekar',
       mobile: ''
     },
     {
@@ -146,22 +106,7 @@ export default function ContactUs() {
       team: 'Team',
       name: 'Shubhangi',
       mobile: ''
-    },
-    {
-      team: 'Team',
-      name: 'Sneha Gawande',
-      mobile: ''
-    }, 
-    {
-      team: 'Team',
-      name: 'Swati Srivastava',
-      mobile: ''
-    }, 
-    {
-      team: 'Team',
-      name: 'Veena',
-      mobile: ''
-    }, 
+    }
   ]
 
   // Group contacts by team
