@@ -89,11 +89,6 @@ export default function ContactUs() {
     },
     {
       team: 'Team',
-      name: 'Gayatri Chaudhari',
-      mobile: ''
-    },
-    {
-      team: 'Team',
       name: 'Samudyatha Tandekar',
       mobile: ''
     },

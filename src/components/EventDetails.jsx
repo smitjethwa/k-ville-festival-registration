@@ -36,7 +36,7 @@ export default function EventDetails() {
     {
       name: 'Anchoring',
       description: 'Guide the event forward with style, keeping the audience engaged and entertained.',
-      rules: ['Individual or Dual event', 'Must be engaging, polite, and energetic', 'Scripts will be coordinated with the committee']
+      rules: ['Individual or Dual event', 'Must be engaging, polite, and energetic', 'Scripts will be coordinated with the committee', 'Participants must be at least 15 years of age.']
     }
   ]
 
