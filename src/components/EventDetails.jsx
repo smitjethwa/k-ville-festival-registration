@@ -8,6 +8,7 @@ export default function EventDetails() {
       case 'Singing': return '🎤'
       case 'Fancy Dress': return '👗'
       case 'Anchoring': return '🎙️'
+      case 'Dance': return '💃'
       default: return '🎪'
     }
   }
@@ -27,6 +28,11 @@ export default function EventDetails() {
       name: 'Singing',
       description: 'Showcase your vocal talents and musicality in solo or team performances.',
       rules: ['Solo or Team event (1-5 members)', 'Performance time: 3-5 minutes', 'Karaoke tracks or musical instruments allowed']
+    },
+    {
+      name: 'Dance',
+      description: 'Showcase your rhythm, energy, and choreography in group dance performances.',
+      rules: ['Team event (1-5 members)', 'Performance time: 3-5 minutes', 'Costumes and props are allowed']
     },
     {
       name: 'Fancy Dress',

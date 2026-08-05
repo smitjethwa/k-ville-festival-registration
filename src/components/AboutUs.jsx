@@ -38,7 +38,7 @@ export default function AboutUs() {
           <h6 className="mt-4">👤 User Management:</h6>
           <ul>
             <li>Profile Management - Name, age, gender, wing (A/B/C), flat number, mobile</li>
-            <li>Event Registration - Submit entries for Speech, Play, Singing, Fancy Dress, Anchoring</li>
+            <li>Event Registration - Submit entries for Speech, Play, Singing, Fancy Dress, Anchoring, Dance</li>
             <li>Team Management - Dynamic team member addition/removal (max 5 members)</li>
             <li>My Submissions - View, edit, delete personal submissions with timestamps</li>
           </ul>

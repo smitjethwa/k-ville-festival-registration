@@ -53,7 +53,8 @@ export default function AdminDashboard() {
       'Play': 'bg-danger',
       'Singing': 'bg-success',
       'Fancy Dress': 'bg-warning text-dark',
-      'Anchoring': 'bg-info text-dark'
+      'Anchoring': 'bg-info text-dark',
+      'Dance': 'bg-dark'
     }
     return classes[activity] || 'bg-primary'
   }

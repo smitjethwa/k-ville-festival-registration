@@ -15,8 +15,8 @@ import {
   updateDoc
 } from 'firebase/firestore'
 
-const ACTIVITIES = ['Speech', 'Play', 'Singing', 'Fancy Dress', 'Anchoring']
-const TEAM_ACTIVITIES = ['Play', 'Singing']
+const ACTIVITIES = ['Speech', 'Play', 'Singing', 'Fancy Dress', 'Anchoring', 'Dance']
+const TEAM_ACTIVITIES = ['Play', 'Singing', 'Dance']
 
 export default function ActivityForm({ editDoc, onBack }) {
   const { user } = useAuth()
@@ -95,7 +95,7 @@ export default function ActivityForm({ editDoc, onBack }) {
     }
   }, [editDoc])
 
-  const showTitle = ['Singing', 'Play'].includes(form.activity)
+  const showTitle = ['Singing', 'Play', 'Dance'].includes(form.activity)
   const showTopic = ['Speech', 'Fancy Dress'].includes(form.activity)
   const isTeamActivity = TEAM_ACTIVITIES.includes(form.activity)
 
@@ -269,6 +269,7 @@ export default function ActivityForm({ editDoc, onBack }) {
                 <option value="Singing">Singing</option>
                 <option value="Fancy Dress">Fancy Dress</option>
                 <option value="Anchoring">Anchoring</option>
+                <option value="Dance">Dance</option>
               </select>
             </div>
 
@@ -371,7 +372,7 @@ export default function ActivityForm({ editDoc, onBack }) {
             <div className="row">
               {showTitle && (
                 <div className="col-md-6 mb-3">
-                  <label className="form-label">{form.activity === 'Singing' ? 'Song Name' : 'Play Title'}</label>
+                  <label className="form-label">{form.activity === 'Singing' ? 'Song Name' : form.activity === 'Dance' ? 'Dance Performance Title / Song' : 'Play Title'}</label>
                   <input
                     className="form-control"
                     name="title"
