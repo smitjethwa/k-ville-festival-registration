@@ -241,6 +241,30 @@ export default function ActivityForm({ editDoc, onBack }) {
 
 
 
+  // ── Registrations closed banner (shown to all non-superusers) ──────────────
+  if (!isSuperuser) {
+    return (
+      <div className="container mt-4 mb-5">
+        <div className="card text-center border-0 shadow-sm" style={{ background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)', color: '#fff', borderRadius: '16px' }}>
+          <div className="card-body py-5">
+            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🔒</div>
+            <h2 className="fw-bold mb-2" style={{ color: '#ffd700', letterSpacing: '0.5px' }}>
+              Registrations Closed
+            </h2>
+            <p className="mb-0" style={{ color: '#cbd5e1', fontSize: '1.1rem', maxWidth: '480px', margin: '0 auto' }}>
+              Thank you for your interest! Registrations for the{' '}
+              <strong style={{ color: '#fff' }}>80<sup>th</sup> Independence Day</strong> events have now closed.
+              <br />
+              <span style={{ fontSize: '0.95rem', color: '#94a3b8', marginTop: '0.5rem', display: 'block' }}>
+                Please stay tuned for event day announcements. 🇮🇳
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="container mt-4 mb-5">
       <div className="card">
