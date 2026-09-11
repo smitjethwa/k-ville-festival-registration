@@ -33,3 +33,4 @@ npm-debug.log*
 
 credentials.json
 backup.json
+backup.js
