@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { db } from '../firebase'
 import { useAuth } from '../AuthContext'
 import FlatNumberInput from './FlatNumberInput'
@@ -21,6 +22,7 @@ const SOLO_OR_GROUP_ACTIVITIES = ['Dance', 'Singing', 'Fashion Show/Fancy Dress'
 
 export default function ActivityForm({ editDoc, onBack }) {
   const { user } = useAuth()
+  const navigate = useNavigate()
   const [form, setForm] = useState({
     first_name: '',
     last_name: '',
@@ -47,15 +49,23 @@ export default function ActivityForm({ editDoc, onBack }) {
       const snap = await getDoc(doc(db, 'users', user.uid))
       if (snap.exists()) {
         const u = snap.data()
+        
+        if (!u.name || !u.flat_number || !u.mobile_number) {
+          navigate('/profile', { state: { message: 'Please complete your profile before registering.' } })
+          return
+        }
+
         setForm(f => ({
           ...f,
           flat_number: u.flat_number || '',
           mobile_number: u.mobile_number || ''
         }))
+      } else {
+        navigate('/profile', { state: { message: 'Please complete your profile before registering.' } })
       }
     }
     load()
-  }, [user])
+  }, [user, navigate])
 
   useEffect(() => {
     if (editDoc) setForm(f => ({ ...f, ...editDoc }))
@@ -133,6 +143,22 @@ export default function ActivityForm({ editDoc, onBack }) {
         { first_name: cleanForm.first_name, last_name: cleanForm.last_name, age: cleanForm.age, flat_number: cleanForm.flat_number },
         ...cleanForm.members.slice(1)
       ] : []
+
+      if (cleanForm.activity !== 'Business Hub') {
+        const allowedWings = ['A', 'B', 'C']
+        const submitterWing = cleanForm.flat_number.split('-')[0]
+        if (!allowedWings.includes(submitterWing)) {
+          throw new Error('Only wings A, B, and C can register for this activity.')
+        }
+        if (isTeamActivity) {
+          for (const m of membersList) {
+            const mWing = m.flat_number.split('-')[0]
+            if (!allowedWings.includes(mWing)) {
+              throw new Error('Only members from wings A, B, and C can be added to this activity.')
+            }
+          }
+        }
+      }
 
       const payload = {
         uid: cleanForm.uid || user.uid,
@@ -470,6 +496,14 @@ export default function ActivityForm({ editDoc, onBack }) {
                         <option value="A">A</option>
                         <option value="B">B</option>
                         <option value="C">C</option>
+                        {form.activity === 'Business Hub' && (
+                          <>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                            <option value="G">G</option>
+                          </>
+                        )}
                       </select>
                     </div>
                     <div className="col-md-2">

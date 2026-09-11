@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import { db } from '../firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
@@ -6,8 +7,9 @@ import FlatNumberInput from './FlatNumberInput'
 
 export default function ProfilePage() {
   const { user } = useAuth()
+  const location = useLocation()
   const [form, setForm] = useState({ name:'', flat_number:'', mobile_number:'' })
-  const [msg, setMsg] = useState('')
+  const [msg, setMsg] = useState(location.state?.message || '')
   const [isEditing, setIsEditing] = useState(true)
 
   useEffect(() => {
