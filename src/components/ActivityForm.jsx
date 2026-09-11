@@ -7,16 +7,17 @@ import {
   collection,
   doc,
   getDoc,
-  getDocs,
-  query,
   serverTimestamp,
-  setDoc,
-  where,
   updateDoc
 } from 'firebase/firestore'
 
-const ACTIVITIES = ['Dance', 'Singing', 'Rangoli', 'Skit', 'Drawing', 'Fancy Dress', 'Business Hub']
-const TEAM_ACTIVITIES = ['Dance', 'Singing', 'Skit', 'Fancy Dress', 'Business Hub']
+const ACTIVITIES = ['Dance', 'Singing', 'Fashion Show/Fancy Dress', 'Skit', 'Business Hub']
+
+// Activities that support group (team) registration
+const TEAM_ACTIVITIES = ['Dance', 'Singing', 'Fashion Show/Fancy Dress', 'Skit', 'Business Hub']
+
+// Activities where user can choose solo vs group
+const SOLO_OR_GROUP_ACTIVITIES = ['Dance', 'Singing', 'Fashion Show/Fancy Dress']
 
 export default function ActivityForm({ editDoc, onBack }) {
   const { user } = useAuth()
@@ -29,6 +30,7 @@ export default function ActivityForm({ editDoc, onBack }) {
     mobile_number: '',
     alternate_mobile: '',
     activity: '',
+    participation_type: 'solo', // 'solo' or 'group'
     title: '',
     team_name: '',
     stall_type: '',
@@ -59,12 +61,29 @@ export default function ActivityForm({ editDoc, onBack }) {
     if (editDoc) setForm(f => ({ ...f, ...editDoc }))
   }, [editDoc])
 
+  // Whether a song/performance title should be shown
   const showTitle = ['Dance', 'Singing'].includes(form.activity)
-  const isTeamActivity = TEAM_ACTIVITIES.includes(form.activity)
+
+  // Whether this activity can be solo or group (user chooses)
+  const canChooseSoloOrGroup = SOLO_OR_GROUP_ACTIVITIES.includes(form.activity)
+
+  // Whether current selection is a group/team activity
+  const isTeamActivity = TEAM_ACTIVITIES.includes(form.activity) &&
+    (canChooseSoloOrGroup ? form.participation_type === 'group' : true)
 
   const onChange = (e) => {
     const { name, value } = e.target
-    setForm(prev => ({ ...prev, [name]: value }))
+    // When activity changes, reset participation_type to solo for solo-or-group activities
+    if (name === 'activity') {
+      setForm(prev => ({
+        ...prev,
+        [name]: value,
+        participation_type: SOLO_OR_GROUP_ACTIVITIES.includes(value) ? 'solo' : 'group',
+        members: [{ first_name: '', last_name: '', age: '', flat_number: '' }]
+      }))
+    } else {
+      setForm(prev => ({ ...prev, [name]: value }))
+    }
   }
 
   const onFlatChange = (field, value) => {
@@ -86,7 +105,7 @@ export default function ActivityForm({ editDoc, onBack }) {
     if (form.members.length < 10) {
       setForm(prev => ({
         ...prev,
-        members: [...prev.members, { name: '', age: '', flat_number: '' }]
+        members: [...prev.members, { first_name: '', last_name: '', age: '', flat_number: '' }]
       }))
     }
   }
@@ -100,26 +119,25 @@ export default function ActivityForm({ editDoc, onBack }) {
     }
   }
 
-
-
-
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
     setMsg('')
     try {
       if (!user) throw new Error('Not signed in')
-      
-
-
-
-
 
       const { wing, flat_num, ...cleanForm } = form
+
+      // Build the members list: first member is always the submitter
+      const membersList = isTeamActivity ? [
+        { first_name: cleanForm.first_name, last_name: cleanForm.last_name, age: cleanForm.age, flat_number: cleanForm.flat_number },
+        ...cleanForm.members.slice(1)
+      ] : []
+
       const payload = {
         uid: cleanForm.uid || user.uid,
         activity: cleanForm.activity,
+        participation_type: canChooseSoloOrGroup ? cleanForm.participation_type : 'group',
         title: showTitle ? cleanForm.title : '',
         name: `${cleanForm.first_name} ${cleanForm.last_name}`.trim(),
         first_name: cleanForm.first_name,
@@ -132,10 +150,8 @@ export default function ActivityForm({ editDoc, onBack }) {
         stall_type: cleanForm.activity === 'Business Hub' ? cleanForm.stall_type : null,
         other_requirements: cleanForm.activity === 'Business Hub' ? cleanForm.other_requirements : null,
         is_food_stall: cleanForm.activity === 'Business Hub' ? cleanForm.is_food_stall : null,
-        members: isTeamActivity ? [
-          { first_name: cleanForm.first_name, last_name: cleanForm.last_name, age: cleanForm.age, flat_number: cleanForm.flat_number },
-          ...cleanForm.members.slice(1)
-        ] : [],
+        members: membersList,
+        member_count: membersList.length || 1,
         updated_at: serverTimestamp()
       }
 
@@ -153,16 +169,16 @@ export default function ActivityForm({ editDoc, onBack }) {
         setTimeout(() => setMsg(''), 5000)
         setForm(f => ({
           ...f,
+          activity: '',
+          participation_type: 'solo',
           title: '',
           team_name: '',
-          members: [{ name: '', age: '', flat_number: '' }]
+          members: [{ first_name: '', last_name: '', age: '', flat_number: '' }]
         }))
       }
     } catch (err) {
-      if (!err.message.includes('You already submitted')) {
-        setError(err.message)
-        setTimeout(() => setError(''), 5000)
-      }
+      setError(err.message)
+      setTimeout(() => setError(''), 5000)
     }
   }
 
@@ -234,26 +250,66 @@ export default function ActivityForm({ editDoc, onBack }) {
               </div>
             </div>
 
-            <div className="mb-3">
-              <label className="form-label">Activity</label>
-              <select
-                className="form-select"
-                name="activity"
-                value={form.activity}
-                onChange={onChange}
-                required
-              >
-                <option value="">Select Activity</option>
-                {ACTIVITIES.map(a => (
-                  <option key={a} value={a}>{a}</option>
-                ))}
-              </select>
+            <div className="row">
+              <div className={canChooseSoloOrGroup ? 'col-md-6 mb-3' : 'col-md-12 mb-3'}>
+                <label className="form-label">Activity</label>
+                <select
+                  className="form-select"
+                  name="activity"
+                  value={form.activity}
+                  onChange={onChange}
+                  required
+                >
+                  <option value="">Select Activity</option>
+                  {ACTIVITIES.map(a => (
+                    <option key={a} value={a}>{a}</option>
+                  ))}
+                </select>
+              </div>
+
+              {canChooseSoloOrGroup && (
+                <div className="col-md-6 mb-3">
+                  <label className="form-label">Participation Type</label>
+                  <div className="d-flex gap-3 mt-2">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="participation_type"
+                        id="type_solo"
+                        value="solo"
+                        checked={form.participation_type === 'solo'}
+                        onChange={onChange}
+                      />
+                      <label className="form-check-label" htmlFor="type_solo">
+                        Solo
+                      </label>
+                    </div>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="participation_type"
+                        id="type_group"
+                        value="group"
+                        checked={form.participation_type === 'group'}
+                        onChange={onChange}
+                      />
+                      <label className="form-check-label" htmlFor="type_group">
+                        Group
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="row">
               {showTitle && (
                 <div className="col-md-6 mb-3">
-                  <label className="form-label">Song Name</label>
+                  <label className="form-label">
+                    {form.activity === 'Singing' ? 'Song Name' : 'Performance Title'}
+                  </label>
                   <input
                     className="form-control"
                     name="title"
@@ -337,9 +393,13 @@ export default function ActivityForm({ editDoc, onBack }) {
 
             {isTeamActivity && (
               <>
-
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h5>Team Members ({form.members.length}/10)</h5>
+                  <h5>
+                    Group Members
+                    <span className="badge bg-secondary ms-2">
+                      {form.members.length} member{form.members.length !== 1 ? 's' : ''}
+                    </span>
+                  </h5>
                   <div>
                     <button
                       type="button"

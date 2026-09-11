@@ -5,10 +5,9 @@ export default function EventDetails() {
     switch(name) {
       case 'Dance': return '🕺'
       case 'Singing': return '🎤'
-      case 'Rangoli': return '🎨'
+      case 'Fashion Show/Fancy Dress': return '👗'
       case 'Skit': return '🎭'
-      case 'Drawing': return '✏️'
-      case 'Fancy Dress': return '👗'
+      case 'Business Hub': return '🏪'
       default: return '🎪'
     }
   }
@@ -16,34 +15,40 @@ export default function EventDetails() {
   const events = [
     {
       name: 'Dance',
-      description: 'Showcase your dancing skills with your team',
-      rules: ['Team event (1-10 members)', 'Performance time: 3-5 minutes', 'Please provide the audio separately to Coordinator']
+      description: 'Showcase your dancing skills — solo or as a group performance!',
+      rules: [
+        'Solo or Group event (1–10 members)',
+        'Performance time: 3–5 minutes',
+        'Please provide the audio separately to the Coordinator'
+      ]
     },
     {
       name: 'Singing',
-      description: 'Solo or group singing performance',
-      rules: ['Team event (1-10 members)', 'Performance time: 3-5 minutes', 'Accompaniment allowed']
+      description: 'Solo or group singing performance to entertain the audience.',
+      rules: [
+        'Solo or Group event (1–10 members)',
+        'Performance time: 3–5 minutes',
+        'Accompaniment allowed'
+      ]
     },
     {
-      name: 'Rangoli',
-      description: 'Traditional floor art competition',
-      rules: ['Individual event', 'Time limit: 2 hours']
+      name: 'Fashion Show/Fancy Dress',
+      description: 'Showcase your creativity by dressing up in unique costumes and portraying a character.',
+      rules: [
+        'Solo or Group event (1–10 members)',
+        'Performance time: 1–3 minutes per participant',
+        'Participants must bring their own costume and props',
+        'Short introduction or dialogue related to the character is encouraged'
+      ]
     },
     {
       name: 'Skit',
-      description: 'Drama and theatrical performance',
-      rules: ['Team event (1-10 members)', 'Performance time: 15-20 minutes', 'Props allowed']
-    },
-    {
-      name: 'Drawing',
-      description: 'Art and creativity competition',
-      rules: ['Individual event', 'Time limit: 2 hours','Bring the necessary materials','A3 Size paper would be provided']
-    },
-    {
-      name: 'Fancy Dress',
-      description: 'Showcase your creativity by dressing up in unique costumes and portraying a character',
-      rules: ['Individual/Dual event', 'Performance time: 1-2 minutes', 'Participants must bring their own costume and props',
-              'Short introduction or dialogue related to the character is encouraged']
+      description: 'Drama and theatrical group performance on stage.',
+      rules: [
+        'Group event (2–10 members)',
+        'Performance time: 10–15 minutes',
+        'Props allowed'
+      ]
     }
   ]
 
@@ -64,7 +69,7 @@ export default function EventDetails() {
                 <h5 className="card-title">{getActivityIcon(event.name)} {event.name}</h5>
                 <p className="card-text">{event.description}</p>
                 
-                <h6 className="mt-3">Rules & Guidelines:</h6>
+                <h6 className="mt-3">Rules &amp; Guidelines:</h6>
                 <ul className="list-unstyled">
                   {event.rules.map((rule, i) => (
                     <li key={i} className="mb-1">• {rule}</li>
@@ -107,7 +112,7 @@ export default function EventDetails() {
           </div>
         </div>
       </div>
-        <br></br>
+      <br />
     </div>
   )
 }

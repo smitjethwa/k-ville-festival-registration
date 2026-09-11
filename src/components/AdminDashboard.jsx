@@ -50,11 +50,9 @@ export default function AdminDashboard() {
   const getActivityBadgeClass = (activity) => {
     const classes = {
       'Dance': 'bg-danger',
-      'Singing': 'bg-success', 
-      'Rangoli': 'bg-warning text-dark',
+      'Singing': 'bg-success',
+      'Fashion Show/Fancy Dress': 'bg-primary',
       'Skit': 'bg-info',
-      'Drawing': 'bg-secondary',
-      'Fancy Dress': 'bg-primary',
       'Business Hub': 'bg-dark'
     }
     return classes[activity] || 'bg-primary'
@@ -93,12 +91,14 @@ export default function AdminDashboard() {
     const exportData = filteredSubmissions.map((sub, index) => ({
       'Sr. No.': index + 1,
       'Activity': sub.activity,
+      'Type': sub.participation_type || (sub.members?.length > 1 ? 'group' : 'solo'),
       'Participant Name': sub.name || `${sub.first_name || ''} ${sub.last_name || ''}`.trim(),
       'Age': sub.age,
       'Gender': sub.gender,
       'Flat': sub.flat_number,
       'Mobile': sub.mobile_number,
       'Team Name': sub.team_name || 'N/A',
+      'Member Count': sub.members?.length || 1,
       'Team Members': sub.members?.map(m => `${m.first_name || m.name || ''} ${m.last_name || ''}`.trim() + (m.age ? ` (${m.age})` : '')).join(', ') || 'N/A',
       'Created': sub.created_at?.toDate?.()?.toLocaleDateString() || 'N/A'
     }))
@@ -126,10 +126,8 @@ export default function AdminDashboard() {
                   <option value="All">All Activities</option>
                   <option value="Dance">Dance</option>
                   <option value="Singing">Singing</option>
-                  <option value="Rangoli">Rangoli</option>
+                  <option value="Fashion Show/Fancy Dress">Fashion Show/Fancy Dress</option>
                   <option value="Skit">Skit</option>
-                  <option value="Drawing">Drawing</option>
-                  <option value="Fancy Dress">Fancy Dress</option>
                   <option value="Business Hub">Business Hub</option>
                 </select>
                 <button className="btn btn-success" onClick={exportToExcel}>
@@ -197,13 +195,14 @@ export default function AdminDashboard() {
                     <tr>
                       <th>Sr.</th>
                       <th>Activity</th>
+                      <th>Type</th>
                       <th>Participant Name</th>
                       <th>Age</th>
                       <th>Gender</th>
                       <th>Flat</th>
                       <th>Mobile</th>
                       <th>Team Name</th>
-                      <th>Team Members</th>
+                      <th>Members</th>
                       <th>Created</th>
                       {isSuperuser && <th>Actions</th>}
                     </tr>
@@ -213,6 +212,7 @@ export default function AdminDashboard() {
                       <tr key={sub.id}>
                         <td>{index + 1}</td>
                         <td><span className={`badge ${getActivityBadgeClass(sub.activity)}`}>{sub.activity}</span></td>
+                        <td><span className="badge bg-light text-dark border">{sub.participation_type || (sub.members?.length > 1 ? 'group' : 'solo')}</span></td>
                         <td>{sub.name || `${sub.first_name || ''} ${sub.last_name || ''}`.trim()}</td>
                         <td>{sub.age}</td>
                         <td>{sub.gender}</td>
@@ -221,8 +221,11 @@ export default function AdminDashboard() {
                         <td>{sub.team_name || 'N/A'}</td>
                         <td>
                           {sub.members?.length > 0 ? (
-                            <small>{sub.members.map(m => `${m.first_name || m.name || ''} ${m.last_name || ''}`.trim() + (m.age ? ` (${m.age})` : '')).join(', ')}</small>
-                          ) : 'N/A'}
+                            <small>
+                              <span className="badge bg-secondary me-1">{sub.members.length}</span>
+                              {sub.members.map(m => `${m.first_name || m.name || ''} ${m.last_name || ''}`.trim() + (m.age ? ` (${m.age})` : '')).join(', ')}
+                            </small>
+                          ) : <span className="text-muted">Solo</span>}
                         </td>
                         <td>{sub.created_at?.toDate?.()?.toLocaleDateString() || 'N/A'}</td>
                         {isSuperuser && (
