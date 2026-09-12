@@ -68,7 +68,7 @@ function Home() {
           <div className="col-md-6 mb-4">
             <div className="card border-warning h-100">
               <div className="card-header text-white" style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)' }}>
-                <h5 className="mb-0">🕉️ Day 1 — 14th September</h5>
+                <h5 className="mb-0">🕉️ Day 1 — 14th September (Monday)</h5>
               </div>
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center mb-2 p-2 rounded" style={{ background: '#fff7ed' }}>
@@ -87,7 +87,7 @@ function Home() {
           <div className="col-md-6 mb-4">
             <div className="card border-primary h-100">
               <div className="card-header text-white" style={{ background: 'linear-gradient(135deg, #2563eb, #1d4ed8)' }}>
-                <h5 className="mb-0">🪔 Day 2 — 15th September</h5>
+                <h5 className="mb-0">🪔 Day 2 — 15th September (Tuesday)</h5>
               </div>
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center mb-2 p-2 rounded" style={{ background: '#eff6ff' }}>
@@ -114,7 +114,7 @@ function Home() {
           <div className="col-md-6 mb-4">
             <div className="card border-success h-100">
               <div className="card-header text-white" style={{ background: 'linear-gradient(135deg, #16a34a, #15803d)' }}>
-                <h5 className="mb-0">🛍️ Day 3 — 16th September</h5>
+                <h5 className="mb-0">🛍️ Day 3 — 16th September (Wednesday)</h5>
               </div>
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center mb-2 p-2 rounded" style={{ background: '#f0fdf4' }}>
@@ -122,12 +122,12 @@ function Home() {
                   <span className="badge bg-success fs-6">🪔 Morning Aarti</span>
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-2 p-2 rounded" style={{ background: '#f0fdf4' }}>
-                  <span className="fw-bold text-success">07:45 PM</span>
-                  <span className="badge bg-success fs-6">🪔 Evening Aarti</span>
+                  <span className="fw-bold text-success">06:00 PM</span>
+                  <span className="badge fs-6" style={{ background: '#d97706' }}>🛍️ Business Stalls</span>
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-2 p-2 rounded" style={{ background: '#f0fdf4' }}>
-                  <span className="fw-bold text-success">08:00 PM</span>
-                  <span className="badge fs-6" style={{ background: '#d97706' }}>🛍️ Business Stalls</span>
+                  <span className="fw-bold text-success">07:45 PM</span>
+                  <span className="badge bg-success fs-6">🪔 Evening Aarti</span>
                 </div>
               </div>
             </div>
@@ -137,7 +137,7 @@ function Home() {
           <div className="col-md-6 mb-4">
             <div className="card h-100" style={{ borderColor: '#7c3aed' }}>
               <div className="card-header text-white" style={{ background: 'linear-gradient(135deg, #7c3aed, #6d28d9)' }}>
-                <h5 className="mb-0">🎵 Day 4 — 17th September</h5>
+                <h5 className="mb-0">🎵 Day 4 — 17th September (Thursday)</h5>
               </div>
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center mb-2 p-2 rounded" style={{ background: '#faf5ff' }}>
@@ -164,7 +164,7 @@ function Home() {
           <div className="col-md-6 mb-4">
             <div className="card h-100" style={{ borderColor: '#db2777' }}>
               <div className="card-header text-white" style={{ background: 'linear-gradient(135deg, #db2777, #be185d)' }}>
-                <h5 className="mb-0">🎟️ Day 5 — 18th September</h5>
+                <h5 className="mb-0">🎟️ Day 5 — 18th September (Friday)</h5>
               </div>
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center mb-2 p-2 rounded" style={{ background: '#fdf2f8' }}>
@@ -191,7 +191,7 @@ function Home() {
           <div className="col-md-6 mb-4">
             <div className="card border-danger h-100">
               <div className="card-header text-white" style={{ background: 'linear-gradient(135deg, #dc2626, #b91c1c)' }}>
-                <h5 className="mb-0">🙏 Day 6 — 19th September</h5>
+                <h5 className="mb-0">🙏 Day 6 — 19th September (Saturday)</h5>
               </div>
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center mb-2 p-2 rounded" style={{ background: '#fff1f2' }}>
