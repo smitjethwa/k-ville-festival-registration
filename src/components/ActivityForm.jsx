@@ -8,6 +8,7 @@ import {
   collection,
   doc,
   getDoc,
+  onSnapshot,
   serverTimestamp,
   updateDoc
 } from 'firebase/firestore'
@@ -42,6 +43,7 @@ export default function ActivityForm({ editDoc, onBack }) {
   })
   const [msg, setMsg] = useState('')
   const [error, setError] = useState('')
+  const [registrationStatus, setRegistrationStatus] = useState({})
 
   useEffect(() => {
     const load = async () => {
@@ -67,6 +69,14 @@ export default function ActivityForm({ editDoc, onBack }) {
     load()
   }, [user, navigate])
 
+  // Subscribe to registration open/close status in real time
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, 'settings', 'registrations'), (snap) => {
+      setRegistrationStatus(snap.exists() ? snap.data() : {})
+    })
+    return () => unsub()
+  }, [])
+
   useEffect(() => {
     if (editDoc) setForm(f => ({ ...f, ...editDoc }))
   }, [editDoc])
@@ -80,6 +90,9 @@ export default function ActivityForm({ editDoc, onBack }) {
   // Whether current selection is a group/team activity
   const isTeamActivity = TEAM_ACTIVITIES.includes(form.activity) &&
     (canChooseSoloOrGroup ? form.participation_type === 'group' : true)
+
+  // Whether registrations are closed for the currently selected activity
+  const isRegistrationClosed = form.activity && registrationStatus[form.activity] === false
 
   const onChange = (e) => {
     const { name, value } = e.target
@@ -135,6 +148,7 @@ export default function ActivityForm({ editDoc, onBack }) {
     setMsg('')
     try {
       if (!user) throw new Error('Not signed in')
+      if (isRegistrationClosed) throw new Error(`Registrations for ${form.activity} are currently closed.`)
 
       const { wing, flat_num, ...cleanForm } = form
 
@@ -588,8 +602,19 @@ export default function ActivityForm({ editDoc, onBack }) {
               </div>
             )}
             {msg && <div className="alert alert-success">✅ {msg}</div>}
+
+            {isRegistrationClosed && (
+              <div className="alert alert-danger d-flex align-items-center gap-2" style={{borderRadius: '10px', fontWeight: 500}}>
+                <span className="material-icons" style={{fontSize: '22px'}}>lock</span>
+                <span>
+                  Registrations for <strong>{form.activity}</strong> are currently <strong>closed</strong>.
+                  Please check back later or contact the event committee.
+                </span>
+              </div>
+            )}
+
             <div className="mt-3">
-              <button className="btn btn-primary" type="submit">
+              <button className="btn btn-primary" type="submit" disabled={!!isRegistrationClosed}>
                 {editDoc ? 'Update' : 'Submit'}
               </button>
             </div>

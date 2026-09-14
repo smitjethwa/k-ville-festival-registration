@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+﻿import React, { useEffect } from 'react'
 import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import { AuthProvider, useAuth } from './AuthContext.jsx'
 import NavBar from './components/NavBar.jsx'
@@ -129,6 +129,10 @@ function Home() {
                   <span className="fw-bold text-success">07:45 PM</span>
                   <span className="badge bg-success fs-6">🪔 Evening Aarti</span>
                 </div>
+                <div className="d-flex justify-content-between align-items-center mb-2 p-2 rounded" style={{ background: '#f0fdf4' }}>
+                  <span className="fw-bold text-success">08:00 PM</span>
+                  <span className="badge fs-6" style={{ background: '#7c3aed' }}>🎤 Karaoke Night</span>
+                </div>
               </div>
             </div>
           </div>
@@ -178,12 +182,7 @@ function Home() {
                 <div className="d-flex justify-content-between align-items-center mb-2 p-2 rounded" style={{ background: '#fdf2f8' }}>
                   <span className="fw-bold" style={{ color: '#db2777' }}>08:00 PM</span>
                   <span className="badge fs-6" style={{ background: '#db2777' }}>🎟️ Housie Game</span>
-                </div>
-                <div className="d-flex justify-content-between align-items-center mb-2 p-2 rounded" style={{ background: '#fdf2f8' }}>
-                  <span className="fw-bold" style={{ color: '#db2777' }}>08:00 PM</span>
-                  <span className="badge fs-6" style={{ background: '#7c3aed' }}>🎤 Karaoke Night</span>
-                </div>
-              </div>
+                </div>              </div>
             </div>
           </div>
 

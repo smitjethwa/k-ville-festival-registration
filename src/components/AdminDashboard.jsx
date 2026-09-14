@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { db } from '../firebase'
-import { collection, getDocs, doc, getDoc, deleteDoc } from 'firebase/firestore'
+import { collection, getDocs, doc, getDoc, deleteDoc, setDoc, onSnapshot } from 'firebase/firestore'
 import { useAuth } from '../AuthContext'
 import * as XLSX from 'xlsx'
 
@@ -13,12 +13,35 @@ export default function AdminDashboard() {
   const [activityFilter, setActivityFilter] = useState('All')
   const [isSuperuser, setIsSuperuser] = useState(false)
   const [deleteModal, setDeleteModal] = useState({ show: false, submissionId: null, participantName: '' })
+  const [registrationStatus, setRegistrationStatus] = useState({})
+
+  const ACTIVITIES = ['Dance', 'Singing', 'Fashion Show/Fancy Dress', 'Skit', 'Business Hub']
+
+  const ACTIVITY_ICONS = {
+    'Dance': '💃',
+    'Singing': '🎤',
+    'Fashion Show/Fancy Dress': '👗',
+    'Skit': '🎭',
+    'Business Hub': '🛍️'
+  }
 
   useEffect(() => {
     checkSuperuser()
     loadUsers()
     loadSubmissions()
   }, [user])
+
+  // Subscribe to registration status in real time
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, 'settings', 'registrations'), (snap) => {
+      if (snap.exists()) {
+        setRegistrationStatus(snap.data())
+      } else {
+        setRegistrationStatus({})
+      }
+    })
+    return () => unsub()
+  }, [])
 
   const checkSuperuser = async () => {
     if (!user) return
@@ -86,6 +109,12 @@ export default function AdminDashboard() {
   useEffect(() => {
     handleActivityFilter(activityFilter)
   }, [submissions])
+
+  const toggleRegistration = async (activity) => {
+    const current = registrationStatus[activity] !== false // default open
+    const updated = { ...registrationStatus, [activity]: !current }
+    await setDoc(doc(db, 'settings', 'registrations'), updated)
+  }
 
   const exportToExcel = () => {
     const exportData = filteredSubmissions.map((sub, index) => ({
@@ -156,6 +185,16 @@ export default function AdminDashboard() {
                 Submissions ({filteredSubmissions.length})
               </button>
             </li>
+            {isSuperuser && (
+              <li className="nav-item">
+                <button
+                  className={`nav-link ${activeTab === 'registrations' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('registrations')}
+                >
+                  🔐 Registration Control
+                </button>
+              </li>
+            )}
           </ul>
 
           <div className="tab-content mt-4">
@@ -246,6 +285,71 @@ export default function AdminDashboard() {
               </div>
             )}
           </div>
+
+            {/* Registration Control Tab */}
+            {activeTab === 'registrations' && isSuperuser && (
+              <div className="mt-2">
+                <div className="alert alert-info mb-4 d-flex align-items-center gap-2" style={{fontSize: '0.95rem'}}>
+                  <span className="material-icons" style={{fontSize: '20px'}}>info</span>
+                  <span>Toggle registrations open or closed for each event. Changes take effect immediately for all users.</span>
+                </div>
+                <div className="row g-3">
+                  {ACTIVITIES.map(activity => {
+                    const isOpen = registrationStatus[activity] !== false
+                    return (
+                      <div className="col-md-6 col-lg-4" key={activity}>
+                        <div
+                          className="card h-100"
+                          style={{
+                            border: `2px solid ${isOpen ? '#198754' : '#dc3545'}`,
+                            borderRadius: '12px',
+                            transition: 'border-color 0.3s'
+                          }}
+                        >
+                          <div
+                            className="card-header d-flex align-items-center gap-2 text-white"
+                            style={{
+                              background: isOpen
+                                ? 'linear-gradient(135deg, #198754, #146c43)'
+                                : 'linear-gradient(135deg, #dc3545, #b02a37)',
+                              borderRadius: '10px 10px 0 0',
+                              transition: 'background 0.3s'
+                            }}
+                          >
+                            <span style={{fontSize: '1.4rem'}}>{ACTIVITY_ICONS[activity]}</span>
+                            <span className="fw-semibold" style={{fontSize: '1rem'}}>{activity}</span>
+                            <span
+                              className="ms-auto badge"
+                              style={{background: 'rgba(255,255,255,0.25)', fontSize: '0.8rem'}}
+                            >
+                              {isOpen ? '🟢 Open' : '🔴 Closed'}
+                            </span>
+                          </div>
+                          <div className="card-body d-flex flex-column align-items-center justify-content-center py-4">
+                            <p className="text-muted mb-3" style={{fontSize: '0.9rem', textAlign: 'center'}}>
+                              Registrations are currently{' '}
+                              <strong style={{color: isOpen ? '#198754' : '#dc3545'}}>
+                                {isOpen ? 'open' : 'closed'}
+                              </strong>{' '}for this event.
+                            </p>
+                            <button
+                              className={`btn ${isOpen ? 'btn-outline-danger' : 'btn-outline-success'} fw-semibold`}
+                              style={{minWidth: '180px', borderRadius: '8px'}}
+                              onClick={() => toggleRegistration(activity)}
+                            >
+                              {isOpen
+                                ? <><span className="material-icons" style={{fontSize:'16px', verticalAlign:'middle', marginRight:'4px'}}>lock</span>Close Registrations</>
+                                : <><span className="material-icons" style={{fontSize:'16px', verticalAlign:'middle', marginRight:'4px'}}>lock_open</span>Open Registrations</>
+                              }
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
         </div>
       </div>
 
