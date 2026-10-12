@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { collection, deleteDoc, doc, onSnapshot, query, where, getDoc } from 'firebase/firestore'
+import { collection, deleteDoc, doc, onSnapshot, query, where } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from '../AuthContext'
 import ActivityForm from './ActivityForm.jsx'
@@ -8,22 +8,9 @@ export default function MySubmissions() {
   const { user } = useAuth()
   const [items, setItems] = useState([])
   const [editing, setEditing] = useState(null)
-  const [isSuperuser, setIsSuperuser] = useState(false)
 
   useEffect(() => {
     if (!user) return
-    
-    // Check if user is superuser
-    const checkSuperuser = async () => {
-      try {
-        const superuserSnap = await getDoc(doc(db, 'superusers', user.uid))
-        setIsSuperuser(superuserSnap.exists())
-      } catch (error) {
-        setIsSuperuser(false)
-      }
-    }
-    checkSuperuser()
-    
     const q = query(collection(db, 'submissions'), where('uid', '==', user.uid))
     const unsub = onSnapshot(q, (snap) => {
       const rows = []
@@ -44,11 +31,11 @@ export default function MySubmissions() {
           <h2 className="card-title">My Entries ({items.length})</h2>
         </div>
       </div>
-      
+
       {items.length === 0 ? (
         <div className="card">
           <div className="card-body text-center text-muted">
-            <span className="material-icons" style={{fontSize: '48px'}}>event_busy</span>
+            <span className="material-icons" style={{ fontSize: '48px' }}>event_busy</span>
             <p className="mt-2">No submissions yet. Register for an event to get started!</p>
           </div>
         </div>
@@ -63,14 +50,8 @@ export default function MySubmissions() {
                     <small className="text-muted">Entry #{index + 1}</small>
                   </div>
                   <div>
-                    {isSuperuser ? (
-                      <>
-                        <button className="btn btn-sm btn-outline-primary me-2" onClick={()=>setEditing(it)}>Edit</button>
-                        <button className="btn btn-sm btn-danger" onClick={()=>del(it.id)}>Delete</button>
-                      </>
-                    ) : (
-                      <span className="badge bg-secondary">View Only</span>
-                    )}
+                    <button className="btn btn-sm btn-outline-primary me-2" onClick={() => setEditing(it)}>Edit</button>
+                    <button className="btn btn-sm btn-danger" onClick={() => del(it.id)}>Delete</button>
                   </div>
                 </div>
                 <div className="card-body">
@@ -88,9 +69,9 @@ export default function MySubmissions() {
                       <span>{it.gender}</span>
                     </div>
                   </div>
-                  
+
                   <hr className="my-3" />
-                  
+
                   <div className="row">
                     <div className="col-6">
                       <strong>Flat:</strong><br />
@@ -101,7 +82,7 @@ export default function MySubmissions() {
                       <span>{it.mobile_number}</span>
                     </div>
                   </div>
-                  
+
                   {it.title && (
                     <>
                       <hr className="my-3" />
@@ -111,7 +92,7 @@ export default function MySubmissions() {
                       </div>
                     </>
                   )}
-                  
+
                   {it.team_name && (
                     <>
                       <hr className="my-3" />
@@ -121,7 +102,7 @@ export default function MySubmissions() {
                       </div>
                     </>
                   )}
-                  
+
                   {it.activity === 'Business Hub' && (
                     <>
                       <hr className="my-3" />
@@ -145,7 +126,7 @@ export default function MySubmissions() {
                       )}
                     </>
                   )}
-                  
+
                   {it.members && it.members.length > 1 && (
                     <>
                       <hr className="my-3" />
