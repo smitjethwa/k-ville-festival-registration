@@ -385,7 +385,7 @@ export default function ActivityForm({ editDoc, onBack }) {
                         <img src="/images/smit-qr.png" alt="UPI QR Code" className="img-fluid" style={{ maxWidth: '200px' }} />
                         <p className="mt-2"><strong>UPI ID:</strong> 8767973888@upi</p>
                         <p className="mt-2"><strong>Smit Jethva, Behalf of KVILLE FESTIVAL COMMITTEE, K VILLE PHASE III AND PHASE IV CO-OPERATIVE HOUSING SOCIETY</strong> </p>
-                        <p className="text-muted small">Amount: ₹{parseInt(form.table_count) * 200}</p>
+                        <p className="text-muted small">Amount: ₹{parseInt(form.table_count) * 250}</p>
                       </div>
                     </div>
                   </div>
@@ -397,7 +397,6 @@ export default function ActivityForm({ editDoc, onBack }) {
                       value={form.transaction_id || ''}
                       onChange={onChange}
                       placeholder="Enter Txn ID"
-                      pattern="[0-9]"
                       required
                     />
                     {/* <small className="text-muted">Enter the last 5 digits of your payment transaction ID</small> */}
