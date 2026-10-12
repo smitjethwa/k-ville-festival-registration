@@ -17,7 +17,7 @@ export default function EventDetails() {
     {
       name: 'Garba and Dandiya Raas',
       description: 'Celebrate the spirit of Navratri with vibrant Garba and energetic Dandiya Raas! Gather your team, showcase your rhythm, and light up the stage with traditional moves, colorful attire, and boundless energy.',
-      rules: ['No rules, just join us with colorful vibes and unlimited enthusiasm!']
+      rules: ['Join us with colorful vibes and unlimited enthusiasm!']
     },
 
     // {
