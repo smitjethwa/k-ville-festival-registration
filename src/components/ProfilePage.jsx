@@ -6,7 +6,7 @@ import FlatNumberInput from './FlatNumberInput'
 
 export default function ProfilePage() {
   const { user } = useAuth()
-  const [form, setForm] = useState({ name:'', flat_number:'', mobile_number:'' })
+  const [form, setForm] = useState({ name: '', flat_number: '', mobile_number: '' })
   const [msg, setMsg] = useState('')
   const [isEditing, setIsEditing] = useState(true)
 
@@ -16,7 +16,7 @@ export default function ProfilePage() {
       const snap = await getDoc(doc(db, 'users', user.uid))
       if (snap.exists()) {
         const u = snap.data()
-        setForm(f => ({...f, name: u.name || '', flat_number: u.flat_number || '', mobile_number: u.mobile_number || ''}))
+        setForm(f => ({ ...f, name: u.name || '', flat_number: u.flat_number || '', mobile_number: u.mobile_number || '' }))
         // If user has profile data, show in view mode
         if (u.name && u.flat_number && u.mobile_number) {
           setIsEditing(false)
@@ -35,10 +35,10 @@ export default function ProfilePage() {
     setForm(prev => ({ ...prev, flat_number: `${wing}-${flatNum}` }))
   }
 
-  const save = async (e) => { 
+  const save = async (e) => {
     e.preventDefault()
     const { wing, flat_num, ...cleanForm } = form
-    
+
     await setDoc(doc(db, 'users', user.uid), { ...cleanForm, updated_at: new Date() }, { merge: true })
     setMsg('Profile saved ✅')
     setIsEditing(false)
@@ -68,44 +68,44 @@ export default function ProfilePage() {
                   </button>
                 </div>
               ) : (
-              <form onSubmit={save}>
-                <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Name</label>
-                    <input className="form-control" name="name" value={form.name} onChange={onChange} maxLength={50} required/>
+                <form onSubmit={save}>
+                  <div className="row">
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label">Name</label>
+                      <input className="form-control" name="name" value={form.name} onChange={onChange} maxLength={50} required />
+                    </div>
                   </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <FlatNumberInput
-                      wing={form.flat_number.split('-')[0] || ''}
-                      flatNum={form.flat_number.split('-')[1] || ''}
-                      onWingChange={(value) => onFlatChange('wing', value)}
-                      onFlatChange={(value) => onFlatChange('flat_num', value)}
+                  <div className="row">
+                    <div className="col-md-6 mb-3">
+                      <FlatNumberInput
+                        wing={form.flat_number.split('-')[0] || ''}
+                        flatNum={form.flat_number.split('-')[1] || ''}
+                        onWingChange={(value) => onFlatChange('wing', value)}
+                        onFlatChange={(value) => onFlatChange('flat_num', value)}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Mobile Number</label>
+                    <input
+                      className="form-control"
+                      name="mobile_number"
+                      type="tel"
+                      pattern="[0-9]{10}"
+                      maxLength="10"
+                      value={form.mobile_number}
+                      onChange={onChange}
+                      placeholder="Enter 10-digit mobile number"
                       required
                     />
                   </div>
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Mobile Number</label>
-                  <input 
-                    className="form-control" 
-                    name="mobile_number" 
-                    type="tel"
-                    pattern="[0-9]{10}"
-                    maxLength="10"
-                    value={form.mobile_number} 
-                    onChange={onChange} 
-                    placeholder="Enter 10-digit mobile number"
-                    required
-                  />
-                </div>
-                <div className="d-flex gap-2">
-                  <button className="btn btn-primary" type="submit">Save</button>
-                  <button className="btn btn-secondary" type="button" onClick={() => setIsEditing(false)}>Cancel</button>
-                  <a href="/submit" className="btn btn-outline-info">Skip Profile</a>
-                </div>
-              </form>
+                  <div className="d-flex gap-2">
+                    <button className="btn btn-primary" type="submit">Save</button>
+                    <button className="btn btn-secondary" type="button" onClick={() => setIsEditing(false)}>Cancel</button>
+                    <a href="/submit" className="btn btn-outline-info">Skip Profile</a>
+                  </div>
+                </form>
               )}
               {msg && <div className="alert alert-success mt-3">{msg}</div>}
             </div>

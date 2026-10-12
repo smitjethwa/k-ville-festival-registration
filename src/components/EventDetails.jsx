@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function EventDetails() {
   const getActivityIcon = (name) => {
-    switch(name) {
+    switch (name) {
       case 'Dance': return '🕺'
       case 'Singing': return '🎤'
       case 'Rangoli': return '🎨'
@@ -64,7 +64,7 @@ export default function EventDetails() {
               <div className="card-body">
                 <h5 className="card-title">{getActivityIcon(event.name)} {event.name}</h5>
                 <p className="card-text">{event.description}</p>
-                
+
                 <h6 className="mt-3">Rules & Guidelines:</h6>
                 <ul className="list-unstyled">
                   {event.rules.map((rule, i) => (
@@ -81,7 +81,7 @@ export default function EventDetails() {
         <div className="col-md-12">
           <div className="card">
             <div className="card-body">
-              <h2 className="card-title">💡 Business Hub - 28th Sept (Sunday)</h2>
+              <h2 className="card-title">💡 Business Hub - 17th Oct (Saturday)</h2>
               <p className="text-muted">Food stalls and business opportunities</p>
               <h6 className="card-title">1. General Guidelines:</h6>
               <ul>
@@ -108,7 +108,7 @@ export default function EventDetails() {
           </div>
         </div>
       </div>
-        <br></br>
+      <br></br>
     </div>
   )
 }

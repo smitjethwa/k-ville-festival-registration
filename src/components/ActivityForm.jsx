@@ -46,7 +46,7 @@ export default function ActivityForm({ editDoc, onBack }) {
   useEffect(() => {
     const load = async () => {
       if (!user) return
-      
+
       // Check if user is superuser
       try {
         const superuserSnap = await getDoc(doc(db, 'superusers', user.uid))
@@ -54,7 +54,7 @@ export default function ActivityForm({ editDoc, onBack }) {
       } catch (error) {
         setIsSuperuser(false)
       }
-      
+
       const snap = await getDoc(doc(db, 'users', user.uid))
       if (snap.exists()) {
         const u = snap.data()
@@ -119,9 +119,9 @@ export default function ActivityForm({ editDoc, onBack }) {
     setMsg('')
     try {
       if (!user) throw new Error('Not signed in')
-      
+
       const { wing, flat_num, ...cleanForm } = form
-      
+
       // Check for existing submission
       const existingQuery = query(
         collection(db, 'submissions'),
@@ -222,7 +222,7 @@ export default function ActivityForm({ editDoc, onBack }) {
                 required
               >
                 <option value="">Choose event</option>
-                <option value="BusinessHub">Business Hub - 28th Sept (Sunday)</option>
+                <option value="BusinessHub">Business Hub - 17th Oct (Saturday)</option>
               </select>
             </div>
 
@@ -370,7 +370,7 @@ export default function ActivityForm({ editDoc, onBack }) {
                 </select>
               </div>
               <div className="col-md-6 mb-3">
-                <p className="text-muted mt-4"><small>Remark: Per table ₹200</small></p>
+                <p className="text-muted mt-4"><small>Remark: Per table ₹250</small></p>
               </div>
             </div>
 
@@ -382,26 +382,25 @@ export default function ActivityForm({ editDoc, onBack }) {
                     <div className="card">
                       <div className="card-body text-center">
                         <h6>Scan QR Code to Pay</h6>
-                        <img src="/images/payment_qr.png" alt="UPI QR Code" className="img-fluid" style={{maxWidth: '200px'}} />
-                        <p className="mt-2"><strong>UPI ID:</strong> kvillephase3@sbi</p>
-                        <p className="mt-2"><strong>KVILLE FESTIVAL COMMITTEE, K VILLE PHASE III AND PHASE IV CO-OPERATIVE HOUSING SOCIETY</strong> </p>
+                        <img src="/images/smit-qr.png" alt="UPI QR Code" className="img-fluid" style={{ maxWidth: '200px' }} />
+                        <p className="mt-2"><strong>UPI ID:</strong> 8767973888@upi</p>
+                        <p className="mt-2"><strong>Smit Jethva, Behalf of KVILLE FESTIVAL COMMITTEE, K VILLE PHASE III AND PHASE IV CO-OPERATIVE HOUSING SOCIETY</strong> </p>
                         <p className="text-muted small">Amount: ₹{parseInt(form.table_count) * 200}</p>
                       </div>
                     </div>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label className="form-label">Last 5 digits of Transaction ID</label>
+                    <label className="form-label">Transaction ID</label>
                     <input
                       className="form-control"
                       name="transaction_id"
                       value={form.transaction_id || ''}
                       onChange={onChange}
-                      placeholder="Enter last 5 digits"
-                      maxLength={5}
-                      pattern="[0-9]{5}"
+                      placeholder="Enter Txn ID"
+                      pattern="[0-9]"
                       required
                     />
-                    <small className="text-muted">Enter the last 5 digits of your payment transaction ID</small>
+                    {/* <small className="text-muted">Enter the last 5 digits of your payment transaction ID</small> */}
                   </div>
                 </div>
               </>
@@ -420,13 +419,13 @@ export default function ActivityForm({ editDoc, onBack }) {
               </div>
               <div className="col-md-4 mb-3">
                 <label className="form-label">Mobile Number</label>
-                <input 
-                  className="form-control" 
+                <input
+                  className="form-control"
                   name="mobile_number"
                   type="tel"
                   pattern="[0-9]{10}"
                   maxLength="10"
-                  value={form.mobile_number} 
+                  value={form.mobile_number}
                   onChange={onChange}
                   placeholder="Enter 10-digit mobile number"
                   required
