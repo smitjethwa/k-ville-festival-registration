@@ -241,7 +241,7 @@ export default function AdminDashboard() {
                       <th>Flat</th>
                       <th>Mobile</th>
                       <th>Team Name</th>
-                      <th>Members</th>
+                      <th>Food Stall</th>
                       <th>Table Count</th>
                       <th>Other Requirements</th>
                       <th>Created</th>
@@ -260,16 +260,18 @@ export default function AdminDashboard() {
                         <td>{sub.flat_number}</td>
                         <td>{sub.mobile_number}</td>
                         <td>{sub.team_name || 'N/A'}</td>
-                        <td>
+                        <td>{sub.is_food_stall || 'N/A'}</td>
+
+                        {/* <td>
                           {sub.members?.length > 0 ? (
                             <small>
                               <span className="badge bg-secondary me-1">{sub.members.length}</span>
                               {sub.members.map(m => `${m.first_name || m.name || ''} ${m.last_name || ''}`.trim() + (m.age ? ` (${m.age})` : '')).join(', ')}
                             </small>
                           ) : <span className="text-muted">Solo</span>}
-                        </td>
+                        </td> */}
                         <td>{sub.table_count}</td>
-                        <td>{sub.other_requirements}</td>
+                        <td>{sub.other_requirements || '---'}</td>
                         <td>{sub.created_at?.toDate?.()?.toLocaleDateString() || 'N/A'}</td>
                         {isSuperuser && (
                           <td>
