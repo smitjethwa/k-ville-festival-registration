@@ -242,6 +242,8 @@ export default function AdminDashboard() {
                       <th>Mobile</th>
                       <th>Team Name</th>
                       <th>Members</th>
+                      <th>Table Count</th>
+                      <th>Other Requirements</th>
                       <th>Created</th>
                       {isSuperuser && <th>Actions</th>}
                     </tr>
@@ -266,6 +268,8 @@ export default function AdminDashboard() {
                             </small>
                           ) : <span className="text-muted">Solo</span>}
                         </td>
+                        <td>{sub.table_count}</td>
+                        <td>{sub.other_requirements}</td>
                         <td>{sub.created_at?.toDate?.()?.toLocaleDateString() || 'N/A'}</td>
                         {isSuperuser && (
                           <td>
